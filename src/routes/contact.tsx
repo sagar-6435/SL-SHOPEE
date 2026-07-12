@@ -34,7 +34,7 @@ function ContactPage() {
             <InfoRow icon={Mail} title="Email" text={SITE.email} />
             <InfoRow icon={MessageCircle} title="WhatsApp" text="Chat with us instantly" href={waLink()} accent />
             <InfoRow icon={Clock} title="Working hours" text={SITE.hours} />
-            <InfoRow icon={MapPin} title="Head office" text="Achampeta (Kakinada)" />
+            <InfoRow icon={MapPin} title="Head office" text="Achampeta " />
           </div>
 
           <motion.form

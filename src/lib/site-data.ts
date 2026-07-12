@@ -1,3 +1,17 @@
+import { FaTemperatureLow, FaRotate, FaGlassWaterDroplet, FaFan, FaFireBurner, FaKitchenSet, FaMobileScreenButton, FaTv, FaCouch, FaSnowflake, FaBowlRice, FaMugHot } from "react-icons/fa6";
+import samsungTv from "@/assets/products/4K Ultra HD Smart TV.jpg";
+import sonyTv from "@/assets/products/OLED Bravia TV.jpg";
+import vivoPhone from "@/assets/products/Smartphone Pro 5G.jpg";
+import realmePhone from "@/assets/products/Realme Note 60.jpg";
+import washingMachine from "@/assets/products/Front Load Washing Machine.jpg";
+import washingMachineAlt from "@/assets/products/Semi Auto Washer.jpg";
+import airConditioner from "@/assets/products/1.5 Ton Split AC 5-Star.jpg";
+import airConditionerAlt from "@/assets/products/Inverter Split AC.jpg";
+import sofa from "@/assets/products/L-Shape Fabric Sofa.jpg";
+import sofaAlt from "@/assets/products/Recliner Chair.jpg";
+import waterPurifier from "@/assets/products/RO+UV Water Purifier.jpg";
+import microwave from "@/assets/products/Convection Microwave.jpg";
+
 export const SITE = {
   name: "SL SHOPEE",
   tagline: "Electronics & Home Furniture Showroom",
@@ -16,18 +30,18 @@ export const BRANCHES = [
 ];
 
 export const CATEGORIES = [
-  { icon: "📺", name: "Televisions" },
-  { icon: "📱", name: "Smartphones" },
-  { icon: "🛋", name: "Furniture" },
-  { icon: "❄", name: "Air Conditioners" },
-  { icon: "🧺", name: "Washing Machines" },
-  { icon: "🌬", name: "Air Coolers" },
-  { icon: "💧", name: "Water Purifiers" },
-  { icon: "🍳", name: "Kitchen Appliances" },
-  { icon: "🔥", name: "Microwave Ovens" },
-  { icon: "🍚", name: "Rice Cookers" },
-  { icon: "🌀", name: "Fans" },
-  { icon: "☕", name: "Kettles" },
+  { icon: FaTv, name: "Televisions" },
+  { icon: FaMobileScreenButton, name: "Smartphones" },
+  { icon: FaCouch, name: "Furniture" },
+  { icon: FaTemperatureLow, name: "Air Conditioners" },
+  { icon: FaRotate, name: "Washing Machines" },
+  { icon: FaSnowflake, name: "Air Coolers" },
+  { icon: FaGlassWaterDroplet, name: "Water Purifiers" },
+  { icon: FaKitchenSet, name: "Kitchen Appliances" },
+  { icon: FaFireBurner, name: "Microwave Ovens" },
+  { icon: FaBowlRice, name: "Rice Cookers" },
+  { icon: FaFan, name: "Fans" },
+  { icon: FaMugHot, name: "Kettles" },
 ];
 
 export const BRANDS = [
@@ -36,18 +50,18 @@ export const BRANDS = [
 ];
 
 export const PRODUCTS = [
-  { name: "4K Ultra HD Smart TV", brand: "Samsung", price: "₹49,990", category: "Televisions", emoji: "📺" },
-  { name: "OLED Bravia TV", brand: "Sony", price: "₹1,29,990", category: "Televisions", emoji: "📺" },
-  { name: "Smartphone Pro 5G", brand: "Vivo", price: "₹32,999", category: "Smartphones", emoji: "📱" },
-  { name: "Realme Note 60", brand: "Realme", price: "₹12,499", category: "Smartphones", emoji: "📱" },
-  { name: "Front Load Washing Machine", brand: "IFB", price: "₹34,490", category: "Washing Machines", emoji: "🧺" },
-  { name: "Semi Auto Washer", brand: "Whirlpool", price: "₹14,990", category: "Washing Machines", emoji: "🧺" },
-  { name: "1.5 Ton Split AC 5-Star", brand: "LG", price: "₹41,990", category: "Air Conditioners", emoji: "❄" },
-  { name: "Inverter Split AC", brand: "Haier", price: "₹36,490", category: "Air Conditioners", emoji: "❄" },
-  { name: "L-Shape Fabric Sofa", brand: "SL Shopee", price: "₹28,999", category: "Furniture", emoji: "🛋" },
-  { name: "Recliner Chair", brand: "SL Shopee", price: "₹18,499", category: "Furniture", emoji: "🛋" },
-  { name: "RO+UV Water Purifier", brand: "Kent", price: "₹13,999", category: "Water Purifiers", emoji: "💧" },
-  { name: "Convection Microwave", brand: "Panasonic", price: "₹10,990", category: "Kitchen Appliances", emoji: "🔥" },
+  { name: "4K Ultra HD Smart TV", brand: "Samsung", price: "₹49,990", category: "Televisions", image: samsungTv },
+  { name: "OLED Bravia TV", brand: "Sony", price: "₹1,29,990", category: "Televisions", image: sonyTv },
+  { name: "Smartphone Pro 5G", brand: "Vivo", price: "₹32,999", category: "Smartphones", image: vivoPhone },
+  { name: "Realme Note 60", brand: "Realme", price: "₹12,499", category: "Smartphones", image: realmePhone },
+  { name: "Front Load Washing Machine", brand: "IFB", price: "₹34,490", category: "Washing Machines", image: washingMachine },
+  { name: "Semi Auto Washer", brand: "Whirlpool", price: "₹14,990", category: "Washing Machines", image: washingMachineAlt },
+  { name: "1.5 Ton Split AC 5-Star", brand: "LG", price: "₹41,990", category: "Air Conditioners", image: airConditioner },
+  { name: "Inverter Split AC", brand: "Haier", price: "₹36,490", category: "Air Conditioners", image: airConditionerAlt },
+  { name: "L-Shape Fabric Sofa", brand: "SL Shopee", price: "₹28,999", category: "Furniture", image: sofa },
+  { name: "Recliner Chair", brand: "SL Shopee", price: "₹18,499", category: "Furniture", image: sofaAlt },
+  { name: "RO+UV Water Purifier", brand: "Kent", price: "₹13,999", category: "Water Purifiers", image: waterPurifier },
+  { name: "Convection Microwave", brand: "Panasonic", price: "₹10,990", category: "Kitchen Appliances", image: microwave },
 ];
 
 export const TESTIMONIALS = [

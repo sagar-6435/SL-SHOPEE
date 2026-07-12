@@ -9,7 +9,7 @@ export const Route = createFileRoute("/branches")({
   head: () => ({
     meta: [
       { title: "Our Branches — SL SHOPEE" },
-      { name: "description", content: "Visit SL SHOPEE at Achampeta (Kakinada), Pithapuram, Kathipudi, Gollaprolu and Peddapuram." },
+      { name: "description", content: "Visit SL SHOPEE at Achampeta , Pithapuram, Kathipudi, Gollaprolu and Peddapuram." },
       { property: "og:title", content: "SL SHOPEE Branches" },
       { property: "og:description", content: "5 branches across Kakinada region — find your nearest SL SHOPEE store." },
     ],

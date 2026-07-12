@@ -1,9 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
 import {
-  ArrowRight, MapPin, Phone, MessageCircle, Star, Shield,
-  BadgeCheck, CreditCard, Sparkles, Users, Store, Truck,
+  ArrowRight, MapPin, Phone, MessageCircle, Star, ShoppingCart,
 } from "lucide-react";
+import { FaCreditCard, FaShieldHalved, FaStore, FaTag, FaTruck, FaUsers, FaWandSparkles, FaCircleCheck } from "react-icons/fa6";
 import heroTv from "@/assets/hero-tv.jpg";
 import showroom from "@/assets/showroom.jpg";
 import { BRANCHES, BRANDS, CATEGORIES, PRODUCTS, SITE, TESTIMONIALS, waLink } from "@/lib/site-data";
@@ -36,7 +36,7 @@ function Index() {
 
 function Hero() {
   return (
-    <section className="relative pt-24 bg-hero-gradient">
+    <section className="relative pt-8 bg-hero-gradient">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {[...Array(14)].map((_, i) => (
           <motion.span
@@ -49,11 +49,14 @@ function Hero() {
         ))}
       </div>
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-16 sm:px-6 md:grid-cols-2 md:py-24 lg:px-8">
+      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-8 sm:px-6 md:grid-cols-2 md:py-12 lg:px-8">
         <motion.div initial="hidden" animate="show" variants={fadeUp}>
           <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-white/60 px-3 py-1 text-xs font-semibold text-brand backdrop-blur">
-            <Sparkles className="h-3.5 w-3.5" /> 5 branches · Since years
+            <FaWandSparkles className="h-3.5 w-3.5" /> 5 branches · Since years
           </span>
+          <div className="mt-4 font-display text-5xl font-black uppercase leading-none tracking-[0.18em] text-brand sm:text-6xl md:text-7xl lg:text-8xl">
+            SL SHOPEE
+          </div>
           <h1 className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight text-foreground sm:text-5xl md:text-6xl">
             Your Trusted <span className="text-brand">Electronics</span> & Home Furniture Destination
           </h1>
@@ -95,9 +98,9 @@ function Hero() {
               className="relative w-full rounded-2xl shadow-brand-glow"
             />
           </motion.div>
-          <FloatingChip className="left-2 top-6" delay={0.4}>📱 New arrivals</FloatingChip>
-          <FloatingChip className="right-4 top-1/3" delay={0.8}>🧺 EMI available</FloatingChip>
-          <FloatingChip className="bottom-6 left-1/4" delay={1.2}>❄ Best prices</FloatingChip>
+          <FloatingChip className="left-2 top-6" delay={0.4} icon={FaWandSparkles}>New arrivals</FloatingChip>
+          <FloatingChip className="right-4 top-1/3" delay={0.8} icon={FaCreditCard}>EMI available</FloatingChip>
+          <FloatingChip className="bottom-6 left-1/4" delay={1.2} icon={FaTag}>Best prices</FloatingChip>
         </motion.div>
       </div>
     </section>
@@ -113,14 +116,15 @@ function Stat({ n, label }: { n: string; label: string }) {
   );
 }
 
-function FloatingChip({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+function FloatingChip({ children, className, delay = 0, icon: Icon }: { children: React.ReactNode; className?: string; delay?: number; icon: React.ComponentType<{ className?: string }> }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay, duration: 0.6 }}
-      className={`absolute rounded-full border border-border/60 bg-white/90 px-3 py-1.5 text-xs font-semibold text-foreground shadow-elevated backdrop-blur ${className}`}
+      className={`absolute inline-flex items-center gap-2 rounded-full border border-border/60 bg-white/90 px-3 py-1.5 text-xs font-semibold text-foreground shadow-elevated backdrop-blur ${className}`}
     >
+      <Icon className="h-3.5 w-3.5 text-brand" />
       {children}
     </motion.div>
   );
@@ -134,7 +138,7 @@ function BrandsMarquee() {
         <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
           Trusted brands we stock
         </p>
-        <div className="mt-6 flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+        <div className="mt-6 flex overflow-hidden mask-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
           <div className="flex animate-marquee gap-14 pr-14">
             {doubled.map((b, i) => (
               <span key={i} className="whitespace-nowrap font-display text-2xl font-bold text-foreground/40 transition-colors hover:text-brand">
@@ -166,7 +170,9 @@ function Categories() {
               className="group relative flex flex-col items-start gap-3 overflow-hidden rounded-2xl border border-border/60 bg-white p-6 transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand-glow"
             >
               <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-brand/5 transition-all group-hover:bg-brand/20" />
-              <span className="text-3xl">{c.icon}</span>
+              <div className="grid h-11 w-11 place-items-center rounded-xl bg-brand/10 text-brand">
+                <c.icon className="h-5 w-5" />
+              </div>
               <span className="font-display font-semibold">{c.name}</span>
               <span className="mt-auto flex items-center gap-1 text-xs font-medium text-brand opacity-0 transition-opacity group-hover:opacity-100">
                 Explore <ArrowRight className="h-3 w-3" />
@@ -181,12 +187,12 @@ function Categories() {
 
 function WhyChooseUs() {
   const items = [
-    { icon: BadgeCheck, title: "Genuine Products", desc: "100% brand-authorised inventory only." },
-    { icon: CreditCard, title: "Easy EMI", desc: "No-cost EMI on select bank cards." },
-    { icon: Shield, title: "Trusted Brands", desc: "Samsung, LG, Sony, IFB, Whirlpool & more." },
-    { icon: Store, title: "5 Branches", desc: "Across Kakinada, Pithapuram & nearby." },
-    { icon: Truck, title: "Home Delivery", desc: "Fast local delivery & installation." },
-    { icon: Users, title: "Expert Support", desc: "Friendly staff to help you decide." },
+    { icon: FaCircleCheck, title: "Genuine Products", desc: "100% brand-authorised inventory only." },
+    { icon: FaCreditCard, title: "Easy EMI", desc: "No-cost EMI on select bank cards." },
+    { icon: FaShieldHalved, title: "Trusted Brands", desc: "Samsung, LG, Sony, IFB, Whirlpool & more." },
+    { icon: FaStore, title: "5 Branches", desc: "Across Kakinada, Pithapuram & nearby." },
+    { icon: FaTruck, title: "Home Delivery", desc: "Fast local delivery & installation." },
+    { icon: FaUsers, title: "Expert Support", desc: "Friendly staff to help you decide." },
   ];
   return (
     <section className="bg-[oklch(0.98_0.005_260)] py-20">
@@ -236,8 +242,15 @@ function FeaturedProducts() {
             whileHover={{ y: -6 }}
             className="group overflow-hidden rounded-2xl border border-border/60 bg-white shadow-elevated"
           >
-            <div className="relative flex h-48 items-center justify-center overflow-hidden bg-[oklch(0.97_0.01_27)]">
-              <span className="text-7xl transition-transform duration-500 group-hover:scale-110">{p.emoji}</span>
+            <div className="relative h-48 overflow-hidden bg-[oklch(0.98_0.01_27)] p-3">
+              <img
+                src={p.image}
+                alt={p.name}
+                width={1280}
+                height={1280}
+                loading="lazy"
+                className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
+              />
               <span className="absolute left-4 top-4 rounded-full bg-brand px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-brand-foreground">
                 {p.brand}
               </span>
@@ -248,14 +261,12 @@ function FeaturedProducts() {
                 <span className="text-brand font-display text-lg font-bold">{p.price}</span>
                 <span className="text-xs text-muted-foreground">{p.category}</span>
               </div>
-              <a
-                href={waLink(`Hi SL SHOPEE, I'd like to enquire about "${p.name}" (${p.brand}).`)}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-whatsapp px-4 py-2.5 text-sm font-semibold text-white transition-transform hover:scale-[1.02]"
+              <button
+                type="button"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-brand-gradient px-4 py-2.5 text-sm font-semibold text-white shadow-brand-glow transition-transform hover:scale-[1.02]"
               >
-                <MessageCircle className="h-4 w-4" /> WhatsApp Enquiry
-              </a>
+                <ShoppingCart className="h-4 w-4" /> Order Now
+              </button>
             </div>
           </motion.div>
         ))}
