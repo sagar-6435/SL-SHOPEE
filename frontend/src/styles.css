@@ -158,6 +158,11 @@
     border-color: var(--color-border);
   }
 
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
@@ -197,6 +202,3 @@
 @utility animate-marquee {
   animation: marquee 30s linear infinite;
 }
-
-
-.pt-32 { padding-top: calc(var(--spacing) * 10); }
