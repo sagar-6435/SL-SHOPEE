@@ -81,7 +81,7 @@ export function CartPage() {
                         <div>
                           <div className="flex justify-between text-base font-bold text-foreground">
                             <h3>
-                              <Link to={`/products/${item.name.toLowerCase().replace(/ /g, '-')}`} className="hover:text-brand">
+                              <Link to="/products/$id" params={{ id: item.name.toLowerCase().replace(/ /g, '-') }} className="hover:text-brand">
                                 {item.name}
                               </Link>
                             </h3>

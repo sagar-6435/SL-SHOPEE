@@ -27,6 +27,7 @@ import { Route as AdminRouteImport } from './pages/admin'
 import { Route as AboutRouteImport } from './pages/about'
 import { Route as SignupRouteImport } from './pages/Signup'
 import { Route as LoginRouteImport } from './pages/Login'
+import { Route as BranchesRouteImport } from './pages/Branches'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as ProductsIndexRouteImport } from './pages/products.index'
 import { Route as AdminIndexRouteImport } from './pages/admin/index'
@@ -130,6 +131,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/Login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BranchesRoute = BranchesRouteImport.update({
+  id: '/Branches',
+  path: '/Branches',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -193,6 +199,7 @@ const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/Branches': typeof BranchesRoute
   '/Login': typeof LoginRoute
   '/Signup': typeof SignupRoute
   '/about': typeof AboutRoute
@@ -225,6 +232,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/Branches': typeof BranchesRoute
   '/Login': typeof LoginRoute
   '/Signup': typeof SignupRoute
   '/about': typeof AboutRoute
@@ -256,6 +264,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/Branches': typeof BranchesRoute
   '/Login': typeof LoginRoute
   '/Signup': typeof SignupRoute
   '/about': typeof AboutRoute
@@ -290,6 +299,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/Branches'
     | '/Login'
     | '/Signup'
     | '/about'
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/Branches'
     | '/Login'
     | '/Signup'
     | '/about'
@@ -352,6 +363,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/Branches'
     | '/Login'
     | '/Signup'
     | '/about'
@@ -385,6 +397,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BranchesRoute: typeof BranchesRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   AboutRoute: typeof AboutRoute
@@ -533,6 +546,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/Branches': {
+      id: '/Branches'
+      path: '/Branches'
+      fullPath: '/Branches'
+      preLoaderRoute: typeof BranchesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -662,6 +682,7 @@ const ProductsRouteWithChildren = ProductsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BranchesRoute: BranchesRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   AboutRoute: AboutRoute,

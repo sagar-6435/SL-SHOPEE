@@ -6,8 +6,9 @@ import {
 import { FaCreditCard, FaShieldHalved, FaStore, FaTag, FaTruck, FaUsers, FaWandSparkles, FaCircleCheck } from "react-icons/fa6";
 import heroTv from "@/assets/hero-tv.png";
 import showroom from "@/assets/showroom.jpg";
-import { BRANCHES, BRANDS, CATEGORIES, PRODUCTS, TESTIMONIALS, waLink } from "@/lib/site-data";
+import { BRANCHES, BRANDS, CATEGORIES, TESTIMONIALS, waLink } from "@/lib/site-data";
 import { WhatsAppFab } from "@/components/whatsapp-fab";
+import { productsApi, type ProductAPI } from "@/lib/api";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -245,13 +246,20 @@ function WhyChooseUs() {
 
 function FeaturedProducts() {
   const navigate = useNavigate();
-  const featured = PRODUCTS.slice(0, 6);
   const [cart, setCart] = useState<any[]>([]);
+  const [featured, setFeatured] = useState<ProductAPI[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadCart = () => setCart(JSON.parse(localStorage.getItem('cart') || '[]'));
     loadCart();
     window.addEventListener('cart-updated', loadCart);
+
+    productsApi.getAll().then(data => {
+      setFeatured(data.slice(0, 6));
+      setLoading(false);
+    }).catch(console.error);
+
     return () => window.removeEventListener('cart-updated', loadCart);
   }, []);
 
@@ -286,7 +294,9 @@ function FeaturedProducts() {
         </Link>
       </div>
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {featured.map((p, i) => (
+        {loading ? (
+          <div className="col-span-full py-12 text-center text-muted-foreground font-semibold">Loading popular products...</div>
+        ) : featured.map((p, i) => (
           <motion.div
             key={p.name}
             initial={{ opacity: 0, y: 20 }}

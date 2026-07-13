@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, Link } from '@tanstack/react-router';
-import { PRODUCTS } from '@/lib/site-data';
+import { productsApi, type ProductAPI } from '@/lib/api';
 import { ShoppingCart, Star, Minus, Plus, Truck, ShieldCheck, Heart } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
@@ -13,23 +13,35 @@ export function ProductDetail() {
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
   const [cart, setCart] = useState<any[]>([]);
+  const [products, setProducts] = useState<ProductAPI[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadCart = () => setCart(JSON.parse(localStorage.getItem('cart') || '[]'));
     loadCart();
     window.addEventListener('cart-updated', loadCart);
+
+    productsApi.getAll().then(data => {
+      setProducts(data);
+      setLoading(false);
+    }).catch(console.error);
+
     return () => window.removeEventListener('cart-updated', loadCart);
   }, []);
 
+  if (loading) {
+    return <div className="pt-32 min-h-screen text-center text-xl font-bold">Loading...</div>;
+  }
+
   // Use the ID matched against lowercased dashed product names
-  const product = PRODUCTS.find((p) => p.name.toLowerCase().replace(/ /g, '-') === id);
+  const product = products.find((p) => p.name.toLowerCase().replace(/ /g, '-') === id);
 
   if (!product) {
     return <div className="pt-32 min-h-screen text-center text-xl font-bold">Product not found.</div>;
   }
 
   const isAdded = cart.some((item: any) => item.name === product.name);
-  const similarProducts = PRODUCTS.filter(p => p.category === product.category && p.name !== product.name).slice(0, 4);
+  const similarProducts = products.filter(p => p.category === product.category && p.name !== product.name).slice(0, 4);
 
   const handleAddToCart = () => {
     const existing = JSON.parse(localStorage.getItem('cart') || '[]');

@@ -72,7 +72,7 @@ export function WishlistPage() {
                 transition={{ delay: i * 0.05 }}
                 className="group overflow-hidden rounded-2xl border border-border/60 bg-white shadow-elevated"
               >
-                <Link to={`/products/${p.name.toLowerCase().replace(/ /g, '-')}`} className="group relative block h-48 overflow-hidden bg-[oklch(0.98_0.01_27)] p-3">
+                <Link to="/products/$id" params={{ id: p.name.toLowerCase().replace(/ /g, '-') }} className="group relative block h-48 overflow-hidden bg-[oklch(0.98_0.01_27)] p-3">
                   <img
                     src={p.image}
                     alt={p.name}
@@ -92,7 +92,7 @@ export function WishlistPage() {
                 </Link>
                 <div className="p-5">
                   <div className="text-xs text-muted-foreground">{p.category}</div>
-                  <Link to={`/products/${p.name.toLowerCase().replace(/ /g, '-')}`}>
+                  <Link to="/products/$id" params={{ id: p.name.toLowerCase().replace(/ /g, '-') }}>
                     <h3 className="mt-1 font-display font-semibold hover:text-brand transition-colors text-ellipsis whitespace-nowrap overflow-hidden">{p.name}</h3>
                   </Link>
                   <div className="mt-2 text-brand font-display text-lg font-bold">{p.price}</div>

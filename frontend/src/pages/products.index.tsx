@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { ShoppingCart, Filter, Heart } from "lucide-react";
 import { CATEGORIES, PRODUCTS } from "@/lib/site-data";
 import { WhatsAppFab } from "@/components/whatsapp-fab";
+import { productsApi, type ProductAPI } from "@/lib/api";
 
 export const Route = createFileRoute("/products/")({
   validateSearch: (search: Record<string, unknown>) => {
@@ -30,16 +31,25 @@ export function ProductsPage() {
   const [cart, setCart] = useState<any[]>([]);
   const [priceLimit, setPriceLimit] = useState(250000);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [products, setProducts] = useState<ProductAPI[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (category) setActive(category);
   }, [category]);
 
+  useEffect(() => {
+    productsApi.getAll().then((data) => {
+      setProducts(data);
+      setLoading(false);
+    }).catch(console.error);
+  }, []);
+
   const cats = ["All", ...CATEGORIES.map((c) => c.name)];
-  const brandsList = useMemo(() => Array.from(new Set(PRODUCTS.map((p) => p.brand))), []);
+  const brandsList = useMemo(() => Array.from(new Set(products.map((p) => p.brand))), [products]);
 
   const filtered = useMemo(() => {
-    return PRODUCTS.filter((p) => {
+    return products.filter((p) => {
       if (active !== "All" && p.category !== active) return false;
       if (selectedBrands.length > 0 && !selectedBrands.includes(p.brand)) return false;
       const productPrice = parseInt(p.price.replace(/[^\d]/g, ''), 10);
@@ -136,7 +146,11 @@ export function ProductsPage() {
           </aside>
         ) : null}
         <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-          {filtered.length === 0 ? (
+          {loading ? (
+            <div className="col-span-full py-20 flex flex-col items-center justify-center text-center">
+              <h3 className="font-display text-2xl font-bold">Loading...</h3>
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="col-span-full py-20 flex flex-col items-center justify-center text-center">
               <div className="h-24 w-24 rounded-full bg-muted/50 flex items-center justify-center mb-4">
                 <Filter className="h-8 w-8 text-muted-foreground/50" />
