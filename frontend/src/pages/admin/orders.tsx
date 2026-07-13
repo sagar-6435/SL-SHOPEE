@@ -90,7 +90,7 @@ export function OrdersManagement() {
     return (
         <div className="space-y-5">
             {/* Header */}
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                     <h2 className="font-display text-xl font-bold">Orders</h2>
                     <p className="text-sm text-muted-foreground">

@@ -62,7 +62,7 @@ export function AboutPage() {
 
       <section className="mx-auto mt-20 max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl bg-brand-gradient p-10 text-white shadow-brand-glow">
-          <div className="grid gap-6 sm:grid-cols-4 text-center">
+          <div className="grid gap-6 grid-cols-2 sm:grid-cols-4 text-center">
             <Counter to={12} suffix="+" label="Years serving families" />
             <Counter to={10000} suffix="+" label="Happy customers" />
             <Counter to={500} suffix="+" label="Products in catalog" />

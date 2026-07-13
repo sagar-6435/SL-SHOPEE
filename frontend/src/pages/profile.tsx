@@ -38,11 +38,37 @@ export function PageComponent() {
   }
 
   return (
-    <div className="pt-32 pb-10 min-h-screen bg-[oklch(0.98_0.005_260)]">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 grid md:grid-cols-[240px_1fr] gap-8">
+    <div className="pt-28 sm:pt-32 pb-10 min-h-screen bg-[oklch(0.98_0.005_260)]">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
 
-        {/* Sidebar Tabs */}
-        <div className="space-y-2">
+        {/* Mobile tab strip */}
+        <div className="flex gap-2 overflow-x-auto pb-2 md:hidden scrollbar-none mb-6">
+          {TABS.map(tab => (
+            tab.path ? (
+              <a
+                key={tab.id}
+                href={tab.path}
+                className="flex shrink-0 items-center gap-2 px-4 py-2.5 rounded-xl transition-all font-medium text-sm bg-white text-muted-foreground border border-border/60"
+              >
+                <tab.icon className="w-4 h-4" /> {tab.label}
+              </a>
+            ) : (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex shrink-0 items-center gap-2 px-4 py-2.5 rounded-xl transition-all font-medium text-sm ${activeTab === tab.id ? "bg-brand text-brand-foreground shadow-brand-glow" : "bg-white text-muted-foreground border border-border/60"
+                  }`}
+              >
+                <tab.icon className="w-4 h-4" /> {tab.label}
+              </button>
+            )
+          ))}
+        </div>
+
+        <div className="grid md:grid-cols-[240px_1fr] gap-8">
+
+        {/* Sidebar Tabs — desktop only */}
+        <div className="hidden md:block space-y-2">
           {TABS.map(tab => (
             tab.path ? (
               <Link
@@ -66,7 +92,7 @@ export function PageComponent() {
         </div>
 
         {/* Content Area */}
-        <div className="rounded-3xl border border-border/60 bg-white p-8 shadow-elevated">
+        <div className="rounded-3xl border border-border/60 bg-white p-5 sm:p-8 shadow-elevated">
           {activeTab === 'profile' && (
             <div>
               <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">Welcome, {user.name}</h1>
@@ -135,6 +161,7 @@ export function PageComponent() {
           )}
 
 
+        </div>
         </div>
       </div>
     </div>

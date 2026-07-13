@@ -47,7 +47,7 @@ export function GalleryPage() {
         <div className="pb-10 pt-32 min-h-screen">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <p className="text-xs font-semibold uppercase tracking-[0.25em] text-brand">Our Showrooms & Products</p>
-                <h1 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl">
+                <h1 className="mt-3 font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
                     Gallery
                 </h1>
                 <p className="mt-3 max-w-xl text-muted-foreground">Take a look inside our branches and see our wide range of products.</p>

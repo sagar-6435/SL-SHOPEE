@@ -77,17 +77,51 @@ export function ProductsPage() {
     }
   };
   return (
-    <div className="mx-auto max-w-7xl px-4 pb-10 pt-32 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-4 pb-10 pt-28 sm:pt-32 sm:px-6 lg:px-8">
 
-      <div className="mt-10 flex justify-end">
+      <div className="mt-6 sm:mt-10 flex justify-end">
         <button type="button" onClick={() => setShowFilters((c) => !c)} aria-expanded={showFilters} className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:border-brand hover:text-brand">
           <Filter className="h-4 w-4 text-brand" />
           {showFilters ? "Hide filters" : "Show filters"}
         </button>
       </div>
-      <div className={`mt-8 grid gap-8 ${showFilters ? "lg:grid-cols-[220px_1fr]" : "lg:grid-cols-1"}`}>
+
+      {/* Mobile filter drawer */}
+      {showFilters && (
+        <div className="lg:hidden mt-4">
+          <aside className="bg-white p-5 rounded-2xl border border-border/60 shadow-sm space-y-6">
+            <div>
+              <div className="flex items-center gap-2 text-sm font-bold text-foreground uppercase tracking-wide"><Filter className="h-4 w-4 text-brand" /> Categories</div>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {cats.map((c) => (
+                  <button key={c} onClick={() => setActive(c)} className={`rounded-full px-3 py-1.5 text-sm transition-all ${active === c ? "bg-brand text-brand-foreground font-semibold" : "border border-border text-foreground/70 hover:border-brand hover:text-brand"}`}>{c}</button>
+                ))}
+              </div>
+            </div>
+            <div className="border-t border-border/60 pt-4">
+              <div className="flex items-center justify-between text-sm font-bold text-foreground uppercase tracking-wide mb-3">
+                Price <span className="text-brand font-display font-bold">₹{priceLimit.toLocaleString('en-IN')}</span>
+              </div>
+              <input type="range" min="1000" max="250000" step="1000" value={priceLimit} onChange={(e) => setPriceLimit(Number(e.target.value))} className="w-full accent-brand cursor-pointer" />
+              <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground font-medium">
+                <span>₹1,000</span><span>₹2,50,000+</span>
+              </div>
+            </div>
+            <div className="border-t border-border/60 pt-4">
+              <div className="text-sm font-bold text-foreground uppercase tracking-wide mb-3">Brands</div>
+              <div className="flex flex-wrap gap-2">
+                {brandsList.map(b => (
+                  <button key={b} onClick={() => setSelectedBrands(prev => prev.includes(b) ? prev.filter(x => x !== b) : [...prev, b])} className={`rounded-full px-3 py-1.5 text-xs font-medium transition-all ${selectedBrands.includes(b) ? 'bg-brand text-white' : 'border border-border text-foreground/70 hover:border-brand hover:text-brand'}`}>{b}</button>
+                ))}
+              </div>
+            </div>
+          </aside>
+        </div>
+      )}
+
+      <div className={`mt-6 sm:mt-8 grid gap-8 ${showFilters ? "lg:grid-cols-[220px_1fr]" : "lg:grid-cols-1"}`}>
         {showFilters ? (
-          <aside className="lg:sticky lg:top-24 lg:self-start bg-white p-5 rounded-2xl border border-border/60 shadow-sm space-y-8 h-max">
+          <aside className="hidden lg:block lg:sticky lg:top-24 lg:self-start bg-white p-5 rounded-2xl border border-border/60 shadow-sm space-y-8 h-max">
             <div>
               <div className="flex items-center gap-2 text-sm font-bold text-foreground uppercase tracking-wide"><Filter className="h-4 w-4 text-brand" /> Categories</div>
               <div className="mt-4 flex flex-col gap-1.5">

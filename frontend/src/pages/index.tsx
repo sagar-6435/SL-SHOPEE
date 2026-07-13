@@ -20,7 +20,7 @@ const fadeUp = {
 
 export function HomePage() {
   return (
-    <div className="overflow-hidden">
+    <div className="w-full overflow-x-hidden">
       <Hero />
       <BrandsMarquee />
       <Categories />
@@ -36,7 +36,7 @@ export function HomePage() {
 
 function Hero() {
   return (
-    <section className="relative pt-8 bg-hero-gradient">
+    <section className="relative w-full pt-8 bg-hero-gradient">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         {[...Array(14)].map((_, i) => (
           <motion.span
@@ -49,7 +49,7 @@ function Hero() {
         ))}
       </div>
 
-      <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-8 sm:px-6 md:grid-cols-2 md:py-12 lg:px-8">
+      <div className="relative grid w-full items-center gap-10 px-4 py-8 sm:px-6 md:grid-cols-2 md:py-16 lg:px-10 lg:py-20">
         <motion.div initial="hidden" animate="show" variants={fadeUp}>
           <span className="inline-flex items-center gap-2 rounded-full border border-brand/30 bg-white/60 px-3 py-1 text-xs font-semibold text-brand backdrop-blur">
             <FaWandSparkles className="h-3.5 w-3.5" /> 5 branches · Since years
@@ -98,9 +98,9 @@ function Hero() {
               className="relative w-full rounded-2xl shadow-brand-glow"
             />
           </motion.div>
-          <FloatingChip className="left-2 top-6" delay={0.4} icon={FaWandSparkles}>New arrivals</FloatingChip>
-          <FloatingChip className="right-4 top-1/3" delay={0.8} icon={FaCreditCard}>EMI available</FloatingChip>
-          <FloatingChip className="bottom-6 left-1/4" delay={1.2} icon={FaTag}>Best prices</FloatingChip>
+      <FloatingChip className="left-2 top-6 hidden sm:inline-flex" delay={0.4} icon={FaWandSparkles}>New arrivals</FloatingChip>
+          <FloatingChip className="right-4 top-1/3 hidden sm:inline-flex" delay={0.8} icon={FaCreditCard}>EMI available</FloatingChip>
+          <FloatingChip className="bottom-6 left-1/4 hidden sm:inline-flex" delay={1.2} icon={FaTag}>Best prices</FloatingChip>
         </motion.div>
       </div>
     </section>
@@ -155,7 +155,7 @@ function BrandsMarquee() {
   const doubled = [...BRANDS, ...BRANDS];
   return (
     <section className="border-y border-border/60 bg-white py-10">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-10">
         <p className="text-center text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
           Trusted brands we stock
         </p>
@@ -175,7 +175,7 @@ function BrandsMarquee() {
 
 function Categories() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <section className="w-full px-4 py-8 sm:px-6 lg:px-10">
       <SectionHead eyebrow="Shop by category" title="Everything for your home & pocket" />
       <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
         {CATEGORIES.map((c, i) => (
@@ -218,7 +218,7 @@ function WhyChooseUs() {
   ];
   return (
     <section className="bg-[oklch(0.98_0.005_260)] py-8">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-10">
         <SectionHead eyebrow="Why choose us" title="A better way to shop for your home" />
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((it, i) => (
@@ -278,7 +278,7 @@ function FeaturedProducts() {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <section className="w-full px-4 py-8 sm:px-6 lg:px-10">
       <div className="flex items-end justify-between gap-4">
         <SectionHead eyebrow="Featured" title="Bestsellers this month" />
         <Link to="/products" className="hidden shrink-0 items-center gap-1 text-sm font-semibold text-brand hover:underline sm:inline-flex">
@@ -348,13 +348,13 @@ function FeaturedProducts() {
 
 function OffersBanner() {
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="w-full px-4 sm:px-6 lg:px-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative overflow-hidden rounded-3xl bg-brand-gradient p-10 text-white shadow-brand-glow sm:p-16"
+        className="relative overflow-hidden rounded-3xl bg-brand-gradient p-6 sm:p-10 lg:p-16 text-white shadow-brand-glow"
       >
         <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
         <div className="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
@@ -399,7 +399,7 @@ function OffersBanner() {
 
 function BranchesPreview() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <section className="w-full px-4 py-8 sm:px-6 lg:px-10">
       <SectionHead eyebrow="Visit us" title="5 branches, one trusted name" />
       <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {BRANCHES.map((b, i) => (
@@ -436,7 +436,7 @@ function BranchesPreview() {
 function Testimonials() {
   return (
     <section className="bg-[oklch(0.98_0.005_260)] py-8">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-10">
         <SectionHead eyebrow="Loved by families" title="What our customers say" />
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {TESTIMONIALS.map((t, i) => (

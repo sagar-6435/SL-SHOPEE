@@ -107,7 +107,7 @@ export function AnalyticsPage() {
                 <div className="rounded-2xl border border-border/60 bg-white p-5 shadow-elevated">
                     <h3 className="font-display font-semibold">Sales by Category</h3>
                     <p className="mt-0.5 text-xs text-muted-foreground">Revenue share breakdown</p>
-                    <div className="mt-2 flex items-center justify-center">
+                <div className="mt-2 flex items-center justify-center">
                         <PieChart width={180} height={180}>
                             <Pie data={CATEGORY_SALES} dataKey="revenue" cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={3}>
                                 {CATEGORY_SALES.map((_, i) => (
@@ -185,12 +185,14 @@ export function AnalyticsPage() {
                     <h3 className="font-display font-semibold">Category Units Radar</h3>
                     <p className="mt-0.5 text-xs text-muted-foreground">Units sold by category</p>
                     <div className="mt-4 flex items-center justify-center">
-                        <RadarChart cx={110} cy={100} outerRadius={80} width={260} height={210} data={CATEGORY_SALES}>
-                            <PolarGrid stroke="oklch(0.929 0.013 255.508)" />
-                            <PolarAngleAxis dataKey="category" tick={{ fontSize: 9 }} />
-                            <PolarRadiusAxis tick={false} axisLine={false} />
-                            <Radar dataKey="units" stroke="oklch(0.52 0.18 10)" fill="oklch(0.52 0.18 10)" fillOpacity={0.25} strokeWidth={2} />
-                        </RadarChart>
+                        <ResponsiveContainer width="100%" height={210}>
+                            <RadarChart cx="50%" cy="50%" outerRadius={80} data={CATEGORY_SALES}>
+                                <PolarGrid stroke="oklch(0.929 0.013 255.508)" />
+                                <PolarAngleAxis dataKey="category" tick={{ fontSize: 9 }} />
+                                <PolarRadiusAxis tick={false} axisLine={false} />
+                                <Radar dataKey="units" stroke="oklch(0.52 0.18 10)" fill="oklch(0.52 0.18 10)" fillOpacity={0.25} strokeWidth={2} />
+                            </RadarChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
             </div>

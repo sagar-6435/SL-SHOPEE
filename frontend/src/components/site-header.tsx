@@ -54,7 +54,7 @@ export function SiteHeader() {
           : "bg-transparent",
       )}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 sm:px-6 lg:px-8">
+      <div className="flex w-full items-center justify-between px-4 py-5 sm:px-6 lg:px-10">
         <Link to="/" className="flex items-center gap-2">
           <img src={logo} alt="SL SHOPEE Logo" className="h-9 w-auto object-contain" />
           <span className="font-display text-2xl font-bold tracking-tight uppercase">
@@ -141,7 +141,7 @@ export function SiteHeader() {
 
       {open && (
         <div className="border-t border-border bg-background md:hidden">
-          <nav className="mx-auto flex max-w-7xl flex-col px-4 py-3">
+          <nav className="flex w-full flex-col px-4 py-3">
             {NAV.map((item) => (
               <Link
                 key={item.to}

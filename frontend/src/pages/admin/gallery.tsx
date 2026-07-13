@@ -144,12 +144,12 @@ export function GalleryManagement() {
                         className="w-full rounded-xl border border-border bg-white pl-9 pr-4 py-2.5 text-sm outline-none focus:border-brand"
                     />
                 </div>
-                <div className="flex rounded-xl border border-border overflow-hidden">
+                <div className="flex overflow-x-auto rounded-xl border border-border scrollbar-none">
                     {GALLERY_CATEGORIES.map((cat) => (
                         <button
                             key={cat}
                             onClick={() => setFilterCat(cat)}
-                            className={`px-3 py-2 text-xs font-medium transition-colors ${filterCat === cat ? "bg-brand text-white" : "bg-white text-muted-foreground hover:bg-muted"}`}
+                            className={`shrink-0 px-3 py-2 text-xs font-medium transition-colors ${filterCat === cat ? "bg-brand text-white" : "bg-white text-muted-foreground hover:bg-muted"}`}
                         >
                             {cat}
                         </button>

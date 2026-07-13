@@ -5,7 +5,7 @@ import { SITE, NAV, BRANCHES, waLink } from "@/lib/site-data";
 export function SiteFooter() {
   return (
     <footer className="mt-24 bg-[oklch(0.18_0.02_260)] text-white/80">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-4 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 sm:grid-cols-2 md:grid-cols-4 lg:px-8">
         <div>
           <div className="flex items-center gap-2">
             <span className="grid h-10 w-10 place-items-center rounded-lg bg-brand-gradient font-display font-bold text-white">

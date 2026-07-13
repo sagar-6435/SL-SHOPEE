@@ -13,7 +13,12 @@ import campaignsRouter from "./routes/campaigns.js";
 import notificationsRouter from "./routes/notifications.js";
 import analyticsRouter from "./routes/analytics.js";
 
-dotenv.config();
+import { fileURLToPath } from "url";
+import { dirname, resolve } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+dotenv.config({ path: resolve(__dirname, ".env") });
 
 const app = express();
 const PORT = process.env.PORT || 5000;

@@ -68,8 +68,8 @@ export function CartPage() {
               <div className="rounded-3xl border border-border/60 bg-white p-2 sm:p-6 shadow-sm">
                 <ul className="divide-y divide-border/60">
                   {cart.map((item, index) => (
-                    <li key={index} className="flex py-6 px-4">
-                      <div className="h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-border/60 bg-[oklch(0.98_0.01_27)] p-2">
+                    <li key={index} className="flex py-5 px-2 sm:px-4">
+                      <div className="h-20 w-20 sm:h-24 sm:w-24 flex-shrink-0 overflow-hidden rounded-xl border border-border/60 bg-[oklch(0.98_0.01_27)] p-2">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -77,19 +77,19 @@ export function CartPage() {
                         />
                       </div>
 
-                      <div className="ml-4 flex flex-1 flex-col">
+                      <div className="ml-3 sm:ml-4 flex flex-1 flex-col min-w-0">
                         <div>
-                          <div className="flex justify-between text-base font-bold text-foreground">
-                            <h3>
+                          <div className="flex justify-between gap-2 text-sm sm:text-base font-bold text-foreground">
+                            <h3 className="truncate">
                               <Link to={`/products/${item.name.toLowerCase().replace(/ /g, '-')}`} className="hover:text-brand">
                                 {item.name}
                               </Link>
                             </h3>
-                            <p className="ml-4 text-brand">{item.price}</p>
+                            <p className="ml-2 shrink-0 text-brand">{item.price}</p>
                           </div>
-                          <p className="mt-1 text-sm text-muted-foreground">{item.brand} | {item.category}</p>
+                          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">{item.brand} | {item.category}</p>
                         </div>
-                        <div className="flex flex-1 items-end justify-between text-sm">
+                        <div className="flex flex-1 items-end justify-between text-sm mt-3">
                           <div className="flex items-center border border-border/80 rounded-full bg-muted/30">
                             <button onClick={() => updateQty(index, -1)} className="px-3 py-1 font-bold hover:text-brand">-</button>
                             <span className="px-2 font-semibold">{item.qty}</span>
@@ -102,7 +102,7 @@ export function CartPage() {
                               onClick={() => removeItem(index)}
                               className="font-medium text-destructive hover:text-destructive/80 inline-flex items-center gap-1.5"
                             >
-                              <Trash2 className="h-4 w-4" /> Remove
+                              <Trash2 className="h-4 w-4" /> <span className="hidden sm:inline">Remove</span>
                             </button>
                           </div>
                         </div>

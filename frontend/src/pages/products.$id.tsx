@@ -66,9 +66,9 @@ export function ProductDetail() {
           <span className="text-foreground">{product.name}</span>
         </nav>
 
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-start">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-20 items-start">
           {/* Left: Image Container */}
-          <div className="rounded-2xl border border-border/80 overflow-hidden relative shadow-sm h-[550px] flex items-center justify-center p-8 bg-[oklch(0.98_0.005_260)]">
+          <div className="rounded-2xl border border-border/80 overflow-hidden relative shadow-sm h-[320px] sm:h-[420px] md:h-[480px] lg:h-[550px] flex items-center justify-center p-6 sm:p-8 bg-[oklch(0.98_0.005_260)]">
             <span className="absolute left-6 top-6 rounded-full bg-[#111827] px-4 py-1.5 text-[10px] font-extrabold uppercase tracking-widest text-white shadow-md z-10">
               Best Seller
             </span>
@@ -83,8 +83,8 @@ export function ProductDetail() {
           </div>
 
           {/* Right: Content */}
-          <div className="flex flex-col h-full pt-4">
-            <h1 className="font-display text-4xl sm:text-5xl font-medium text-foreground tracking-tight lowercase">{product.name}</h1>
+          <div className="flex flex-col h-full pt-2 md:pt-4">
+            <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-medium text-foreground tracking-tight lowercase">{product.name}</h1>
 
             <div className="mt-6 flex items-center gap-4">
               <span className="text-brand font-display text-3xl font-medium">{product.price}</span>
@@ -113,17 +113,17 @@ export function ProductDetail() {
               </div>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-4 w-full">
+            <div className="mt-8 flex flex-wrap gap-3 w-full">
               {isAdded ? (
-                <button className="flex-1 inline-flex max-w-[200px] h-[54px] items-center justify-center gap-2 rounded-xl bg-brand/10 border border-brand text-[15px] font-bold text-brand transition-colors cursor-default">
+                <button className="flex-1 min-w-[140px] inline-flex h-[54px] items-center justify-center gap-2 rounded-xl bg-brand/10 border border-brand text-[15px] font-bold text-brand transition-colors cursor-default">
                   <ShoppingCart className="h-4 w-4" /> Added to Cart
                 </button>
               ) : (
-                <button onClick={handleAddToCart} className="flex-1 inline-flex max-w-[200px] h-[54px] items-center justify-center gap-2 rounded-xl bg-brand text-[15px] font-bold text-white shadow-brand-glow transition-transform hover:scale-[1.02]">
+                <button onClick={handleAddToCart} className="flex-1 min-w-[140px] inline-flex h-[54px] items-center justify-center gap-2 rounded-xl bg-brand text-[15px] font-bold text-white shadow-brand-glow transition-transform hover:scale-[1.02]">
                   <ShoppingCart className="h-4 w-4" /> Add to Cart
                 </button>
               )}
-              <button onClick={handleBuyNow} className="flex-1 max-w-[160px] h-[54px] rounded-xl bg-[#F6D050] text-[15px] font-bold text-[#111827] shadow-md transition-transform hover:scale-[1.02] hover:bg-[#F0C530]">
+              <button onClick={handleBuyNow} className="flex-1 min-w-[120px] max-w-[160px] h-[54px] rounded-xl bg-[#F6D050] text-[15px] font-bold text-[#111827] shadow-md transition-transform hover:scale-[1.02] hover:bg-[#F0C530]">
                 Buy Now
               </button>
               <button onClick={handleAddToWishlist} className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-xl border border-border/80 bg-white hover:text-brand hover:border-brand/40 transition-colors shadow-sm shrink-0">

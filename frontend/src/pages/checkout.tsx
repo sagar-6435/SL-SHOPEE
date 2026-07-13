@@ -6,9 +6,9 @@ export const Route = createFileRoute('/checkout')({
 
 export function PageComponent() {
   return (
-    <div className="pt-32 pb-10 min-h-screen bg-[oklch(0.98_0.005_260)]">
+    <div className="pt-28 sm:pt-32 pb-10 min-h-screen bg-[oklch(0.98_0.005_260)]">
       <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-border/60 bg-white p-8 shadow-elevated">
+        <div className="rounded-3xl border border-border/60 bg-white p-6 sm:p-8 shadow-elevated">
           <h1 className="font-display text-3xl font-bold tracking-tight text-foreground">Checkout</h1>
           <p className="mt-2 text-muted-foreground">Complete your purchase securely.</p>
           <form className="mt-8 space-y-4">
