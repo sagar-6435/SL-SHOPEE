@@ -31,7 +31,8 @@ const AdminLayout = ({ children }) => {
     { path: '/admin/whatsapp-templates', icon: MessageSquare, label: 'WhatsApp Templates' },
     { path: '/admin/whatsapp-campaigns', icon: Send, label: 'WhatsApp Campaigns' },
     { path: '/admin/sms-campaigns', icon: Send, label: 'SMS Campaigns' },
-    { path: '/admin/send-notifications', icon: Bell, label: 'Send Notifications' }
+    { path: '/admin/send-notifications', icon: Bell, label: 'Send Notifications' },
+    { path: '/admin/branches', icon: Users, label: 'Branches' }
   ];
 
   // Add super admin only menu items

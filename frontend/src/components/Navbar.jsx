@@ -158,11 +158,10 @@ const Navbar = () => {
 
   const navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/shop', label: 'Shop' },
+    { path: '/shop', label: 'Products' },
     { path: '/services', label: 'Services' },
     { path: '/gallery', label: 'Gallery' },
-    { path: '/about', label: 'About' },
-    { path: '/contact', label: 'Contact' },
+    { path: '/about', label: 'About Us' },
   ];
 
   const isActive = (path) => location.pathname === path;

@@ -46,7 +46,7 @@ const Footer = () => {
             </h4>
             <ul className="space-y-0">
               <li><Link to="/shipping-info" className="text-xs font-body font-bold text-gray-400 uppercase tracking-widest hover:text-[var(--color-primary)] transition-colors">Shipping Info</Link></li>
-              <li><Link to="/contact" className="text-xs font-body font-bold text-gray-400 uppercase tracking-widest hover:text-[var(--color-primary)] transition-colors">Contact Us</Link></li>
+              <li><Link to="/about" className="text-xs font-body font-bold text-gray-400 uppercase tracking-widest hover:text-[var(--color-primary)] transition-colors">Contact Us</Link></li>
               <li><Link to="/privacy-policy" className="text-xs font-body font-bold text-gray-400 uppercase tracking-widest hover:text-[var(--color-primary)] transition-colors">Privacy Policy</Link></li>
             </ul>
           </div>
@@ -67,14 +67,14 @@ const Footer = () => {
           </div>
         </div>
 
-        
+
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-50 flex flex-col md:flex-row justify-between items-center gap-8">
           <p className="text-[10px] text-gray-400 font-body font-bold tracking-[0.2em] uppercase">
             © {new Date().getFullYear()} SL SHOPEE. Crafted with sentiment.
           </p>
-          
+
           <div className="flex items-center gap-8">
             <a href="#" className="text-gray-300 hover:text-gray-900 transition-colors">
               <Share2 className="w-4 h-4" />

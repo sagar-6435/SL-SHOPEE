@@ -61,7 +61,7 @@ const ProductReviewForm = ({ productId, productName }) => {
       <CheckCircle className="w-4 h-4" />
       <span>You reviewed this product</span>
       <div className="flex ml-1">
-        {[1,2,3,4,5].map(s => (
+        {[1, 2, 3, 4, 5].map(s => (
           <Star key={s} className={`w-3 h-3 ${s <= (existingReview?.rating || 0) ? 'fill-[#F7D060] text-[#F7D060]' : 'text-gray-200'}`} />
         ))}
       </div>
@@ -83,7 +83,7 @@ const ProductReviewForm = ({ productId, productName }) => {
           <p className="text-xs font-bold text-gray-700 mb-3">Review: {productName}</p>
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="flex gap-1">
-              {[1,2,3,4,5].map(s => (
+              {[1, 2, 3, 4, 5].map(s => (
                 <button key={s} type="button"
                   onMouseEnter={() => setHover(s)} onMouseLeave={() => setHover(0)}
                   onClick={() => setForm(f => ({ ...f, rating: s }))}>
@@ -160,7 +160,7 @@ const OrderDetailPage = () => {
       const token = localStorage.getItem('token');
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/designs/request-revision/${itemId}`, {
         method: 'POST',
-        headers: { 
+        headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
@@ -240,7 +240,7 @@ const OrderDetailPage = () => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return 'N/A';
-    
+
     const day = String(date.getDate()).padStart(2, '0');
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const month = monthNames[date.getMonth()];
@@ -249,16 +249,16 @@ const OrderDetailPage = () => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12 || 12;
-    
+
     return `${day}-${month}-${year} ${hours}:${minutes}${ampm}`;
   };
 
   const getStatusSteps = () => {
     const currentStatus = (order?.order_status || order?.status || 'pending').toLowerCase();
-    
+
     const statuses = ['pending', 'processing', 'shipped', 'delivered'];
     const currentIndex = statuses.indexOf(currentStatus) !== -1 ? statuses.indexOf(currentStatus) : 0;
-    
+
     return [
       { label: 'Order Placed', status: 'completed' },
       { label: 'Pending', status: currentIndex >= 0 ? (currentIndex === 0 ? 'current' : 'completed') : 'pending' },
@@ -321,13 +321,12 @@ const OrderDetailPage = () => {
                 <div className="flex justify-between">
                   {getStatusSteps().map((step, index) => (
                     <div key={index} className="flex flex-col items-center flex-1">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                        step.status === 'completed' 
-                          ? 'bg-green-500 text-white' 
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step.status === 'completed'
+                          ? 'bg-green-500 text-white'
                           : step.status === 'current'
-                          ? 'bg-yellow-500 text-white'
-                          : 'bg-gray-200 text-gray-500'
-                      }`}>
+                            ? 'bg-yellow-500 text-white'
+                            : 'bg-gray-200 text-gray-500'
+                        }`}>
                         {step.status === 'completed' ? (
                           <CheckCircle className="w-6 h-6" />
                         ) : (
@@ -352,106 +351,106 @@ const OrderDetailPage = () => {
                   );
                   const productId = item.product_id
                     ? (typeof item.product_id === 'object'
-                        ? (item.product_id.$oid || item.product_id.toString())
-                        : item.product_id)
+                      ? (item.product_id.$oid || item.product_id.toString())
+                      : item.product_id)
                     : null;
 
                   return (
-                  <div key={index} className="flex gap-4 pb-4 border-b last:border-b-0">
-                    <img
-                      src={
-                        item.product_image?.startsWith('http')
-                          ? item.product_image
-                          : (item.product_image || item.product_image_url || item.image_url 
+                    <div key={index} className="flex gap-4 pb-4 border-b last:border-b-0">
+                      <img
+                        src={
+                          item.product_image?.startsWith('http')
+                            ? item.product_image
+                            : (item.product_image || item.product_image_url || item.image_url
                               ? fullUrl(item.product_image || item.product_image_url || item.image_url)
                               : '/images/image.png')
-                      }
-                      alt={item.product_name}
-                      className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
-                    />
-                    <div className="flex-1">
-                      <h3 className="font-bold text-lg">{item.product_name}</h3>
-                      <p className="text-gray-600">Quantity: {item.quantity}</p>
-                      {item.customization && (
-                        <div className="mt-2 text-sm text-gray-600">
-                          <p className="font-semibold text-valentine-red">✨ Customized</p>
-                          {item.customization.size && (
-                            <p>Size: {item.customization.size}</p>
-                          )}
-                          {getCustomizationText(item) && (
-                            <p>Text: {getCustomizationText(item)}</p>
-                          )}
-                          {Object.entries(item.customization.textInputs || {}).map(([key, value]) => (
-                            <p key={key}>{key}: {value}</p>
-                          ))}
-                        </div>
-                      )}
-                      
-                      {/* Admin Designed Image Display */}
-                      {designs[item._id || item.id]?.admin_designed_image && (
-                        <div className="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
-                          <p className="font-semibold text-purple-800 mb-2">🎨 Designed Image from Admin</p>
-                          <img 
-                            src={
-                              designs[item._id || item.id].admin_designed_image.startsWith('http') 
-                                ? designs[item._id || item.id].admin_designed_image 
-                                : fullUrl(designs[item._id || item.id].admin_designed_image)
-                            } 
-                            alt="Admin Design"
-                            className="w-full max-w-sm rounded-lg shadow-sm border border-gray-200"
-                          />
-                          <p className="text-sm mt-2 font-medium capitalize text-purple-700">
-                            Status: {designs[item._id || item.id].status.replace('_', ' ')}
-                          </p>
-                          
-                          {designs[item._id || item.id].status === 'pending_approval' && (
-                            <div className="mt-4 space-y-3 bg-white p-4 rounded-lg shadow-sm border border-purple-100">
-                              <h4 className="font-bold text-gray-900 mb-2">Review Design</h4>
-                              <p className="text-sm text-gray-600 mb-3">Please approve this design to proceed, or let us know if you need any changes.</p>
-                              
-                              <button
-                                onClick={() => handleApproveDesign(item._id || item.id)}
-                                disabled={submittingAction === (item._id || item.id)}
-                                className="w-full sm:w-auto px-6 py-2.5 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 disabled:opacity-50 transition-colors shadow-sm"
-                              >
-                                {submittingAction === (item._id || item.id) ? 'Processing...' : 'Yes, Approve Design'}
-                              </button>
-                              
-                              <div className="mt-4 border-t border-gray-100 pt-4">
-                                <p className="text-sm font-semibold text-gray-700 mb-2">Need Changes?</p>
-                                <textarea
-                                  placeholder="Type your feedback or revision requests here..."
-                                  className="w-full p-3 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-[var(--color-primary)] transition-all bg-gray-50 outline-none"
-                                  rows="3"
-                                  value={feedbackText[item._id || item.id] || ''}
-                                  onChange={(e) => setFeedbackText(prev => ({ ...prev, [item._id || item.id]: e.target.value }))}
-                                />
-                                <button
-                                  onClick={() => handleRequestRevision(item._id || item.id)}
-                                  disabled={submittingAction === (item._id || item.id) || !feedbackText[item._id || item.id]}
-                                  className="mt-3 w-full sm:w-auto px-6 py-2 bg-gray-900 text-white font-semibold rounded-lg hover:bg-[var(--color-primary)] disabled:opacity-50 transition-colors text-sm"
-                                >
-                                  Request Revision
-                                </button>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      )}
+                        }
+                        alt={item.product_name}
+                        className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                      />
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg">{item.product_name}</h3>
+                        <p className="text-gray-600">Quantity: {item.quantity}</p>
+                        {item.customization && (
+                          <div className="mt-2 text-sm text-gray-600">
+                            <p className="font-semibold text-valentine-red">✨ Customized</p>
+                            {item.customization.size && (
+                              <p>Size: {item.customization.size}</p>
+                            )}
+                            {getCustomizationText(item) && (
+                              <p>Text: {getCustomizationText(item)}</p>
+                            )}
+                            {Object.entries(item.customization.textInputs || {}).map(([key, value]) => (
+                              <p key={key}>{key}: {value}</p>
+                            ))}
+                          </div>
+                        )}
 
-                      {/* Review form — only for delivered orders */}
-                      {isDelivered && productId && (
-                        <ProductReviewForm productId={productId} productName={item.product_name} />
-                      )}
+                        {/* Admin Designed Image Display */}
+                        {designs[item._id || item.id]?.admin_designed_image && (
+                          <div className="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                            <p className="font-semibold text-purple-800 mb-2">🎨 Designed Image from Admin</p>
+                            <img
+                              src={
+                                designs[item._id || item.id].admin_designed_image.startsWith('http')
+                                  ? designs[item._id || item.id].admin_designed_image
+                                  : fullUrl(designs[item._id || item.id].admin_designed_image)
+                              }
+                              alt="Admin Design"
+                              className="w-full max-w-sm rounded-lg shadow-sm border border-gray-200"
+                            />
+                            <p className="text-sm mt-2 font-medium capitalize text-purple-700">
+                              Status: {designs[item._id || item.id].status.replace('_', ' ')}
+                            </p>
+
+                            {designs[item._id || item.id].status === 'pending_approval' && (
+                              <div className="mt-4 space-y-3 bg-white p-4 rounded-lg shadow-sm border border-purple-100">
+                                <h4 className="font-bold text-gray-900 mb-2">Review Design</h4>
+                                <p className="text-sm text-gray-600 mb-3">Please approve this design to proceed, or let us know if you need any changes.</p>
+
+                                <button
+                                  onClick={() => handleApproveDesign(item._id || item.id)}
+                                  disabled={submittingAction === (item._id || item.id)}
+                                  className="w-full sm:w-auto px-6 py-2.5 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 disabled:opacity-50 transition-colors shadow-sm"
+                                >
+                                  {submittingAction === (item._id || item.id) ? 'Processing...' : 'Yes, Approve Design'}
+                                </button>
+
+                                <div className="mt-4 border-t border-gray-100 pt-4">
+                                  <p className="text-sm font-semibold text-gray-700 mb-2">Need Changes?</p>
+                                  <textarea
+                                    placeholder="Type your feedback or revision requests here..."
+                                    className="w-full p-3 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-[var(--color-primary)] transition-all bg-gray-50 outline-none"
+                                    rows="3"
+                                    value={feedbackText[item._id || item.id] || ''}
+                                    onChange={(e) => setFeedbackText(prev => ({ ...prev, [item._id || item.id]: e.target.value }))}
+                                  />
+                                  <button
+                                    onClick={() => handleRequestRevision(item._id || item.id)}
+                                    disabled={submittingAction === (item._id || item.id) || !feedbackText[item._id || item.id]}
+                                    className="mt-3 w-full sm:w-auto px-6 py-2 bg-gray-900 text-white font-semibold rounded-lg hover:bg-[var(--color-primary)] disabled:opacity-50 transition-colors text-sm"
+                                  >
+                                    Request Revision
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Review form — only for delivered orders */}
+                        {isDelivered && productId && (
+                          <ProductReviewForm productId={productId} productName={item.product_name} />
+                        )}
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <p className="font-bold text-xl text-valentine-red">₹{item.price}</p>
+                        <p className="text-sm text-gray-600">× {item.quantity}</p>
+                        <p className="text-sm font-semibold mt-1">
+                          Total: ₹{item.price * item.quantity}
+                        </p>
+                      </div>
                     </div>
-                    <div className="text-right flex-shrink-0">
-                      <p className="font-bold text-xl text-valentine-red">₹{item.price}</p>
-                      <p className="text-sm text-gray-600">× {item.quantity}</p>
-                      <p className="text-sm font-semibold mt-1">
-                        Total: ₹{item.price * item.quantity}
-                      </p>
-                    </div>
-                  </div>
                   );
                 })}
               </div>
@@ -541,7 +540,7 @@ const OrderDetailPage = () => {
                 Contact us for any queries regarding your order
               </p>
               <button
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate('/about')}
                 className="w-full btn-primary text-sm"
               >
                 Contact Support

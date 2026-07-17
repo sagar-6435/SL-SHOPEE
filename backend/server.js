@@ -31,6 +31,7 @@ import homepageRoutes from './routes/homepage.js';
 import designRoutes from './routes/designs.js';
 import notificationRoutes from './routes/notifications.js';
 import reviewRoutes from './routes/reviews.js';
+import branchRoutes from './routes/branches.js';
 
 // Import middleware
 import { errorHandler, notFound } from './middleware/errorHandler.js';
@@ -164,6 +165,7 @@ app.use('/api/designs', designRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/products/:productId/reviews', reviewRoutes);
 
+app.use('/api/branches', branchRoutes);
 // React catch-all — serves index.html for every non-API route so React Router works
 app.get('*', (req, res) => {
   const indexPath = frontendPath ? path.join(frontendPath, 'index.html') : null;

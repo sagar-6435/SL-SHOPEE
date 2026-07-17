@@ -27,7 +27,6 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsConditionsPage from './pages/TermsConditionsPage';
 import RefundPolicyPage from './pages/RefundPolicyPage';
 import AboutPage from './pages/AboutPage';
-import ContactPage from './pages/ContactPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ProductManagement from './pages/admin/ProductManagement';
 import ServiceManagement from './pages/admin/ServiceManagement';
@@ -45,6 +44,7 @@ import Analytics from './pages/admin/Analytics';
 import HomePageManagement from './pages/admin/HomePageManagement';
 import CategoryManagement from './pages/admin/CategoryManagement';
 import SendNotifications from './pages/admin/SendNotifications';
+import BranchManagement from './pages/admin/BranchManagement';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
@@ -93,6 +93,7 @@ function App() {
                         <Route path="categories" element={<CategoryManagement />} />
                         <Route path="analytics" element={<Analytics />} />
                         <Route path="send-notifications" element={<SendNotifications />} />
+                        <Route path="branches" element={<BranchManagement />} />
                         <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
                       </Routes>
                     </PageTransition>
@@ -126,7 +127,6 @@ function App() {
                         <Route path="/order/:id" element={<ProtectedRoute><OrderDetailPage /></ProtectedRoute>} />
                         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
                         <Route path="/about" element={<AboutPage />} />
-                        <Route path="/contact" element={<ContactPage />} />
                         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                         <Route path="/terms-conditions" element={<TermsConditionsPage />} />
                         <Route path="/refund-policy" element={<RefundPolicyPage />} />
