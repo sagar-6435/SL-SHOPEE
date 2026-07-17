@@ -1,8 +1,6 @@
 import HeroBanner from '../components/HeroBanner';
 import FlashRibbon from '../components/FlashRibbon';
 import ShopByOccasionSection from '../components/ShopByOccasionSection';
-import ProfessionalServicesSection from '../components/ProfessionalServicesSection';
-
 import Testimonials from '../components/Testimonials';
 
 const HomePage = () => {
@@ -11,8 +9,6 @@ const HomePage = () => {
       <HeroBanner />
       <FlashRibbon />
       <ShopByOccasionSection />
-      <ProfessionalServicesSection />
-
       <Testimonials />
     </div>
   );
