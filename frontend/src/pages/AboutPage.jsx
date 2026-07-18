@@ -176,7 +176,7 @@ const AboutPage = () => {
                     </div>
                     <div>
                       <h5 className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">Our Location</h5>
-                      <p className="text-sm font-body text-gray-700 leading-relaxed">
+                      <div className="text-sm font-body text-gray-700 leading-relaxed">
                         <ol>
                           <li>1. Achampeta</li>
                           <li>2. Peddapuram</li>
@@ -184,7 +184,7 @@ const AboutPage = () => {
                           <li>4. Gollaprolu</li>
                           <li>5. Kathipudi</li>
                         </ol><br />Andhra Pradesh 534204
-                      </p>
+                      </div>
                     </div>
                   </div>
                   <div className="flex gap-6">

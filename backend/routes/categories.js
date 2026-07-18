@@ -14,7 +14,7 @@ router.get('/', cacheMiddleware(300), async (req, res) => {
     res.json({ categories: categories.map(c => ({ ...c, id: c._id })) });
   } catch (error) {
     console.error('Get categories error:', error);
-    res.status(500).json({ error: 'Failed to fetch categories' });
+    res.status(500).json({ error: `Failed to fetch categories: ${error.message}` });
   }
 });
 
@@ -45,7 +45,7 @@ router.post('/', authenticate, isAdmin, upload.single('image'), async (req, res)
     res.status(201).json({ message: 'Category created successfully', category });
   } catch (error) {
     console.error('Create category error:', error);
-    res.status(500).json({ error: 'Failed to create category' });
+    res.status(500).json({ error: `Failed to create category: ${error.message}` });
   }
 });
 
@@ -80,7 +80,7 @@ router.put('/:id', authenticate, isAdmin, upload.single('image'), async (req, re
     res.json({ message: 'Category updated successfully', category });
   } catch (error) {
     console.error('Update category error:', error);
-    res.status(500).json({ error: 'Failed to update category' });
+    res.status(500).json({ error: `Failed to update category: ${error.message}` });
   }
 });
 
@@ -97,7 +97,7 @@ router.delete('/:id', authenticate, isAdmin, async (req, res) => {
     res.json({ message: 'Category deleted successfully' });
   } catch (error) {
     console.error('Delete category error:', error);
-    res.status(500).json({ error: 'Failed to delete category' });
+    res.status(500).json({ error: `Failed to delete category: ${error.message}` });
   }
 });
 
