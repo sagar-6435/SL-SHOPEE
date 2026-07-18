@@ -159,8 +159,6 @@ const Navbar = () => {
   const navLinks = [
     { path: '/', label: 'Home' },
     { path: '/shop', label: 'Products' },
-    { path: '/services', label: 'Services' },
-    { path: '/gallery', label: 'Gallery' },
     { path: '/about', label: 'About Us' },
   ];
 

@@ -8,11 +8,16 @@ const ShopByOccasionSection = () => {
   const [loading, setLoading] = useState(true);
 
   const fallbackCategories = [
-    { id: 1, name: 'Birthday', slug: 'birthday', image: 'https://images.unsplash.com/photo-1530103862676-fa390d4073b0?w=200&h=200&fit=crop' },
-    { id: 2, name: 'Anniversary', slug: 'anniversary', image: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=200&h=200&fit=crop' },
-    { id: 3, name: 'Friendship', slug: 'friendship', image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=200&h=200&fit=crop' },
-    { id: 4, name: 'Family', slug: 'family', image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=200&h=200&fit=crop' },
-    { id: 5, name: 'Special Day', slug: 'special-day', image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?w=200&h=200&fit=crop' },
+    { id: 1, name: 'Smartphones',   slug: 'smartphones',   image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop' },
+    { id: 2, name: 'Laptops',       slug: 'laptops',       image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=200&h=200&fit=crop' },
+    { id: 3, name: "Smart TV's",    slug: 'smart-tvs',     image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=200&h=200&fit=crop' },
+    { id: 4, name: 'Headphones',    slug: 'headphones',    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop' },
+    { id: 5, name: 'Cameras',       slug: 'cameras',       image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=200&h=200&fit=crop' },
+    { id: 6, name: 'Tablets',       slug: 'tablets',       image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=200&h=200&fit=crop' },
+    { id: 7, name: 'Refrigerators', slug: 'refrigerators', image: 'https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=200&h=200&fit=crop' },
+    { id: 8, name: 'Washing Machine',slug: 'washing-machines', image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=200&h=200&fit=crop' },
+    { id: 9, name: 'Air Conditioners',slug:'air-conditioners', image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200&h=200&fit=crop' },
+    { id: 10, name: 'Accessories',   slug: 'accessories',   image: 'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=200&h=200&fit=crop' },
   ];
 
   useEffect(() => {
@@ -27,17 +32,15 @@ const ShopByOccasionSection = () => {
         const data = await response.json();
         const allCats = data.categories || [];
         
-        // Filter occasions and sort by order
-        let occasions = allCats
-          .filter(c => c.is_occasion)
-          .sort((a, b) => (a.occasion_order || 0) - (b.occasion_order || 0));
+        // Show up to 10 categories sorted by order
+        const sorted = allCats
+          .sort((a, b) => (a.occasion_order || a.id || 0) - (b.occasion_order || b.id || 0))
+          .slice(0, 10);
         
-        // If no occasions marked, fallback to first 5 categories or fallback list
-        if (occasions.length === 0) {
-          occasions = allCats.length > 0 ? allCats.slice(0, 5) : fallbackCategories;
-        }
+        // If no categories returned, use fallback list
+        const finalCats = sorted.length > 0 ? sorted : fallbackCategories;
         
-        setCategories(occasions);
+        setCategories(finalCats);
       } else {
         setCategories(fallbackCategories);
       }
@@ -63,7 +66,7 @@ const ShopByOccasionSection = () => {
         </div>
 
         {/* Circular Category Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-items-center gap-4 sm:gap-6 md:gap-8 lg:gap-12">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 justify-items-center gap-6 sm:gap-8 md:gap-10 lg:gap-12">
           {categories.map((category, index) => (
             <button
               key={category.id}
