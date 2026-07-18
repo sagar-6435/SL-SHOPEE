@@ -145,6 +145,14 @@ app.get(['/health', '/api/health'], async (req, res) => {
   });
 });
 
+// Fix for frontend incorrectly appending /api/ to an API URL that already has /api/
+app.use((req, res, next) => {
+  if (req.url.startsWith('/api/api/')) {
+    req.url = req.url.replace('/api/api/', '/api/');
+  }
+  next();
+});
+
 // API routes — must come before the React catch-all
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
