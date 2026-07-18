@@ -29,7 +29,6 @@ import RefundPolicyPage from './pages/RefundPolicyPage';
 import AboutPage from './pages/AboutPage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import ProductManagement from './pages/admin/ProductManagement';
-import ServiceManagement from './pages/admin/ServiceManagement';
 import OrderManagement from './pages/admin/OrderManagement';
 import CustomerDatabase from './pages/admin/CustomerDatabase';
 import SalesReport from './pages/admin/SalesReport';
@@ -41,7 +40,6 @@ import SMSCampaigns from './pages/admin/SMSCampaigns';
 import WhatsAppMessaging from './pages/admin/WhatsAppMessaging';
 import GalleryManagement from './pages/admin/GalleryManagement';
 import Analytics from './pages/admin/Analytics';
-import HomePageManagement from './pages/admin/HomePageManagement';
 import CategoryManagement from './pages/admin/CategoryManagement';
 import SendNotifications from './pages/admin/SendNotifications';
 import BranchManagement from './pages/admin/BranchManagement';
@@ -78,7 +76,6 @@ function App() {
                       <Routes>
                         <Route path="dashboard" element={<AdminDashboard />} />
                         <Route path="products" element={<ProductManagement />} />
-                        <Route path="services" element={<ServiceManagement />} />
                         <Route path="orders" element={<OrderManagement />} />
                         <Route path="customers" element={<CustomerDatabase />} />
                         <Route path="sales-report" element={<SalesReport />} />
@@ -89,7 +86,6 @@ function App() {
                         <Route path="sms-campaigns" element={<SMSCampaigns />} />
                         <Route path="whatsapp" element={<WhatsAppMessaging />} />
                         <Route path="gallery" element={<GalleryManagement />} />
-                        <Route path="homepage" element={<HomePageManagement />} />
                         <Route path="categories" element={<CategoryManagement />} />
                         <Route path="analytics" element={<Analytics />} />
                         <Route path="send-notifications" element={<SendNotifications />} />

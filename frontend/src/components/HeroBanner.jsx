@@ -4,33 +4,32 @@ import { fullUrl } from '../lib/utils';
 
 const HeroBanner = () => {
   const navigate = useNavigate();
-  const [bgImage, setBgImage] = useState('https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&q=80&w=2070');
+  const [bgImage, setBgImage] = useState('/assets/products/hero-tv.png');
 
   return (
     <section className="relative w-full h-[60vh] overflow-hidden">
-      {/* === MOBILE / TABLET: image as full centered background === */}
-      <div className="absolute inset-0 lg:hidden z-0">
+      {/* === MOBILE / TABLET: image centered  === */}
+      <div className="absolute inset-0 lg:hidden z-0 flex items-start justify-center pt-8">
         <img
           src={bgImage}
           alt="Hero Background"
-          className="w-full h-full object-cover object-[75%_center]"
+          className="w-[100%] h-[75%] object-contain filter drop-shadow-xl animate-[float_6s_ease-in-out_infinite]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-white/10 pointer-events-none" />
       </div>
 
       {/* === DESKTOP: side-by-side layout === */}
-      <div className="hidden lg:flex absolute inset-0">
-        {/* Left spacer for text (handled by content below) */}
-        <div className="w-[60%] bg-white" />
-        {/* Right image */}
-        <div className="relative w-[40%]">
+      <div className="hidden lg:flex absolute inset-0 items-center justify-end">
+        {/* Left spacer for text */}
+        <div className="absolute inset-0 w-[50%] bg-white" />
+
+        {/* Right floating image */}
+        <div className="relative w-[65%] h-[100%] mr-2 mt-8 flex items-center justify-center transform transition-all duration-700 hover:scale-[1.05] animate-[fadeIn_1s_ease-out]">
           <img
             src={bgImage}
-            alt="Hero Background"
-            className="w-full h-full object-cover object-[center_25%]"
+            alt="Hero Features"
+            className="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)] animate-[float_6s_ease-in-out_infinite]"
           />
-          {/* Soft left-edge blend */}
-          <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent" />
         </div>
       </div>
 
@@ -38,10 +37,10 @@ const HeroBanner = () => {
       <div className="relative z-10 w-full h-full flex items-end sm:items-center container-custom pb-4 sm:pb-4 sm:pt-4">
         <div className="lg:max-w-xl md:max-w-2xl max-w-full animate-slide-up text-left">
           {/* Badge */}
-          <span className="badge-yellow mb-2 inline-block">Premium Electronics & Electricals</span>
+          <span className="badge-yellow mb-2 inline-block">Premium Electronics</span>
 
           {/* Headline */}
-          <h1 className="text-[24px] leading-[1.1] md:text-7xl font-display font-bold mb-4 text-gray-900 uppercase">
+          <h1 className="text-[24px] leading-[1.1] md:text-7xl font-display font-bold mb-4 text-[#DC143C] uppercase">
             SL SHOPEE
           </h1>
 

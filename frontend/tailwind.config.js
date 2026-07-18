@@ -27,8 +27,10 @@ export default {
         'valentine-darkRed': '#be123c',
         'valentine-pink': '#fb7185',
         'valentine-rose': '#ffe4e6',
-        'orange-primary': '#f97316',
-        'orange-hover': '#ea580c',
+        'orange-primary': '#FF5722',   /* Ember */
+        'orange-hover': '#E25822',
+        charcoal: '#36454F',
+        ember: '#FF5722',
       },
       fontFamily: {
         sans: ['Outfit', 'Inter', 'sans-serif'],
