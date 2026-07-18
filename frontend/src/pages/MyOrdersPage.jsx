@@ -82,7 +82,7 @@ const ProductReviewForm = ({ productId, productName }) => {
         <CheckCircle className="w-4 h-4" />
         <span>You reviewed this product</span>
         <div className="flex ml-1">
-          {[1,2,3,4,5].map(s => (
+          {[1, 2, 3, 4, 5].map(s => (
             <Star key={s} className={`w-3 h-3 ${s <= (existingReview?.rating || 0) ? 'fill-[#F7D060] text-[#F7D060]' : 'text-gray-200'}`} />
           ))}
         </div>
@@ -106,7 +106,7 @@ const ProductReviewForm = ({ productId, productName }) => {
           <p className="text-xs font-bold text-gray-700 mb-3">Review: {productName}</p>
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="flex gap-1">
-              {[1,2,3,4,5].map(s => (
+              {[1, 2, 3, 4, 5].map(s => (
                 <button
                   key={s}
                   type="button"
@@ -238,7 +238,7 @@ const MyOrdersPage = () => {
     if (!dateString) return 'N/A';
     const date = new Date(dateString);
     if (isNaN(date.getTime())) return 'N/A';
-    
+
     const day = String(date.getDate()).padStart(2, '0');
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const month = monthNames[date.getMonth()];
@@ -247,7 +247,7 @@ const MyOrdersPage = () => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     const ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12 || 12;
-    
+
     return `${day}-${month}-${year} ${hours}:${minutes}${ampm}`;
   };
 
@@ -267,41 +267,37 @@ const MyOrdersPage = () => {
           <div className="flex flex-wrap gap-2 py-4">
             <button
               onClick={() => setFilter('all')}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                filter === 'all'
+              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${filter === 'all'
                   ? 'bg-valentine-red text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               All Orders ({orders.length})
             </button>
             <button
               onClick={() => setFilter('pending')}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                filter === 'pending'
+              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${filter === 'pending'
                   ? 'bg-valentine-red text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               Pending ({orders.filter(o => o.status?.toLowerCase() === 'pending').length})
             </button>
             <button
               onClick={() => setFilter('completed')}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                filter === 'completed'
+              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${filter === 'completed'
                   ? 'bg-valentine-red text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               Completed ({orders.filter(o => o.status?.toLowerCase() === 'completed').length})
             </button>
             <button
               onClick={() => setFilter('cancelled')}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                filter === 'cancelled'
+              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${filter === 'cancelled'
                   ? 'bg-valentine-red text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               Cancelled ({orders.filter(o => o.status?.toLowerCase() === 'cancelled').length})
             </button>
@@ -318,7 +314,7 @@ const MyOrdersPage = () => {
             <ShoppingBag className="w-24 h-24 mx-auto text-gray-300 mb-4" />
             <h2 className="text-2xl font-bold mb-2">No Orders Found</h2>
             <p className="text-gray-600 mb-6">
-              {filter === 'all' 
+              {filter === 'all'
                 ? "You haven't placed any successful orders yet. Complete your payment to see orders here."
                 : `You don't have any ${filter} orders with successful payment.`}
             </p>
@@ -376,11 +372,11 @@ const MyOrdersPage = () => {
                                 item.product_image?.startsWith('http')
                                   ? item.product_image
                                   : (item.product_image || item.product_image_url || item.image_url
-                                      ? fullUrl(item.product_image || item.product_image_url || item.image_url)
-                                      : '/images/image.png')
+                                    ? fullUrl(item.product_image || item.product_image_url || item.image_url)
+                                    : '/images/image.png')
                               }
                               alt={item.product_name}
-                              className="w-20 h-20 object-cover rounded-lg flex-shrink-0"
+                              className="w-20 h-20 object-contain bg-gray-50 rounded-lg flex-shrink-0"
                             />
                             <div className="flex-1">
                               <h4 className="font-semibold">{item.product_name}</h4>

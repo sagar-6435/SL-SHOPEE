@@ -311,7 +311,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus }) => {
                           <img
                             src={item.product_image?.startsWith('http') ? item.product_image : fullUrl(item.product_image)}
                             alt={item.product_name}
-                            className="w-20 h-20 object-cover rounded border"
+                            className="w-20 h-20 object-contain rounded border"
                           />
                         )}
                         <div>
@@ -351,7 +351,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus }) => {
                                   <img
                                     src={img && img.startsWith('http') ? img : fullUrl(img)}
                                     alt={`Customer upload ${imgIndex + 1}`}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                                    className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-200"
                                   />
                                 </div>
                                 <button
@@ -401,7 +401,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus }) => {
                                         : fullUrl(designs[item._id || item.id].admin_designed_image)
                                     }
                                     alt="Admin designed upload"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-contain"
                                   />
                                 </div>
                                 <button

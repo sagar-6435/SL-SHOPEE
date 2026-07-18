@@ -14,7 +14,7 @@ const ProfilePage = () => {
   const { user, isAuthenticated, login, logout } = useAuth();
   const { cart, removeFromCart, updateQuantity, getCartSubtotal } = useCart();
   const { wishlist, removeFromWishlist } = useWishlist();
-  
+
   const [activeTab, setActiveTab] = useState('profile');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
@@ -36,7 +36,7 @@ const ProfilePage = () => {
       navigate('/login', { state: { from: { pathname: '/profile' } } });
       return;
     }
-    
+
     // Set initial tab from URL if present
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab');
@@ -69,7 +69,7 @@ const ProfilePage = () => {
         const data = await response.json();
         const fetchedOrders = data.orders || [];
         setOrders(fetchedOrders);
-        
+
         // Fetch designs for customized items
         fetchedOrders.forEach(order => {
           order.items?.forEach(async (item) => {
@@ -155,7 +155,7 @@ const ProfilePage = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-6">
             <div className="hidden sm:flex items-center gap-4 bg-white p-3 pr-8 rounded-full shadow-sm border border-gray-100">
               <div className="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center text-[var(--color-primary)]">
@@ -265,6 +265,11 @@ const ProfilePage = () => {
                         <div>
                           <p className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">ORDER ID</p>
                           <p className="font-display font-bold text-xl text-gray-900">#{order.id || order._id}</p>
+                          {order.items?.length > 0 && (
+                            <p className="text-sm font-body text-gray-500 mt-1 max-w-[250px] md:max-w-xs truncate" title={order.items.map(item => item.product_name).join(', ')}>
+                              {order.items.map(item => item.product_name).join(', ')}
+                            </p>
+                          )}
                         </div>
                         <div className="flex items-center gap-6 sm:gap-12 flex-wrap">
                           <div>
@@ -279,11 +284,10 @@ const ProfilePage = () => {
                               ₹{parseFloat(order.total || 0).toLocaleString()}
                             </p>
                           </div>
-                          <div className={`px-4 py-1.5 rounded-full text-[10px] font-body font-bold uppercase tracking-widest ${
-                            (order.order_status || order.status) === 'delivered' 
-                              ? 'bg-green-100 text-green-700' 
+                          <div className={`px-4 py-1.5 rounded-full text-[10px] font-body font-bold uppercase tracking-widest ${(order.order_status || order.status) === 'delivered'
+                              ? 'bg-green-100 text-green-700'
                               : 'bg-yellow-100 text-yellow-700'
-                          }`}>
+                            }`}>
                             {order.order_status || order.status || 'Pending'}
                           </div>
                         </div>
@@ -292,18 +296,18 @@ const ProfilePage = () => {
                         <div className="flex -space-x-4">
                           {order.items?.slice(0, 4).map((item, i) => {
                             const designImg = designs[item._id || item.id]?.admin_designed_image;
-                            const imageSrc = designImg 
+                            const imageSrc = designImg
                               ? (designImg.startsWith('http') ? designImg : fullUrl(designImg))
-                              : (item.product_image?.startsWith('http') 
-                                  ? item.product_image 
-                                  : (item.product_image ? fullUrl(item.product_image) : '/images/image.png'));
+                              : (item.product_image?.startsWith('http')
+                                ? item.product_image
+                                : (item.product_image ? fullUrl(item.product_image) : '/images/image.png'));
 
                             return (
-                              <img 
-                                key={i} 
-                                src={imageSrc} 
-                                className={`w-12 h-12 rounded-full border-2 ${designImg ? 'border-[var(--color-primary)]' : 'border-white'} object-cover shadow-sm relative z-[${10 - i}]`} 
-                                alt={item.product_name || "Product"} 
+                              <img
+                                key={i}
+                                src={imageSrc}
+                                className={`w-12 h-12 rounded-full border-2 ${designImg ? 'border-[var(--color-primary)]' : 'border-white'} object-cover shadow-sm relative z-[${10 - i}]`}
+                                alt={item.product_name || "Product"}
                                 title={designImg ? "Admin Designed Image" : ""}
                               />
                             );

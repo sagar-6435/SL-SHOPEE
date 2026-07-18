@@ -322,10 +322,10 @@ const OrderDetailPage = () => {
                   {getStatusSteps().map((step, index) => (
                     <div key={index} className="flex flex-col items-center flex-1">
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${step.status === 'completed'
-                          ? 'bg-green-500 text-white'
-                          : step.status === 'current'
-                            ? 'bg-yellow-500 text-white'
-                            : 'bg-gray-200 text-gray-500'
+                        ? 'bg-green-500 text-white'
+                        : step.status === 'current'
+                          ? 'bg-yellow-500 text-white'
+                          : 'bg-gray-200 text-gray-500'
                         }`}>
                         {step.status === 'completed' ? (
                           <CheckCircle className="w-6 h-6" />
@@ -366,7 +366,7 @@ const OrderDetailPage = () => {
                               : '/images/image.png')
                         }
                         alt={item.product_name}
-                        className="w-24 h-24 object-cover rounded-lg flex-shrink-0"
+                        className="w-24 h-24 object-contain bg-gray-50 rounded-lg flex-shrink-0"
                       />
                       <div className="flex-1">
                         <h3 className="font-bold text-lg">{item.product_name}</h3>
