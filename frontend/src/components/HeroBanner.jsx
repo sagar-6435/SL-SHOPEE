@@ -9,11 +9,11 @@ const HeroBanner = () => {
   return (
     <section className="relative w-full h-[60vh] overflow-hidden">
       {/* === MOBILE / TABLET: image centered  === */}
-      <div className="absolute inset-0 lg:hidden z-0 flex items-start justify-center pt-8">
+      <div className="absolute inset-0 lg:hidden z-0 flex items-start justify-center pt-0">
         <img
           src={bgImage}
           alt="Hero Background"
-          className="w-[100%] h-[75%] object-contain filter drop-shadow-xl animate-[float_6s_ease-in-out_infinite]"
+          className="w-[100%] h-[95%] scale-[1.3] -translate-y-32 origin-top object-contain filter drop-shadow-xl"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-white/10 pointer-events-none" />
       </div>
@@ -24,11 +24,11 @@ const HeroBanner = () => {
         <div className="absolute inset-0 w-[50%] bg-white" />
 
         {/* Right floating image */}
-        <div className="relative w-[65%] h-[100%] mr-2 mt-8 flex items-center justify-center transform transition-all duration-700 hover:scale-[1.05] animate-[fadeIn_1s_ease-out]">
+        <div className="relative w-[70%] h-[80%] mr-[-5%] translate-x-12 flex items-center justify-center transform transition-all duration-700 hover:scale-[1.1] animate-[fadeIn_1s_ease-out]">
           <img
             src={bgImage}
             alt="Hero Features"
-            className="w-full h-full object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)] animate-[float_6s_ease-in-out_infinite]"
+            className="w-full h-full scale-[1.25] object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)]"
           />
         </div>
       </div>

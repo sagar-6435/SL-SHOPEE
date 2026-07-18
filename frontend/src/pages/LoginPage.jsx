@@ -40,20 +40,20 @@ const LoginPage = () => {
       const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          identifier: formData.emailOrPhone, 
-          email: formData.emailOrPhone, 
-          password: formData.password 
+        body: JSON.stringify({
+          identifier: formData.emailOrPhone,
+          email: formData.emailOrPhone,
+          password: formData.password
         })
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Login failed');
-      
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       const userData = { id: data.user.id, email: data.user.email, fullName: data.user.name, role: data.user.role, token: data.token };
       login(userData);
-      
+
       if (data.user.role === 'admin') {
         navigate('/admin/dashboard', { replace: true });
       } else {
@@ -70,8 +70,8 @@ const LoginPage = () => {
     <div className="min-h-screen bg-white flex flex-col lg:flex-row">
       {/* Visual Side */}
       <div className="hidden lg:flex lg:flex-1 relative bg-gray-900 overflow-hidden">
-        <img 
-          src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=2000&auto=format&fit=crop" 
+        <img
+          src="/login_bg.png"
           className="absolute inset-0 w-full h-full object-cover opacity-60"
           alt="Studio Background"
         />
@@ -81,7 +81,7 @@ const LoginPage = () => {
               <img src="/logo.png" className="h-12 w-auto invert brightness-0" alt="Logo" />
             </Link>
           </div>
-          
+
           <div>
             <h2 className="text-6xl font-display font-bold text-white mb-8 leading-tight">
               Capture <span className="italic font-serif font-medium text-purple-300">Moments</span>,<br />
@@ -158,8 +158,8 @@ const LoginPage = () => {
                     className="w-full bg-white border border-gray-100 rounded-2xl p-4 pl-12 pr-12 font-body text-sm text-gray-700 focus:ring-4 focus:ring-purple-100 focus:border-[var(--color-primary)] transition-all outline-none"
                     placeholder="••••••••"
                   />
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-900 transition-colors"
                   >
@@ -170,12 +170,12 @@ const LoginPage = () => {
             </div>
 
             <div className="flex items-center gap-3 px-4">
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 name="rememberMe"
                 checked={formData.rememberMe}
                 onChange={handleChange}
-                className="w-4 h-4 rounded border-gray-300 text-[var(--color-primary)] focus:ring-[var(--color-primary)]" 
+                className="w-4 h-4 rounded border-gray-300 text-[var(--color-primary)] focus:ring-[var(--color-primary)]"
               />
               <span className="text-xs font-body text-gray-400">Remember me for 30 days</span>
             </div>

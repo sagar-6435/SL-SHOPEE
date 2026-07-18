@@ -64,11 +64,11 @@ const SignUpPage = () => {
           name: formData.fullName,
           phone: formData.phone,
           address: {
-            line1:    formData.address_line1,
+            line1: formData.address_line1,
             landmark: formData.address_landmark,
-            city:     formData.address_city,
-            state:    formData.address_state,
-            pincode:  formData.address_pincode,
+            city: formData.address_city,
+            state: formData.address_state,
+            pincode: formData.address_pincode,
           },
         }),
       });
@@ -94,7 +94,7 @@ const SignUpPage = () => {
       {/* Visual Side */}
       <div className="hidden lg:flex lg:flex-1 relative bg-gray-900 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?q=80&w=2000&auto=format&fit=crop"
+          src="/signup_bg.png"
           className="absolute inset-0 w-full h-full object-cover opacity-60"
           alt="Studio Equipment"
         />
@@ -105,7 +105,7 @@ const SignUpPage = () => {
               Begin Your <span className="italic font-serif font-medium text-purple-300">Creative</span><br />Journey With Us.
             </h2>
             <div className="space-y-6">
-              {["Exclusive access to private galleries","Priority booking for studio sessions","Curated gift selections & offers","Seamless order tracking"].map((b, i) => (
+              {["Exclusive access to private galleries", "Priority booking for studio sessions", "Curated gift selections & offers", "Seamless order tracking"].map((b, i) => (
                 <div key={i} className="flex items-center gap-3 text-gray-200 font-body">
                   <CheckCircle2 className="w-5 h-5 text-purple-400" /><span>{b}</span>
                 </div>
