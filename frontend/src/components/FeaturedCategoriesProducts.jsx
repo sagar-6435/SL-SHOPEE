@@ -42,7 +42,7 @@ const FeaturedCategoriesProducts = () => {
     const scroll = (direction) => {
         const container = scrollContainerRef.current;
         if (container) {
-            const scrollAmount = direction === 'left' ? -350 : 350;
+            const scrollAmount = direction === 'left' ? -240 : 240;
             container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
     };
@@ -86,7 +86,7 @@ const FeaturedCategoriesProducts = () => {
                     {/* Scrollable Track */}
                     <div
                         ref={scrollContainerRef}
-                        className="flex overflow-x-auto gap-6 sm:gap-8 snap-x snap-mandatory pb-8 pt-4 custom-scrollbar-hide"
+                        className="flex overflow-x-auto gap-4 sm:gap-6 snap-x snap-mandatory pb-8 pt-4 custom-scrollbar-hide"
                         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                     >
                         <style dangerouslySetInnerHTML={{
@@ -96,7 +96,7 @@ const FeaturedCategoriesProducts = () => {
                         {products.map((product, index) => (
                             <div
                                 key={product.id || index}
-                                className="animate-slide-up flex-shrink-0 w-[280px] sm:w-[320px] snap-center sm:snap-start"
+                                className="animate-slide-up flex-shrink-0 w-[180px] sm:w-[220px] snap-center sm:snap-start"
                                 style={{ animationDelay: `${index * 0.1}s` }}
                             >
                                 <ProductCard product={product} showWishlist={true} />
