@@ -133,7 +133,7 @@ if (frontendPath) {
 }
 
 // Health check
-app.get('/health', async (req, res) => {
+app.get(['/health', '/api/health'], async (req, res) => {
   const mongoose = await import('mongoose');
   const dbState = mongoose.default.connection.readyState;
   const dbStatus = dbState === 1 ? 'connected' : 'disconnected';
