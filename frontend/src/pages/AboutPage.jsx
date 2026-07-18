@@ -31,7 +31,7 @@ const AboutPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const message = `New Inquiry from Contact Form!\n\nName: ${formData.name}\nEmail: ${formData.email}\nSubject: ${formData.subject}\nMessage: ${formData.message}`;
-    const whatsappUrl = `https://wa.me/919492686421?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 
@@ -115,7 +115,7 @@ const AboutPage = () => {
                     <label className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest ml-4">Your Name</label>
                     <input
                       type="text"
-                      placeholder="John Doe"
+                      placeholder="Full Name"
                       required
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -126,7 +126,7 @@ const AboutPage = () => {
                     <label className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest ml-4">Email Address</label>
                     <input
                       type="email"
-                      placeholder="john@example.com"
+                      placeholder="user@example.com"
                       required
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -177,7 +177,13 @@ const AboutPage = () => {
                     <div>
                       <h5 className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">Our Location</h5>
                       <p className="text-sm font-body text-gray-700 leading-relaxed">
-                        Police Bomma Road, Bhimavaram,<br />Andhra Pradesh 534204
+                        <ol>
+                          <li>1. Achampeta</li>
+                          <li>2. Peddapuram</li>
+                          <li>3. Pithapuram</li>
+                          <li>4. Gollaprolu</li>
+                          <li>5. Kathipudi</li>
+                        </ol><br />Andhra Pradesh 534204
                       </p>
                     </div>
                   </div>
@@ -187,7 +193,7 @@ const AboutPage = () => {
                     </div>
                     <div>
                       <h5 className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">Phone Number</h5>
-                      <p className="text-sm font-body text-gray-700 leading-relaxed">+91 94926 86421</p>
+                      <p className="text-sm font-body text-gray-700 leading-relaxed">+91 98765 43210</p>
                     </div>
                   </div>
                   <div className="flex gap-6">
@@ -196,7 +202,7 @@ const AboutPage = () => {
                     </div>
                     <div>
                       <h5 className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">Email</h5>
-                      <p className="text-sm font-body text-gray-700">hello@slshopee.digital</p>
+                      <p className="text-sm font-body text-gray-700">contact@slshopee.digital</p>
                     </div>
                   </div>
                 </div>
@@ -204,7 +210,7 @@ const AboutPage = () => {
                 <div className="mt-12 pt-12 border-t border-gray-200">
                   <h5 className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-6">Connect with us</h5>
                   <div className="flex gap-4">
-                    <a href="#" className="w-12 h-12 bg-gray-900 text-white rounded-xl flex items-center justify-center hover:bg-black transition-all">
+                    <a href="https://www.instagram.com/sl_shopee_kathipudi/" className="w-12 h-12 bg-gray-900 text-white rounded-xl flex items-center justify-center hover:bg-black transition-all">
                       <Instagram className="w-5 h-5" />
                     </a>
                     <a href="#" className="w-12 h-12 bg-gray-900 text-white rounded-xl flex items-center justify-center hover:bg-black transition-all">
