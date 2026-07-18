@@ -13,7 +13,7 @@ const HeroBanner = () => {
         <img
           src={bgImage}
           alt="Hero Background"
-          className="w-[100%] h-[95%] scale-[1.3] -translate-y-32 origin-top object-contain filter drop-shadow-xl"
+          className="w-[100%] h-[95%] scale-[1.3] -translate-y-36 origin-top object-contain filter drop-shadow-xl"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-white/10 pointer-events-none" />
       </div>
@@ -28,7 +28,7 @@ const HeroBanner = () => {
           <img
             src={bgImage}
             alt="Hero Features"
-            className="w-full h-full scale-[1.25] object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)]"
+            className="w-full h-full scale-[1.25] -translate-y-12 object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)]"
           />
         </div>
       </div>

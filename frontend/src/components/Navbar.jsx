@@ -538,7 +538,7 @@ const Navbar = () => {
                     <button onClick={handleLogout} className="text-lg font-body font-bold text-red-500 text-left">Sign Out</button>
                   </>
                 ) : (
-                  <Link to="/login" className="py-4 bg-gray-900 text-white rounded-2xl font-body font-bold text-sm uppercase tracking-widest text-center">Login to Studio</Link>
+                  <Link to="/login" className="py-4 bg-orange-500 text-white rounded-2xl font-body font-bold text-sm uppercase tracking-widest text-center">Login</Link>
                 )}
               </div>
             </div>
