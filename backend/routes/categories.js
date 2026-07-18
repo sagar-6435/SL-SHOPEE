@@ -26,7 +26,7 @@ router.post('/', authenticate, isAdmin, upload.single('image'), async (req, res)
     let image_public_id = null;
 
     if (req.file) {
-      const uploadResult = await uploadToCloudinary(req.file, 'categories');
+      const uploadResult = await uploadToCloudinary(req.file, 'category');
       image_url = uploadResult.url;
       image_public_id = uploadResult.publicId;
     }
@@ -68,9 +68,9 @@ router.put('/:id', authenticate, isAdmin, upload.single('image'), async (req, re
 
     if (req.file) {
       if (existing.image_public_id) {
-        try { await deleteFromCloudinary(existing.image_public_id); } catch (e) {}
+        try { await deleteFromCloudinary(existing.image_public_id); } catch (e) { }
       }
-      const uploadResult = await uploadToCloudinary(req.file, 'categories');
+      const uploadResult = await uploadToCloudinary(req.file, 'category');
       updates.image_url = uploadResult.url;
       updates.image_public_id = uploadResult.publicId;
     }
@@ -90,7 +90,7 @@ router.delete('/:id', authenticate, isAdmin, async (req, res) => {
     const { id } = req.params;
     const category = await Category.findById(id);
     if (category?.image_public_id) {
-      try { await deleteFromCloudinary(category.image_public_id); } catch (e) {}
+      try { await deleteFromCloudinary(category.image_public_id); } catch (e) { }
     }
     await Category.findByIdAndDelete(id);
     invalidateCache((key) => key.startsWith('/api/categories'));

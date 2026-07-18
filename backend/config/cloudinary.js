@@ -12,7 +12,7 @@ cloudinary.config({
 export const uploadToCloudinary = async (file, folder = 'products') => {
   try {
     const result = await cloudinary.uploader.upload(file.path, {
-      folder: `slshopee/${folder}`,
+      folder: `Home/slshopee/${folder}`,
       resource_type: 'auto',
       transformation: [
         { width: 1000, height: 1000, crop: 'limit' },
