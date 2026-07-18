@@ -10,6 +10,7 @@ const BranchManagement = () => {
         name: '',
         address: '',
         googleMapsLink: '',
+        instagramLink: '',
         isActive: true
     });
     const [editingId, setEditingId] = useState(null);
@@ -90,6 +91,7 @@ const BranchManagement = () => {
                 name: branch.name,
                 address: branch.address,
                 googleMapsLink: branch.googleMapsLink,
+                instagramLink: branch.instagramLink || '',
                 isActive: branch.isActive
             });
         } else {
@@ -98,6 +100,7 @@ const BranchManagement = () => {
                 name: '',
                 address: '',
                 googleMapsLink: '',
+                instagramLink: '',
                 isActive: true
             });
         }
@@ -250,6 +253,19 @@ const BranchManagement = () => {
                                     onChange={(e) => setFormData({ ...formData, googleMapsLink: e.target.value })}
                                     className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none"
                                     placeholder="https://maps.google.com/..."
+                                />
+                            </div>
+
+                            <div>
+                                <label className="text-xs font-bold text-gray-400 uppercase tracking-widest block mb-1.5 ml-1">
+                                    Instagram Link (Optional)
+                                </label>
+                                <input
+                                    type="url"
+                                    value={formData.instagramLink}
+                                    onChange={(e) => setFormData({ ...formData, instagramLink: e.target.value })}
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl p-3 text-sm focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] outline-none"
+                                    placeholder="https://instagram.com/..."
                                 />
                             </div>
 

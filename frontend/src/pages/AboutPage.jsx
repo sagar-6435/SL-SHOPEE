@@ -72,18 +72,32 @@ const AboutPage = () => {
                   <p className="text-sm text-gray-500 leading-relaxed font-body mb-6 flex-grow">
                     {branch.address}
                   </p>
-                  {branch.googleMapsLink && (
-                    <a
-                      href={branch.googleMapsLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title={`Get Directions to ${branch.name}`}
-                      className="inline-flex items-center gap-2 text-[10px] font-body font-bold text-gray-900 uppercase tracking-widest hover:gap-4 transition-all w-fit"
-                    >
-                      <span className="text-[var(--color-primary)]">Get Directions</span>
-                      <ExternalLink className="w-3.5 h-3.5 text-[var(--color-primary)]" />
-                    </a>
-                  )}
+                  <div className="flex flex-col gap-3">
+                    {branch.googleMapsLink && (
+                      <a
+                        href={branch.googleMapsLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={`Get Directions to ${branch.name}`}
+                        className="inline-flex items-center gap-2 text-[10px] font-body font-bold text-gray-900 uppercase tracking-widest hover:gap-4 transition-all w-fit"
+                      >
+                        <span className="text-[var(--color-primary)]">Get Directions</span>
+                        <ExternalLink className="w-3.5 h-3.5 text-[var(--color-primary)]" />
+                      </a>
+                    )}
+                    {branch.instagramLink && (
+                      <a
+                        href={branch.instagramLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        title={`Follow ${branch.name} on Instagram`}
+                        className="inline-flex items-center gap-2 text-[10px] font-body font-bold text-gray-900 uppercase tracking-widest hover:gap-4 transition-all w-fit"
+                      >
+                        <span className="text-pink-600">Instagram</span>
+                        <Instagram className="w-3.5 h-3.5 text-pink-600" />
+                      </a>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

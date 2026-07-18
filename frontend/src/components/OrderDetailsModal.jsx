@@ -175,25 +175,25 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus }) => {
     <div class="page">
       <div class="header">
         <div><div class="brand-name">SL SHOPEE</div><div class="brand-sub">Customised Gifts &amp; Photography</div>
-        <div class="brand-contact">🌐 slshopee.vercel.app<br>📞 +91 9876543210<br>📧 slshopee@gmail.com<br>📍 Bhimavaram, Andhra Pradesh, India</div></div>
+        <div class="brand-contact">🌐 slshopee.com<br>📞 +91 9876543210<br>📧 ${import.meta.env.VITE_BUSINESS_EMAIL || 'slshopee@gmail.com'}<br>📍 Bhimavaram, Andhra Pradesh, India</div></div>
         <div><div class="invoice-title">INVOICE</div><div class="invoice-num">${o.order_number}</div><div class="invoice-meta">Date: ${dateStr}</div>
-        <div class="invoice-meta" style="margin-top:6px;">Payment: <span class="badge">${(o.payment_status||'').toUpperCase()}</span></div></div>
+        <div class="invoice-meta" style="margin-top:6px;">Payment: <span class="badge">${(o.payment_status || '').toUpperCase()}</span></div></div>
       </div>
       <div class="section">
-        <div class="box"><div class="box-title">Bill To</div><p><strong>${o.customer_name}</strong></p><p>📞 ${o.customer_phone||'—'}</p><p>✉️ ${o.customer_email||'—'}</p></div>
-        <div class="box"><div class="box-title">Delivery Address</div><p>${address||'—'}</p></div>
-        <div class="box"><div class="box-title">Order Info</div><p><strong>Status:</strong> ${(o.order_status||'').toUpperCase()}</p><p><strong>Payment:</strong> ${(o.payment_method||'').toUpperCase()}</p>${o.razorpay_payment_id?`<p><strong>Txn ID:</strong> ${o.razorpay_payment_id}</p>`:''}</div>
+        <div class="box"><div class="box-title">Bill To</div><p><strong>${o.customer_name}</strong></p><p>📞 ${o.customer_phone || '—'}</p><p>✉️ ${o.customer_email || '—'}</p></div>
+        <div class="box"><div class="box-title">Delivery Address</div><p>${address || '—'}</p></div>
+        <div class="box"><div class="box-title">Order Info</div><p><strong>Status:</strong> ${(o.order_status || '').toUpperCase()}</p><p><strong>Payment:</strong> ${(o.payment_method || '').toUpperCase()}</p>${o.razorpay_payment_id ? `<p><strong>Txn ID:</strong> ${o.razorpay_payment_id}</p>` : ''}</div>
       </div>
       <table><thead><tr><th>#</th><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Unit Price</th><th style="text-align:right;">Amount</th></tr></thead>
-      <tbody>${itemsRows||'<tr><td colspan="5" style="padding:12px;text-align:center;color:#aaa;">No items</td></tr>'}</tbody></table>
+      <tbody>${itemsRows || '<tr><td colspan="5" style="padding:12px;text-align:center;color:#aaa;">No items</td></tr>'}</tbody></table>
       <div class="totals">
-        ${parseFloat(o.subtotal||0)>0?`<div class="totals-row"><span>Subtotal</span><span>₹${parseFloat(o.subtotal).toLocaleString('en-IN')}</span></div>`:''}
-        ${parseFloat(o.service_charge||0)>0?`<div class="totals-row"><span>Service Charge</span><span>₹${parseFloat(o.service_charge).toLocaleString('en-IN')}</span></div>`:''}
-        ${parseFloat(o.shipping_cost||0)>0?`<div class="totals-row"><span>Shipping</span><span>₹${parseFloat(o.shipping_cost).toLocaleString('en-IN')}</span></div>`:''}
-        ${parseFloat(o.discount||0)>0?`<div class="totals-row"><span>Discount</span><span>-₹${parseFloat(o.discount).toLocaleString('en-IN')}</span></div>`:''}
+        ${parseFloat(o.subtotal || 0) > 0 ? `<div class="totals-row"><span>Subtotal</span><span>₹${parseFloat(o.subtotal).toLocaleString('en-IN')}</span></div>` : ''}
+        ${parseFloat(o.service_charge || 0) > 0 ? `<div class="totals-row"><span>Service Charge</span><span>₹${parseFloat(o.service_charge).toLocaleString('en-IN')}</span></div>` : ''}
+        ${parseFloat(o.shipping_cost || 0) > 0 ? `<div class="totals-row"><span>Shipping</span><span>₹${parseFloat(o.shipping_cost).toLocaleString('en-IN')}</span></div>` : ''}
+        ${parseFloat(o.discount || 0) > 0 ? `<div class="totals-row"><span>Discount</span><span>-₹${parseFloat(o.discount).toLocaleString('en-IN')}</span></div>` : ''}
         <div class="totals-row grand"><span>Total</span><span>₹${parseFloat(o.total).toLocaleString('en-IN')}</span></div>
       </div>
-      <div class="footer">Thank you for shopping with SL SHOPEE! 💜 &nbsp;|&nbsp; slshopee.vercel.app &nbsp;|&nbsp; +91 98765 43210</div>
+      <div class="footer">Thank you for shopping with SL SHOPEE! 💜 &nbsp;|&nbsp; slshopee.com &nbsp;|&nbsp; +91 98765 43210</div>
     </div>
     <script>window.onload=()=>{window.print();}</script></body></html>`;
     const win = window.open('', '_blank');
@@ -308,10 +308,10 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus }) => {
                     <div className="bg-gray-50 p-4 flex items-start justify-between border-b">
                       <div className="flex items-start space-x-4">
                         {item.product_image && (
-                          <img 
+                          <img
                             src={item.product_image?.startsWith('http') ? item.product_image : fullUrl(item.product_image)}
-                            alt={item.product_name} 
-                            className="w-20 h-20 object-cover rounded border" 
+                            alt={item.product_name}
+                            className="w-20 h-20 object-cover rounded border"
                           />
                         )}
                         <div>
@@ -377,13 +377,12 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus }) => {
                           <div className="space-y-3">
                             <div className="flex flex-wrap items-center justify-between gap-2">
                               <span className="text-xs text-gray-600 font-semibold uppercase">Status:</span>
-                              <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                                designs[item._id || item.id].status === 'approved'
-                                  ? 'bg-green-100 text-green-800 border border-green-200'
-                                  : designs[item._id || item.id].status === 'revision_requested'
+                              <span className={`px-3 py-1 rounded-full text-xs font-bold ${designs[item._id || item.id].status === 'approved'
+                                ? 'bg-green-100 text-green-800 border border-green-200'
+                                : designs[item._id || item.id].status === 'revision_requested'
                                   ? 'bg-red-100 text-red-800 border border-red-200'
                                   : 'bg-yellow-100 text-yellow-800 border border-yellow-200'
-                              }`}>
+                                }`}>
                                 {designs[item._id || item.id].status === 'approved' && '✅ Approved'}
                                 {designs[item._id || item.id].status === 'revision_requested' && '❌ Revision Requested'}
                                 {designs[item._id || item.id].status === 'pending_approval' && '⏳ Pending Customer Approval'}
@@ -517,7 +516,7 @@ const OrderDetailsModal = ({ order, onClose, onUpdateStatus }) => {
                   <span className="text-gray-700">Order Type:</span>
                   <span className="font-semibold text-gray-900">{(updatedOrder.order_type || 'online').toUpperCase()}</span>
                 </div>
-                
+
                 {/* Status Update Section */}
                 <div className="border-t pt-3 mt-3">
                   <p className="text-xs text-gray-600 font-semibold uppercase mb-2">Update Status</p>

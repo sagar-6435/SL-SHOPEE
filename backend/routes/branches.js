@@ -44,8 +44,8 @@ router.get('/admin', authenticate, isAdmin, async (req, res) => {
 // @access  Private/Admin
 router.post('/', authenticate, isAdmin, async (req, res) => {
     try {
-        const { name, address, googleMapsLink, isActive } = req.body;
-        const branch = new Branch({ name, address, googleMapsLink, isActive });
+        const { name, address, googleMapsLink, instagramLink, isActive } = req.body;
+        const branch = new Branch({ name, address, googleMapsLink, instagramLink, isActive });
         const createdBranch = await branch.save();
         res.status(201).json(createdBranch);
     } catch (error) {
@@ -58,13 +58,14 @@ router.post('/', authenticate, isAdmin, async (req, res) => {
 // @access  Private/Admin
 router.put('/:id', authenticate, isAdmin, async (req, res) => {
     try {
-        const { name, address, googleMapsLink, isActive } = req.body;
+        const { name, address, googleMapsLink, instagramLink, isActive } = req.body;
         const branch = await Branch.findById(req.params.id);
 
         if (branch) {
             branch.name = name || branch.name;
             branch.address = address || branch.address;
             branch.googleMapsLink = googleMapsLink || branch.googleMapsLink;
+            if (instagramLink !== undefined) branch.instagramLink = instagramLink;
             if (isActive !== undefined) branch.isActive = isActive;
 
             const updatedBranch = await branch.save();

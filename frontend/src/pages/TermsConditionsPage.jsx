@@ -241,7 +241,7 @@ const TermsConditionsPage = () => {
               <p>For questions about these Terms and Conditions, contact us:</p>
               <div className="space-y-1">
                 <p><strong>Business Name:</strong> SL SHOPEE</p>
-                <p><strong>Email:</strong> <a href="mailto:slshopeephotoplanet9@gmail.com" className="text-valentine-red hover:underline">slshopeephotoplanet9@gmail.com</a></p>
+                <p><strong>Email:</strong> <a href={`mailto:${import.meta.env.VITE_BUSINESS_EMAIL || 'slshopeephotoplanet9@gmail.com'}`} className="text-valentine-red hover:underline">{import.meta.env.VITE_BUSINESS_EMAIL || 'slshopeephotoplanet9@gmail.com'}</a></p>
                 <p><strong>Phone:</strong> <a href="tel:+919876543210" className="text-valentine-red hover:underline">+91 98765 43210</a></p>
                 <p><strong>Address:</strong> 123 Main Street, City Center, Your City, State - 123456, India</p>
               </div>

@@ -14,6 +14,10 @@ const branchSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Google Maps link is required'],
     },
+    instagramLink: {
+        type: String,
+        default: '',
+    },
     isActive: {
         type: Boolean,
         default: true,
