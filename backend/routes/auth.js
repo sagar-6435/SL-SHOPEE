@@ -8,6 +8,7 @@ import OTP from '../models/OTP.js';
 import { sendOTPEmail, sendWelcomeEmail, isEmailConfigured } from '../config/email.js';
 
 const router = express.Router();
+const SECRET = process.env.JWT_SECRET || 'fallback_production_secret_key';
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -77,7 +78,7 @@ router.post('/register',
 
       const token = jwt.sign(
         { id: user._id, email: user.email, role: user.role, name: user.name },
-        process.env.JWT_SECRET,
+        SECRET,
         { expiresIn: '7d' }
       );
 
@@ -124,7 +125,7 @@ router.post('/login',
 
       const token = jwt.sign(
         { id: user._id, email: user.email, role: user.role, name: user.name },
-        process.env.JWT_SECRET || 'fallback_production_secret_key',
+        SECRET || 'fallback_production_secret_key',
         { expiresIn: '7d' }
       );
 
@@ -237,7 +238,7 @@ router.get('/profile', async (req, res) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ error: 'No token provided' });
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, SECRET);
     const user = await User.findById(decoded.id).select('-password');
 
     if (!user) return res.status(404).json({ error: 'User not found' });
@@ -263,7 +264,7 @@ router.put('/profile',
       const token = req.headers.authorization?.split(' ')[1];
       if (!token) return res.status(401).json({ error: 'No token provided' });
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, SECRET);
       const { name, phone, address } = req.body;
 
       const updates = { name, phone };
@@ -299,7 +300,7 @@ router.put('/change-password',
       const token = req.headers.authorization?.split(' ')[1];
       if (!token) return res.status(401).json({ error: 'No token provided' });
 
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const decoded = jwt.verify(token, SECRET);
       const { currentPassword, newPassword } = req.body;
 
       const user = await User.findById(decoded.id);
