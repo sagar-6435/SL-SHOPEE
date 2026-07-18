@@ -37,7 +37,7 @@ const SimpleProductCard = ({ product, onClick }) => {
         </p>
         
         <div className="mt-auto flex items-center justify-between gap-1">
-          <p className="font-display font-bold text-sm text-[var(--color-primary)]">
+          <p className="font-sans font-bold text-sm text-[var(--color-primary)]">
             ₹{Math.round(product.price)}
           </p>
           <button

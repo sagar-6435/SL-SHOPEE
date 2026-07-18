@@ -165,7 +165,7 @@ const CheckoutPage = () => {
                       <h4 className="text-sm font-body font-bold text-gray-900 leading-tight mb-1">{item.name}</h4>
                       <div className="flex justify-between items-center">
                         <span className="text-[10px] text-gray-400 font-body uppercase tracking-widest">Qty: {item.quantity}</span>
-                        <span className="text-sm font-display font-bold text-gray-900">₹{item.price * item.quantity}</span>
+                        <span className="text-sm font-sans font-bold text-gray-900">₹{item.price * item.quantity}</span>
                       </div>
                     </div>
                   </div>
@@ -185,7 +185,7 @@ const CheckoutPage = () => {
                   <span>Shipping</span>
                   <span className="text-green-600 font-bold">FREE</span>
                 </div>
-                <div className="flex justify-between text-gray-900 font-display font-bold text-2xl pt-4">
+                <div className="flex justify-between text-gray-900 font-sans font-bold text-2xl pt-4">
                   <span>Total</span>
                   <span>₹{getFinalTotal()}</span>
                 </div>

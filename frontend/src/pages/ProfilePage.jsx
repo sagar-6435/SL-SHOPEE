@@ -275,7 +275,7 @@ const ProfilePage = () => {
                           </div>
                           <div>
                             <p className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">TOTAL</p>
-                            <p className="font-display font-bold text-xl text-[var(--color-primary)]">
+                            <p className="font-sans font-bold text-xl text-[var(--color-primary)]">
                               ₹{parseFloat(order.total || 0).toLocaleString()}
                             </p>
                           </div>
@@ -348,7 +348,7 @@ const ProfilePage = () => {
                                 <h4 className="text-xl font-display font-bold text-gray-900 mb-2">{item.name}</h4>
                                 <p className="text-xs text-gray-400 font-body">Custom Handmade Gift</p>
                               </div>
-                              <span className="text-xl font-display font-bold text-gray-900">₹{(item.price || 0) * (item.quantity || 1)}</span>
+                              <span className="text-xl font-sans font-bold text-gray-900">₹{(item.price || 0) * (item.quantity || 1)}</span>
                             </div>
                             <div className="flex items-center justify-between">
                               <div className="flex items-center bg-gray-50 rounded-full px-4 py-1.5 gap-4">
@@ -364,14 +364,14 @@ const ProfilePage = () => {
                     </div>
                   </div>
                   <div className="bg-white rounded-[40px] border border-gray-100 p-10 h-fit sticky top-32">
-                    <h3 className="text-2xl font-display font-bold text-gray-900 mb-8">Summary</h3>
+                    <h3 className="text-2xl font-sans font-bold text-gray-900 mb-8">Summary</h3>
                     <div className="space-y-4 mb-8">
                       <div className="flex justify-between text-sm font-body text-gray-500"><span>Subtotal</span><span className="text-gray-900 font-bold">₹{subtotal}</span></div>
                       <div className="flex justify-between text-sm font-body text-gray-500"><span>Estimated Tax</span><span className="text-gray-900 font-bold">₹{tax}</span></div>
                     </div>
                     <div className="pt-6 border-t border-gray-50 mb-8">
                       <p className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">TOTAL TO PAY</p>
-                      <p className="text-4xl font-display font-bold text-[var(--color-primary)]">₹{grandTotal}</p>
+                      <p className="text-4xl font-sans font-bold text-[var(--color-primary)]">₹{grandTotal}</p>
                     </div>
                     <button onClick={() => navigate('/payment')} className="w-full py-5 bg-[var(--color-primary)] text-white rounded-2xl font-body font-bold text-sm uppercase tracking-widest hover:shadow-xl transition-all">Proceed to Checkout</button>
                   </div>
@@ -398,8 +398,8 @@ const ProfilePage = () => {
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
-                    <h4 className="text-xl font-display font-bold text-gray-900 mb-1">{item.name}</h4>
-                    <p className="text-lg font-display font-bold text-[var(--color-primary)] mb-6">₹{item.price}</p>
+                    <h4 className="text-xl font-sans font-bold text-gray-900 mb-1">{item.name}</h4>
+                    <p className="text-lg font-sans font-bold text-[var(--color-primary)] mb-6">₹{item.price}</p>
                     <button onClick={() => navigate(`/product/${item.id}`)} className="w-full py-4 bg-gray-900 text-white rounded-2xl font-body font-bold text-xs uppercase tracking-widest hover:bg-[var(--color-primary)] transition-all">View & Personalize</button>
                   </div>
                 ))

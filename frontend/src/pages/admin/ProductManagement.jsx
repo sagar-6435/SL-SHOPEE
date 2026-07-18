@@ -26,6 +26,7 @@ const ProductManagement = () => {
     is_active: true,
     material: '',
     sizes: [],
+    features: [],
     customization_options: {
       imageUpload: false,
       textInput: [],
@@ -54,7 +55,7 @@ const ProductManagement = () => {
       window.location.href = '/login';
       return;
     }
-    
+
     fetchProducts();
     fetchCategories();
   }, []);
@@ -207,12 +208,12 @@ const ProductManagement = () => {
         : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/products`;
 
       const formDataToSend = new FormData();
-      
+
       // Append all form fields
       Object.keys(formData).forEach(key => {
         if (key === 'customization_options') {
           formDataToSend.append(key, JSON.stringify(formData[key]));
-        } else if (key === 'sizes') {
+        } else if (key === 'sizes' || key === 'features') {
           formDataToSend.append(key, JSON.stringify(formData[key]));
         } else {
           formDataToSend.append(key, formData[key]);
@@ -306,7 +307,7 @@ const ProductManagement = () => {
       if (response.ok) {
         const result = await response.json();
         fetchProducts();
-        
+
         if (result.deactivated) {
           alert('Product deactivated successfully!\n\nNote: This product exists in orders and cannot be permanently deleted. It has been deactivated instead.');
         } else {
@@ -325,8 +326,8 @@ const ProductManagement = () => {
 
   const handleEdit = (product) => {
     setEditingProduct(product);
-    const pCatId = typeof product.category_id === 'object' && product.category_id !== null 
-      ? (product.category_id._id || product.category_id.id) 
+    const pCatId = typeof product.category_id === 'object' && product.category_id !== null
+      ? (product.category_id._id || product.category_id.id)
       : product.category_id;
 
     setFormData({
@@ -342,6 +343,7 @@ const ProductManagement = () => {
       is_active: product.is_active ?? true,
       material: product.material || '',
       sizes: product.sizes || [],
+      features: product.features || [],
       customization_options: product.customization_options || {
         imageUpload: false,
         textInput: [],
@@ -393,6 +395,7 @@ const ProductManagement = () => {
       is_active: true,
       material: '',
       sizes: [],
+      features: [],
       customization_options: {
         imageUpload: false,
         textInput: [],
@@ -403,21 +406,21 @@ const ProductManagement = () => {
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
-    
-    const matchesType = 
+
+    const matchesType =
       filterType === 'all' ? true :
-      filterType === 'trending' ? product.valentine_special === true :
-      filterType === 'special_offers' ? product.special_offer === true :
-      filterType === 'regular' ? !product.valentine_special && !product.special_offer : true;
-      
-    const pCatId = typeof product.category_id === 'object' && product.category_id !== null 
-      ? (product.category_id._id || product.category_id.id) 
+        filterType === 'trending' ? product.valentine_special === true :
+          filterType === 'special_offers' ? product.special_offer === true :
+            filterType === 'regular' ? !product.valentine_special && !product.special_offer : true;
+
+    const pCatId = typeof product.category_id === 'object' && product.category_id !== null
+      ? (product.category_id._id || product.category_id.id)
       : product.category_id;
 
-    const matchesCategory = 
+    const matchesCategory =
       filterCategory === 'all' ? true :
-      pCatId && pCatId.toString() === filterCategory;
-    
+        pCatId && pCatId.toString() === filterCategory;
+
     return matchesSearch && matchesType && matchesCategory;
   });
 
@@ -448,11 +451,10 @@ const ProductManagement = () => {
                 setFilterType('all');
                 setFilterCategory('all');
               }}
-              className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${
-                filterType === 'all' && filterCategory === 'all'
-                  ? 'text-valentine-red border-b-2 border-valentine-red'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${filterType === 'all' && filterCategory === 'all'
+                ? 'text-valentine-red border-b-2 border-valentine-red'
+                : 'text-gray-600 hover:text-gray-900'
+                }`}
             >
               All Products ({products.length})
             </button>
@@ -461,11 +463,10 @@ const ProductManagement = () => {
                 setFilterType('trending');
                 setFilterCategory('all');
               }}
-              className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${
-                filterType === 'trending' && filterCategory === 'all'
-                  ? 'text-valentine-red border-b-2 border-valentine-red'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${filterType === 'trending' && filterCategory === 'all'
+                ? 'text-valentine-red border-b-2 border-valentine-red'
+                : 'text-gray-600 hover:text-gray-900'
+                }`}
             >
               🔥 Trending Now ({products.filter(p => p.valentine_special).length})
             </button>
@@ -474,11 +475,10 @@ const ProductManagement = () => {
                 setFilterType('special_offers');
                 setFilterCategory('all');
               }}
-              className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${
-                filterType === 'special_offers' && filterCategory === 'all'
-                  ? 'text-valentine-red border-b-2 border-valentine-red'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${filterType === 'special_offers' && filterCategory === 'all'
+                ? 'text-valentine-red border-b-2 border-valentine-red'
+                : 'text-gray-600 hover:text-gray-900'
+                }`}
             >
               🎁 Special Offers ({products.filter(p => p.special_offer).length})
             </button>
@@ -487,21 +487,20 @@ const ProductManagement = () => {
                 setFilterType('regular');
                 setFilterCategory('all');
               }}
-              className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${
-                filterType === 'regular' && filterCategory === 'all'
-                  ? 'text-valentine-red border-b-2 border-valentine-red'
-                  : 'text-gray-600 hover:text-gray-900'
-              }`}
+              className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${filterType === 'regular' && filterCategory === 'all'
+                ? 'text-valentine-red border-b-2 border-valentine-red'
+                : 'text-gray-600 hover:text-gray-900'
+                }`}
             >
               Regular Products ({products.filter(p => !p.valentine_special && !p.special_offer).length})
             </button>
-            
+
             {/* Category Tabs */}
             <div className="border-l border-gray-300 mx-2"></div>
             {categories.map((category) => {
               const categoryProductCount = products.filter(p => {
-                const pCatId = typeof p.category_id === 'object' && p.category_id !== null 
-                  ? (p.category_id._id || p.category_id.id) 
+                const pCatId = typeof p.category_id === 'object' && p.category_id !== null
+                  ? (p.category_id._id || p.category_id.id)
                   : p.category_id;
                 return pCatId && pCatId.toString() === category.id.toString();
               }).length;
@@ -512,11 +511,10 @@ const ProductManagement = () => {
                     setFilterType('all');
                     setFilterCategory(category.id.toString());
                   }}
-                  className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${
-                    filterCategory === category.id.toString()
-                      ? 'text-valentine-red border-b-2 border-valentine-red'
-                      : 'text-gray-600 hover:text-gray-900'
-                  }`}
+                  className={`px-4 py-2 font-medium transition-colors whitespace-nowrap ${filterCategory === category.id.toString()
+                    ? 'text-valentine-red border-b-2 border-valentine-red'
+                    : 'text-gray-600 hover:text-gray-900'
+                    }`}
                 >
                   {category.name} ({categoryProductCount})
                 </button>
@@ -557,7 +555,7 @@ const ProductManagement = () => {
               </p>
             </div>
           )}
-          
+
           {/* Info Banner for Category Filter */}
           {filterCategory !== 'all' && (
             <div className="bg-purple-50 border border-purple-200 rounded-lg p-4 flex items-center justify-between">
@@ -615,9 +613,8 @@ const ProductManagement = () => {
                     {product.stock_quantity}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 py-1 text-xs rounded-full ${
-                      product.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
+                    <span className={`px-2 py-1 text-xs rounded-full ${product.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      }`}>
                       {product.is_active ? 'Active' : 'Inactive'}
                     </span>
                   </td>
@@ -687,11 +684,10 @@ const ProductManagement = () => {
                           onDragOver={handleDragOverMain}
                           onDragLeave={handleDragLeaveMain}
                           onDrop={handleDropMain}
-                          className={`border-2 border-dashed rounded-lg p-5 text-center transition-all ${
-                            isDraggingMain
-                              ? 'border-valentine-red bg-valentine-pink/10 scale-105'
-                              : 'border-gray-300 hover:border-valentine-red'
-                          }`}
+                          className={`border-2 border-dashed rounded-lg p-5 text-center transition-all ${isDraggingMain
+                            ? 'border-valentine-red bg-valentine-pink/10 scale-105'
+                            : 'border-gray-300 hover:border-valentine-red'
+                            }`}
                         >
                           <svg className="mx-auto h-8 w-8 text-gray-400 mb-2" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -719,9 +715,8 @@ const ProductManagement = () => {
                           Additional Images
                           <span className="ml-2 text-xs text-gray-400 font-normal">(up to {MAX_ADDITIONAL} extra images)</span>
                         </label>
-                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                          additionalImagePreviews.length >= MAX_ADDITIONAL ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
-                        }`}>
+                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${additionalImagePreviews.length >= MAX_ADDITIONAL ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                          }`}>
                           {additionalImagePreviews.length}/{MAX_ADDITIONAL}
                         </span>
                       </div>
@@ -753,11 +748,10 @@ const ProductManagement = () => {
                           onDragOver={handleDragOverAdditional}
                           onDragLeave={handleDragLeaveAdditional}
                           onDrop={handleDropAdditional}
-                          className={`border-2 border-dashed rounded-lg p-5 text-center transition-all ${
-                            isDraggingAdditional
-                              ? 'border-valentine-red bg-valentine-pink/10 scale-105'
-                              : 'border-gray-300 hover:border-valentine-red'
-                          }`}
+                          className={`border-2 border-dashed rounded-lg p-5 text-center transition-all ${isDraggingAdditional
+                            ? 'border-valentine-red bg-valentine-pink/10 scale-105'
+                            : 'border-gray-300 hover:border-valentine-red'
+                            }`}
                         >
                           <svg className="mx-auto h-8 w-8 text-gray-400 mb-2" stroke="currentColor" fill="none" viewBox="0 0 48 48">
                             <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
@@ -817,31 +811,91 @@ const ProductManagement = () => {
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Available Sizes
+                      </label>
+                      <div className="space-y-2">
+                        {formData.sizes.map((size, index) => (
+                          <div key={index} className="flex items-center space-x-2">
+                            <input
+                              type="text"
+                              value={size.name || (typeof size === 'string' ? size : '')}
+                              onChange={(e) => {
+                                const newSizes = [...formData.sizes];
+                                const currentSize = typeof newSizes[index] === 'string' ? { name: newSizes[index], price: formData.price } : newSizes[index];
+                                newSizes[index] = { ...currentSize, name: e.target.value };
+                                setFormData({ ...formData, sizes: newSizes });
+                              }}
+                              placeholder="Size name (e.g. Small)"
+                              className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
+                            />
+                            <input
+                              type="number"
+                              value={size.price || ''}
+                              onChange={(e) => {
+                                const newSizes = [...formData.sizes];
+                                const currentSize = typeof newSizes[index] === 'string' ? { name: newSizes[index], price: formData.price } : newSizes[index];
+                                newSizes[index] = { ...currentSize, price: parseFloat(e.target.value) || 0 };
+                                setFormData({ ...formData, sizes: newSizes });
+                              }}
+                              placeholder="Price"
+                              className="w-24 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setFormData({
+                                  ...formData,
+                                  sizes: formData.sizes.filter((_, i) => i !== index)
+                                });
+                              }}
+                              className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setFormData({
+                              ...formData,
+                              sizes: [...formData.sizes, { name: '', price: formData.price || 0 }]
+                            });
+                          }}
+                          className="text-sm text-valentine-red hover:text-valentine-darkRed font-medium"
+                        >
+                          + Add Size
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="col-span-2">
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Features
                         <span className="ml-1 text-xs text-gray-400 font-normal">(press Enter to add)</span>
                       </label>
                       <input
                         type="text"
-                        placeholder="e.g. Small, Medium, Large"
+                        placeholder="e.g. High quality, Washable"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
                             e.preventDefault();
                             const val = e.target.value.trim();
-                            if (val && !formData.sizes.includes(val)) {
-                              setFormData({ ...formData, sizes: [...formData.sizes, val] });
+                            if (val && !formData.features.includes(val)) {
+                              setFormData({ ...formData, features: [...formData.features, val] });
                             }
                             e.target.value = '';
                           }
                         }}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
                       />
-                      {formData.sizes.length > 0 && (
+                      {formData.features && formData.features.length > 0 && (
                         <div className="flex flex-wrap gap-1.5 mt-2">
-                          {formData.sizes.map((s, i) => (
+                          {formData.features.map((f, i) => (
                             <span key={i} className="inline-flex items-center gap-1 bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
-                              {s}
+                              {f}
                               <button
                                 type="button"
-                                onClick={() => setFormData({ ...formData, sizes: formData.sizes.filter((_, idx) => idx !== i) })}
+                                onClick={() => setFormData({ ...formData, features: formData.features.filter((_, idx) => idx !== i) })}
                                 className="text-gray-400 hover:text-red-500"
                               >
                                 <X className="w-3 h-3" />
@@ -912,36 +966,6 @@ const ProductManagement = () => {
                     <label className="flex items-center">
                       <input
                         type="checkbox"
-                        checked={formData.valentine_special}
-                        onChange={(e) => setFormData({ ...formData, valentine_special: e.target.checked })}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700">🔥 Show in trending</span>
-                    </label>
-
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={formData.special_offer}
-                        onChange={(e) => setFormData({ ...formData, special_offer: e.target.checked })}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700">🎁 Special Offer</span>
-                    </label>
-
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        checked={formData.customizable}
-                        onChange={(e) => setFormData({ ...formData, customizable: e.target.checked })}
-                        className="mr-2"
-                      />
-                      <span className="text-sm text-gray-700">Customizable</span>
-                    </label>
-
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
                         checked={formData.is_active}
                         onChange={(e) => setFormData({ ...formData, is_active: e.target.checked })}
                         className="mr-2"
@@ -950,235 +974,7 @@ const ProductManagement = () => {
                     </label>
                   </div>
 
-                  {/* Customization Options */}
-                  {formData.customizable && (
-                    <div className="border-2 border-valentine-pink/30 rounded-lg p-4 bg-valentine-pink/5">
-                      <h3 className="text-lg font-semibold mb-4 text-valentine-red">Customization Options</h3>
-                      
-                      <div className="space-y-6">
-                        {/* Image Upload Option */}
-                        <div>
-                          <label className="flex items-center">
-                            <input
-                              type="checkbox"
-                              checked={formData.customization_options.imageUpload}
-                              onChange={(e) => setFormData({
-                                ...formData,
-                                customization_options: {
-                                  ...formData.customization_options,
-                                  imageUpload: e.target.checked
-                                }
-                              })}
-                              className="mr-2"
-                            />
-                            <span className="text-sm text-gray-700 font-medium">
-                              📸 Require Customer Image Upload
-                            </span>
-                          </label>
-                          <p className="text-xs text-gray-500 ml-6 mt-1">
-                            Customer must upload an image to customize this product
-                          </p>
-                        </div>
 
-                        {/* Text Input Fields */}
-                        <div>
-                          <label className="flex items-center mb-2">
-                            <input
-                              type="checkbox"
-                              checked={formData.customization_options.textInput && formData.customization_options.textInput.length > 0}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setFormData({
-                                    ...formData,
-                                    customization_options: {
-                                      ...formData.customization_options,
-                                      textInput: ['Name']
-                                    }
-                                  });
-                                } else {
-                                  setFormData({
-                                    ...formData,
-                                    customization_options: {
-                                      ...formData.customization_options,
-                                      textInput: []
-                                    }
-                                  });
-                                }
-                              }}
-                              className="mr-2"
-                            />
-                            <span className="text-sm text-gray-700 font-medium">
-                              ✏️ Add Text Input Fields
-                            </span>
-                          </label>
-                          
-                          {formData.customization_options.textInput && formData.customization_options.textInput.length > 0 && (
-                            <div className="ml-6 space-y-2">
-                              {formData.customization_options.textInput.map((field, index) => (
-                                <div key={index} className="flex items-center space-x-2">
-                                  <input
-                                    type="text"
-                                    value={field}
-                                    onChange={(e) => {
-                                      const newTextInput = [...formData.customization_options.textInput];
-                                      newTextInput[index] = e.target.value;
-                                      setFormData({
-                                        ...formData,
-                                        customization_options: {
-                                          ...formData.customization_options,
-                                          textInput: newTextInput
-                                        }
-                                      });
-                                    }}
-                                    placeholder="Field label (e.g., Name, Message)"
-                                    className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const newTextInput = formData.customization_options.textInput.filter((_, i) => i !== index);
-                                      setFormData({
-                                        ...formData,
-                                        customization_options: {
-                                          ...formData.customization_options,
-                                          textInput: newTextInput
-                                        }
-                                      });
-                                    }}
-                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </button>
-                                </div>
-                              ))}
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setFormData({
-                                    ...formData,
-                                    customization_options: {
-                                      ...formData.customization_options,
-                                      textInput: [...formData.customization_options.textInput, '']
-                                    }
-                                  });
-                                }}
-                                className="text-sm text-valentine-red hover:text-valentine-darkRed font-medium"
-                              >
-                                + Add Another Field
-                              </button>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Size Options */}
-                        <div>
-                          <label className="flex items-center mb-2">
-                            <input
-                              type="checkbox"
-                              checked={formData.customization_options.sizes && formData.customization_options.sizes.length > 0}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setFormData({
-                                    ...formData,
-                                    customization_options: {
-                                      ...formData.customization_options,
-                                      sizes: [{ name: 'Small', price: formData.price }]
-                                    }
-                                  });
-                                } else {
-                                  setFormData({
-                                    ...formData,
-                                    customization_options: {
-                                      ...formData.customization_options,
-                                      sizes: []
-                                    }
-                                  });
-                                }
-                              }}
-                              className="mr-2"
-                            />
-                            <span className="text-sm text-gray-700 font-medium">
-                              📏 Add Size Options
-                            </span>
-                          </label>
-                          
-                          {formData.customization_options.sizes && formData.customization_options.sizes.length > 0 && (
-                            <div className="ml-6 space-y-2">
-                              {formData.customization_options.sizes.map((size, index) => (
-                                <div key={index} className="flex items-center space-x-2">
-                                  <input
-                                    type="text"
-                                    value={size.name}
-                                    onChange={(e) => {
-                                      const newSizes = [...formData.customization_options.sizes];
-                                      newSizes[index].name = e.target.value;
-                                      setFormData({
-                                        ...formData,
-                                        customization_options: {
-                                          ...formData.customization_options,
-                                          sizes: newSizes
-                                        }
-                                      });
-                                    }}
-                                    placeholder="Size name (e.g., Small, Medium, Large)"
-                                    className="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
-                                  />
-                                  <input
-                                    type="number"
-                                    value={size.price}
-                                    onChange={(e) => {
-                                      const newSizes = [...formData.customization_options.sizes];
-                                      newSizes[index].price = parseFloat(e.target.value) || 0;
-                                      setFormData({
-                                        ...formData,
-                                        customization_options: {
-                                          ...formData.customization_options,
-                                          sizes: newSizes
-                                        }
-                                      });
-                                    }}
-                                    placeholder="Price"
-                                    className="w-24 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={() => {
-                                      const newSizes = formData.customization_options.sizes.filter((_, i) => i !== index);
-                                      setFormData({
-                                        ...formData,
-                                        customization_options: {
-                                          ...formData.customization_options,
-                                          sizes: newSizes
-                                        }
-                                      });
-                                    }}
-                                    className="p-2 text-red-600 hover:bg-red-50 rounded-lg"
-                                  >
-                                    <Trash2 className="w-4 h-4" />
-                                  </button>
-                                </div>
-                              ))}
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setFormData({
-                                    ...formData,
-                                    customization_options: {
-                                      ...formData.customization_options,
-                                      sizes: [...formData.customization_options.sizes, { name: '', price: formData.price }]
-                                    }
-                                  });
-                                }}
-                                className="text-sm text-valentine-red hover:text-valentine-darkRed font-medium"
-                              >
-                                + Add Another Size
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
 
                   <div className="flex justify-end space-x-4 pt-4">
                     <button

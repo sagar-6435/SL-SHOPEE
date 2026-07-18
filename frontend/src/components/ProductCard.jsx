@@ -77,7 +77,7 @@ const ProductCard = ({ product, showWishlist = false }) => {
         <img
           src={getImageSrc(mainImage, apiUrl)}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110"
           onError={(e) => {
             e.target.src = 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400&h=400&fit=crop';
           }}
@@ -124,7 +124,7 @@ const ProductCard = ({ product, showWishlist = false }) => {
           <h3 className="font-display font-bold text-lg text-gray-900 group-hover:text-[var(--color-primary)] transition-colors line-clamp-1">
             {product.name}
           </h3>
-          <span className="font-display font-bold text-lg text-[var(--color-primary)] whitespace-nowrap">
+          <span className="font-sans font-bold text-lg text-[var(--color-primary)] whitespace-nowrap">
             ₹{product.price}
           </span>
         </div>

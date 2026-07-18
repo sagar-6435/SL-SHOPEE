@@ -423,7 +423,7 @@ const PaymentPage = () => {
                       <h4 className="text-sm font-body font-bold text-gray-900 truncate max-w-[150px]">{item.name}</h4>
                       <p className="text-[10px] font-body text-gray-400 uppercase tracking-widest">Qty: {item.quantity}{item.size ? ` • Size: ${item.size}` : ''}</p>
                     </div>
-                    <div className="flex items-center font-display font-bold text-gray-900">₹{item.price * item.quantity}</div>
+                    <div className="flex items-center font-sans font-bold text-gray-900">₹{item.price * item.quantity}</div>
                   </div>
                 ))}
               </div>
@@ -443,7 +443,7 @@ const PaymentPage = () => {
                 </div>
                 <div className="pt-8 flex flex-col">
                   <span className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-[0.3em] mb-2 text-center">GRAND TOTAL</span>
-                  <span className="text-5xl font-display font-bold text-[var(--color-primary)] text-center tracking-tight">₹{getFinalTotal()}</span>
+                  <span className="text-5xl font-sans font-bold text-[var(--color-primary)] text-center tracking-tight">₹{getFinalTotal()}</span>
                 </div>
               </div>
             </div>

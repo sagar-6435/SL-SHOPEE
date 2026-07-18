@@ -89,7 +89,7 @@ const ProductDetailPage = () => {
             const payload = JSON.parse(atob(token.split('.')[1]));
             const mine = data.reviews.find(r => r.user_id === payload.id);
             setUserReview(mine || null);
-          } catch {}
+          } catch { }
         }
       }
 
@@ -106,7 +106,7 @@ const ProductDetailPage = () => {
             // If already reviewed, populate userReview from eligibility response too
             if (eligData.review) setUserReview(eligData.review);
           }
-        } catch {}
+        } catch { }
       }
     } catch (error) {
       console.error('Failed to fetch reviews:', error);
@@ -206,9 +206,8 @@ const ProductDetailPage = () => {
   };
 
   const buildCartItem = () => {
-    const selectedSize = product.customization_options?.sizes?.length > 0
-      ? product.customization_options.sizes[selectedSizeIndex]
-      : null;
+    const activeSizes = product.sizes?.length > 0 ? product.sizes : (product.customization_options?.sizes?.length > 0 ? product.customization_options.sizes : []);
+    const selectedSize = activeSizes.length > 0 ? activeSizes[selectedSizeIndex] : null;
 
     return {
       id: product.id,
@@ -216,14 +215,14 @@ const ProductDetailPage = () => {
       image: product.image_url || product.image,
       price: selectedSize ? selectedSize.price : product.price,
       quantity,
-      size: selectedSize ? selectedSize.name : null,
+      size: selectedSize ? (selectedSize.name || selectedSize) : null,
       customization: product.customizable
         ? {
-            image: customization.image,
-            message: customization.message,
-            text: customization.message,
-            textInputs: customization.message ? { Message: customization.message } : {},
-          }
+          image: customization.image,
+          message: customization.message,
+          text: customization.message,
+          textInputs: customization.message ? { Message: customization.message } : {},
+        }
         : null,
     };
   };
@@ -310,11 +309,10 @@ const ProductDetailPage = () => {
                   <button
                     key={idx}
                     onClick={() => setSelectedImage(idx)}
-                    className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${
-                      selectedImage === idx
-                        ? 'border-[var(--color-primary)] shadow-md'
-                        : 'border-gray-100 hover:border-gray-300'
-                    }`}
+                    className={`w-20 h-20 rounded-xl overflow-hidden border-2 transition-all flex-shrink-0 ${selectedImage === idx
+                      ? 'border-[var(--color-primary)] shadow-md'
+                      : 'border-gray-100 hover:border-gray-300'
+                      }`}
                   >
                     <img src={img} className="w-full h-full object-contain" alt={`Product view ${idx + 1}`} />
                   </button>
@@ -346,9 +344,8 @@ const ProductDetailPage = () => {
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        selectedImage === idx ? 'bg-white scale-125 shadow' : 'bg-white/50'
-                      }`}
+                      className={`w-2 h-2 rounded-full transition-all ${selectedImage === idx ? 'bg-white scale-125 shadow' : 'bg-white/50'
+                        }`}
                     />
                   ))}
                 </div>
@@ -361,12 +358,7 @@ const ProductDetailPage = () => {
             <h1 className="text-5xl md:text-6xl font-display font-bold text-gray-900 mb-4 leading-tight">
               {product.name}
             </h1>
-            <div className="flex items-center gap-4 mb-8">
-              <span className="text-3xl font-display font-bold text-[var(--color-primary)]">
-                ₹{product.customization_options?.sizes?.length > 0 
-                    ? product.customization_options.sizes[selectedSizeIndex]?.price || product.price
-                    : product.price}
-              </span>
+            <div className="flex items-center gap-4 mb-4">
               <div className="flex items-center gap-1">
                 <div className="flex">
                   {[...Array(5)].map((_, i) => (
@@ -393,8 +385,8 @@ const ProductDetailPage = () => {
                     {customization.imagePreview ? (
                       <div className="relative group inline-block">
                         <img src={customization.imagePreview} className="max-h-40 rounded-xl shadow-lg" alt="Upload preview" />
-                        <button 
-                          onClick={() => setCustomization({...customization, image: null, imagePreview: null})}
+                        <button
+                          onClick={() => setCustomization({ ...customization, image: null, imagePreview: null })}
                           className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full shadow-md"
                         >
                           <Plus className="w-4 h-4 rotate-45" />
@@ -427,7 +419,7 @@ const ProductDetailPage = () => {
                   <textarea
                     placeholder="Write your heartfelt note here..."
                     value={customization.message}
-                    onChange={(e) => setCustomization({...customization, message: e.target.value})}
+                    onChange={(e) => setCustomization({ ...customization, message: e.target.value })}
                     className="w-full bg-gray-50 border-none rounded-2xl p-6 font-body text-sm text-gray-700 focus:ring-2 focus:ring-purple-100 h-32 resize-none transition-all"
                   />
                 </div>
@@ -435,57 +427,70 @@ const ProductDetailPage = () => {
             )}
 
             {/* Size Options */}
-            {product.customization_options?.sizes?.length > 0 && (
+            {(product.sizes?.length > 0 || product.customization_options?.sizes?.length > 0) && (
               <div className="mb-10 animate-fade-in">
                 <h4 className="text-xs font-body font-bold tracking-[0.2em] text-gray-400 uppercase mb-4">Select Size</h4>
                 <div className="flex flex-wrap gap-4">
-                  {product.customization_options.sizes.map((size, index) => (
+                  {(product.sizes?.length > 0 ? product.sizes : product.customization_options.sizes).map((size, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedSizeIndex(index)}
-                      className={`px-6 py-3 rounded-xl border-2 font-body font-bold transition-all ${
-                        selectedSizeIndex === index 
-                          ? 'border-[var(--color-primary)] bg-purple-50 text-[var(--color-primary)] shadow-md' 
-                          : 'border-gray-100 text-gray-500 hover:border-gray-200 hover:bg-gray-50'
-                      }`}
+                      className={`px-6 py-3 rounded-xl border-2 font-body font-bold transition-all ${selectedSizeIndex === index
+                        ? 'border-[var(--color-primary)] bg-purple-50 text-[var(--color-primary)] shadow-md'
+                        : 'border-gray-100 text-gray-500 hover:border-gray-200 hover:bg-gray-50'
+                        }`}
                     >
-                      {size.name}
+                      {size.name || (typeof size === 'string' ? size : '')}
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Quantity */}
-            <div className="mb-10">
-              <h4 className="text-xs font-body font-bold tracking-[0.2em] text-gray-400 uppercase mb-4">Quantity</h4>
-              <div className="inline-flex items-center bg-gray-50 rounded-full px-2 py-1">
-                <button 
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <span className="w-10 text-center font-body font-bold text-gray-900">{quantity}</span>
-                <button 
-                  onClick={() => setQuantity(quantity + 1)}
-                  className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900"
-                >
-                  <Plus className="w-4 h-4" />
-                </button>
+            {/* Quantity & Price */}
+            <div className="mb-10 flex items-center justify-between">
+              <div>
+                <h4 className="text-xs font-body font-bold tracking-[0.2em] text-gray-400 uppercase mb-4">Quantity</h4>
+                <div className="inline-flex items-center bg-gray-50 rounded-full px-2 py-1">
+                  <button
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="w-10 text-center font-body font-bold text-gray-900">{quantity}</span>
+                  <button
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="text-right">
+                <h4 className="text-xs font-body font-bold tracking-[0.2em] text-gray-400 uppercase mb-4">Price</h4>
+                <div className="text-3xl font-sans font-bold text-[var(--color-primary)]">
+                  ₹{
+                    product.sizes?.length > 0
+                      ? (product.sizes[selectedSizeIndex]?.price || product.price)
+                      : product.customization_options?.sizes?.length > 0
+                        ? (product.customization_options.sizes[selectedSizeIndex]?.price || product.price)
+                        : product.price
+                  }
+                </div>
               </div>
             </div>
 
             {/* Buttons */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-              <button 
+              <button
                 onClick={handleAddToCart}
                 className="py-4 bg-[#8E447E] text-white rounded-xl font-body font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#7A3B6D] transition-all shadow-lg active:scale-95"
               >
                 <ShoppingCart className="w-4 h-4" />
                 <span>Add to Cart</span>
               </button>
-              <button 
+              <button
                 type="button"
                 onClick={handleBuyNow}
                 className="py-4 bg-[#F7D060] text-gray-900 rounded-xl font-body font-bold text-sm flex items-center justify-center hover:bg-[#EAB308] transition-all shadow-lg active:scale-95"
@@ -513,7 +518,7 @@ const ProductDetailPage = () => {
           <div className="flex gap-12 border-b border-gray-100 mb-12">
             {[
               { id: 'description', label: 'Product Description' },
-            { id: 'reviews', label: `Customer Reviews (${reviewStats.total})` },
+              { id: 'reviews', label: `Customer Reviews (${reviewStats.total})` },
               { id: 'shipping', label: 'Shipping & Returns' },
             ].map(tab => (
               <button
@@ -547,7 +552,7 @@ const ProductDetailPage = () => {
                         <h5 className="text-[10px] font-body font-bold tracking-widest text-gray-400 uppercase mb-2">Available Sizes</h5>
                         <div className="flex flex-wrap gap-2">
                           {product.sizes.map((s, i) => (
-                            <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-body rounded-full">{s}</span>
+                            <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-body rounded-full">{s.name || s}</span>
                           ))}
                         </div>
                       </div>
@@ -561,6 +566,16 @@ const ProductDetailPage = () => {
                       <p className="text-sm font-body text-gray-700">Thermodynamic Sublimation</p>
                     </div>
                   </div>
+                  {product.features && product.features.length > 0 && (
+                    <div className="mt-8 pt-8 border-t border-gray-100">
+                      <h4 className="text-xl font-display font-bold text-gray-900 mb-4">Features</h4>
+                      <ul className="list-disc pl-5 space-y-2 text-gray-600 font-body">
+                        {product.features.map((f, i) => (
+                          <li key={i}>{f}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               )}
               {activeTab === 'reviews' && (
@@ -573,7 +588,7 @@ const ProductDetailPage = () => {
                       <div className="flex flex-col items-center justify-center min-w-[100px]">
                         <span className="text-5xl font-display font-bold text-gray-900">{reviewStats.avg}</span>
                         <div className="flex mt-1">
-                          {[1,2,3,4,5].map(s => (
+                          {[1, 2, 3, 4, 5].map(s => (
                             <Star key={s} className={`w-4 h-4 ${s <= Math.round(reviewStats.avg) ? 'fill-[#F7D060] text-[#F7D060]' : 'text-gray-200'}`} />
                           ))}
                         </div>
@@ -581,7 +596,7 @@ const ProductDetailPage = () => {
                       </div>
                       {/* Breakdown bars */}
                       <div className="flex-1 space-y-2">
-                        {[5,4,3,2,1].map(star => {
+                        {[5, 4, 3, 2, 1].map(star => {
                           const count = reviewStats.breakdown[star] || 0;
                           const pct = reviewStats.total > 0 ? Math.round((count / reviewStats.total) * 100) : 0;
                           return (
@@ -611,7 +626,7 @@ const ProductDetailPage = () => {
                         <div>
                           <label className="text-xs font-body font-bold tracking-widest text-gray-400 uppercase mb-2 block">Your Rating</label>
                           <div className="flex gap-1">
-                            {[1,2,3,4,5].map(s => (
+                            {[1, 2, 3, 4, 5].map(s => (
                               <button
                                 key={s}
                                 type="button"
@@ -620,11 +635,10 @@ const ProductDetailPage = () => {
                                 onClick={() => setReviewForm(f => ({ ...f, rating: s }))}
                                 className="focus:outline-none"
                               >
-                                <Star className={`w-7 h-7 transition-colors ${
-                                  s <= (hoverRating || reviewForm.rating)
-                                    ? 'fill-[#F7D060] text-[#F7D060]'
-                                    : 'text-gray-200'
-                                }`} />
+                                <Star className={`w-7 h-7 transition-colors ${s <= (hoverRating || reviewForm.rating)
+                                  ? 'fill-[#F7D060] text-[#F7D060]'
+                                  : 'text-gray-200'
+                                  }`} />
                               </button>
                             ))}
                           </div>
@@ -669,7 +683,7 @@ const ProductDetailPage = () => {
                         <div>
                           <label className="text-xs font-body font-bold tracking-widest text-gray-400 uppercase mb-2 block">Your Rating</label>
                           <div className="flex gap-1">
-                            {[1,2,3,4,5].map(s => (
+                            {[1, 2, 3, 4, 5].map(s => (
                               <button
                                 key={s}
                                 type="button"
@@ -678,11 +692,10 @@ const ProductDetailPage = () => {
                                 onClick={() => setReviewForm(f => ({ ...f, rating: s }))}
                                 className="focus:outline-none"
                               >
-                                <Star className={`w-7 h-7 transition-colors ${
-                                  s <= (hoverRating || reviewForm.rating)
-                                    ? 'fill-[#F7D060] text-[#F7D060]'
-                                    : 'text-gray-200'
-                                }`} />
+                                <Star className={`w-7 h-7 transition-colors ${s <= (hoverRating || reviewForm.rating)
+                                  ? 'fill-[#F7D060] text-[#F7D060]'
+                                  : 'text-gray-200'
+                                  }`} />
                               </button>
                             ))}
                           </div>
@@ -759,7 +772,7 @@ const ProductDetailPage = () => {
                   {/* Reviews list */}
                   {reviewsLoading ? (
                     <div className="space-y-4">
-                      {[1,2,3].map(i => <div key={i} className="h-24 bg-gray-100 rounded-2xl animate-pulse" />)}
+                      {[1, 2, 3].map(i => <div key={i} className="h-24 bg-gray-100 rounded-2xl animate-pulse" />)}
                     </div>
                   ) : reviews.length === 0 ? (
                     <div className="text-center py-16 bg-gray-50 rounded-2xl">
@@ -771,7 +784,7 @@ const ProductDetailPage = () => {
                       {reviews.map(review => {
                         const token = localStorage.getItem('token');
                         let isOwner = false;
-                        try { const p = JSON.parse(atob(token.split('.')[1])); isOwner = p.id === review.user_id; } catch {}
+                        try { const p = JSON.parse(atob(token.split('.')[1])); isOwner = p.id === review.user_id; } catch { }
                         return (
                           <div key={review._id} className="border-b border-gray-100 pb-6 last:border-0">
                             <div className="flex items-start justify-between gap-4">
@@ -788,7 +801,7 @@ const ProductDetailPage = () => {
                               </div>
                               <div className="flex items-center gap-2">
                                 <div className="flex">
-                                  {[1,2,3,4,5].map(s => (
+                                  {[1, 2, 3, 4, 5].map(s => (
                                     <Star key={s} className={`w-3.5 h-3.5 ${s <= review.rating ? 'fill-[#F7D060] text-[#F7D060]' : 'text-gray-200'}`} />
                                   ))}
                                 </div>
@@ -838,7 +851,7 @@ const ProductDetailPage = () => {
                     <span className="text-6xl font-display font-bold text-gray-900 leading-none">{reviewStats.avg}</span>
                     <div className="pb-1">
                       <div className="flex mb-1">
-                        {[1,2,3,4,5].map(s => (
+                        {[1, 2, 3, 4, 5].map(s => (
                           <Star key={s} className={`w-4 h-4 ${s <= Math.round(reviewStats.avg) ? 'fill-[#F7D060] text-[#F7D060]' : 'text-gray-200'}`} />
                         ))}
                       </div>
@@ -846,7 +859,7 @@ const ProductDetailPage = () => {
                     </div>
                   </div>
                   <div className="space-y-2 mb-8">
-                    {[5,4,3,2,1].map(star => {
+                    {[5, 4, 3, 2, 1].map(star => {
                       const count = reviewStats.breakdown[star] || 0;
                       const pct = reviewStats.total > 0 ? Math.round((count / reviewStats.total) * 100) : 0;
                       return (
@@ -885,7 +898,7 @@ const ProductDetailPage = () => {
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {relatedProducts.length > 0 ? (
               relatedProducts.map(p => (

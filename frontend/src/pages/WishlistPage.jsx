@@ -95,7 +95,7 @@ const WishlistPage = () => {
                       {product.description || "Premium quality custom item."}
                     </p>
                   </div>
-                  <span className="text-lg font-display font-bold text-gray-900">₹{product.price}</span>
+                  <span className="text-lg font-sans font-bold text-gray-900">₹{product.price}</span>
                 </div>
                 <div className="flex gap-3">
                   <button

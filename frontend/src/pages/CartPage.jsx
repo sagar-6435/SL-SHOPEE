@@ -141,7 +141,7 @@ const CartPage = () => {
                       </div>
 
                       <div className="flex items-center gap-8">
-                        <span className="text-2xl font-display font-bold text-gray-900">₹{((item.finalPrice || item.price || 0) * (item.quantity || 1)).toLocaleString()}</span>
+                        <span className="text-2xl font-sans font-bold text-gray-900">₹{((item.finalPrice || item.price || 0) * (item.quantity || 1)).toLocaleString()}</span>
                         <button
                           onClick={() => removeFromCart(item.id)}
                           className="text-gray-300 hover:text-red-500 transition-colors"
@@ -195,7 +195,7 @@ const CartPage = () => {
 
               <div className="mb-10">
                 <p className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-[0.3em] mb-2">GRAND TOTAL</p>
-                <p className="text-6xl font-display font-bold text-[var(--color-primary)]">₹{grandTotal.toLocaleString()}</p>
+                <p className="text-6xl font-sans font-bold text-[var(--color-primary)]">₹{grandTotal.toLocaleString()}</p>
               </div>
 
               <button
