@@ -51,8 +51,8 @@ const CartPage = () => {
       <div className="min-h-screen bg-white flex flex-col items-center justify-center p-8">
         <h2 className="text-4xl font-display font-bold text-gray-900 mb-4">Your Selection is Empty</h2>
         <p className="text-gray-400 font-body mb-8">Begin your curation journey in our studio shop.</p>
-        <button 
-          onClick={() => navigate('/shop')} 
+        <button
+          onClick={() => navigate('/shop')}
           className="px-12 py-4 bg-gray-900 text-white font-body font-bold uppercase tracking-widest text-sm rounded-full hover:bg-[var(--color-primary)] transition-all"
         >
           Explore Shop
@@ -80,7 +80,18 @@ const CartPage = () => {
                 <div key={item.id} className={`flex flex-col md:flex-row gap-8 pb-12 ${idx !== cart.length - 1 ? 'border-b border-gray-50' : ''}`}>
                   {/* Image */}
                   <div className="w-full md:w-48 h-48 rounded-[30px] overflow-hidden bg-gray-100 flex-shrink-0">
-                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                    <img
+                      src={(() => {
+                        let url = item.image_url || item.image || (item.images && item.images.length > 0 ? (item.images[0].url || item.images[0]) : null);
+                        if (!url) return 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400&h=400&fit=crop';
+                        if (url.startsWith('http')) return url;
+                        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+                        return `${baseUrl.replace(/\/$/, '')}/${url.replace(/^\//, '')}`;
+                      })()}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400&h=400&fit=crop'; }}
+                    />
                   </div>
 
                   {/* Details */}
@@ -114,14 +125,14 @@ const CartPage = () => {
 
                     <div className="flex items-center justify-between mt-8 md:mt-0">
                       <div className="flex items-center bg-gray-100 rounded-full px-4 py-2 gap-6">
-                        <button 
+                        <button
                           onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
                           className="text-gray-400 hover:text-gray-900 transition-colors"
                         >
                           <Minus className="w-4 h-4" />
                         </button>
                         <span className="font-body font-bold text-gray-900">{item.quantity}</span>
-                        <button 
+                        <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           className="text-gray-400 hover:text-gray-900 transition-colors"
                         >
@@ -130,8 +141,8 @@ const CartPage = () => {
                       </div>
 
                       <div className="flex items-center gap-8">
-                        <span className="text-2xl font-display font-bold text-gray-900">₹{(item.finalPrice * item.quantity).toLocaleString()}</span>
-                        <button 
+                        <span className="text-2xl font-display font-bold text-gray-900">₹{((item.finalPrice || item.price || 0) * (item.quantity || 1)).toLocaleString()}</span>
+                        <button
                           onClick={() => removeFromCart(item.id)}
                           className="text-gray-300 hover:text-red-500 transition-colors"
                         >
@@ -156,7 +167,7 @@ const CartPage = () => {
                   <MessageCircle className="w-5 h-5" />
                 </div>
                 <p className="text-xs font-body font-bold text-[#866D23]">
-                  Need help with customization? <a href="https://wa.me/yournumber" className="underline decoration-2 underline-offset-4">Order via WhatsApp</a>
+                  Need help with customization? <a href={`https://wa.me/${import.meta.env.VITE_BUSINESS_PHONE || '919876543210'}`} target="_blank" rel="noopener noreferrer" className="underline decoration-2 underline-offset-4">Order via WhatsApp</a>
                 </p>
               </div>
             </div>
@@ -166,7 +177,7 @@ const CartPage = () => {
           <div className="sticky top-32 space-y-6">
             <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 p-10">
               <h2 className="text-3xl font-display font-bold text-gray-900 mb-10">Order Summary</h2>
-              
+
               <div className="space-y-6 mb-10 pb-10 border-b border-gray-50">
                 <div className="flex justify-between font-body text-gray-500">
                   <span>Subtotal</span>
@@ -187,7 +198,7 @@ const CartPage = () => {
                 <p className="text-6xl font-display font-bold text-[var(--color-primary)]">₹{grandTotal.toLocaleString()}</p>
               </div>
 
-              <button 
+              <button
                 onClick={handleProceedToCheckout}
                 className="w-full py-6 bg-[var(--color-primary)] text-white rounded-3xl font-body font-bold text-lg hover:shadow-2xl hover:shadow-purple-200 transition-all active:scale-95"
               >

@@ -16,7 +16,7 @@ const Navbar = () => {
   const { getCartCount } = useCart();
   const { getWishlistCount } = useWishlist();
   const { user, logout, isAuthenticated } = useAuth();
-  
+
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [selectedIds, setSelectedIds] = useState(new Set());
@@ -129,7 +129,7 @@ const Navbar = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll);
-    
+
     const handleClickOutside = (e) => {
       if (isProfileOpen && !e.target.closest('.profile-dropdown-container')) {
         setIsProfileOpen(false);
@@ -195,14 +195,14 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`sticky top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' : 'bg-white py-4'}`}>
+    <nav className={`sticky top-0 w-full z-50 transition-all duration-300 border-b border-gray-100 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' : 'bg-white py-4'}`}>
       <div className="container-custom">
         <div className="flex justify-between items-center h-12">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 flex-shrink-0 group">
-            <img 
-              src="/logo.png" 
-              alt="SL SHOPEE" 
+            <img
+              src="/logo.png"
+              alt="SL SHOPEE"
               width="58"
               height="58"
               className="h-14 w-14 object-contain transition-transform duration-500 group-hover:scale-110"
@@ -256,7 +256,7 @@ const Navbar = () => {
             <div className="hidden sm:flex items-center space-x-2">
               {/* Notifications Dropdown */}
               <div className="relative notifications-dropdown-container">
-                <button 
+                <button
                   onClick={() => {
                     setIsNotificationsOpen(!isNotificationsOpen);
                     if (!isNotificationsOpen) {
@@ -408,7 +408,7 @@ const Navbar = () => {
               <Link to="/profile?tab=cart" className="p-2 text-gray-600 hover:text-[var(--color-primary)] relative">
                 <ShoppingCart className="w-5 h-5" />
                 {getCartCount() > 0 && (
-                  <span className="absolute top-1 right-1 bg-[var(--color-primary)] text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border-2 border-white">
+                  <span className="absolute -top-1 -right-1 bg-[var(--color-primary)] text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white shadow-sm z-10">
                     {getCartCount()}
                   </span>
                 )}
@@ -499,7 +499,7 @@ const Navbar = () => {
                 <div key={link.path}>
                   {link.hasDropdown ? (
                     <div className="flex flex-col">
-                      <button 
+                      <button
                         onClick={() => setIsMobileShopOpen(!isMobileShopOpen)}
                         className="flex items-center justify-between py-3 text-lg font-body font-bold text-gray-700"
                       >
@@ -530,7 +530,7 @@ const Navbar = () => {
                   )}
                 </div>
               ))}
-              
+
               <div className="pt-6 mt-4 border-t border-gray-50 flex flex-col space-y-4">
                 {isAuthenticated() ? (
                   <>

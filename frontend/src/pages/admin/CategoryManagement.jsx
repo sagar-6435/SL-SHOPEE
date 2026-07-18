@@ -207,11 +207,7 @@ const CategoryManagement = () => {
                             </div>
                             <div className="flex items-center justify-between">
                                 <p className="text-sm text-gray-500 font-mono">{category.slug}</p>
-                                {category.is_occasion && (
-                                    <span className="text-[10px] bg-red-100 text-red-600 px-2 py-0.5 rounded-full font-bold uppercase">
-                                        Occasion #{category.occasion_order}
-                                    </span>
-                                )}
+
                             </div>
                         </div>
                     </div>
@@ -306,38 +302,7 @@ const CategoryManagement = () => {
                                     />
                                 </div>
 
-                                {/* Is Occasion */}
-                                <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                                    <input
-                                        type="checkbox"
-                                        id="is_occasion"
-                                        checked={formData.is_occasion}
-                                        onChange={(e) => setFormData({ ...formData, is_occasion: e.target.checked })}
-                                        className="w-5 h-5 text-orange-primary focus:ring-orange-primary border-gray-300 rounded"
-                                    />
-                                    <div className="flex-1">
-                                        <label htmlFor="is_occasion" className="text-sm font-bold text-gray-800 cursor-pointer block">
-                                            Show in "Shop by Occasion"
-                                        </label>
-                                        <p className="text-xs text-gray-500">Toggle this to show/hide in the homepage occasion section</p>
-                                    </div>
-                                </div>
 
-                                {/* Occasion Order */}
-                                {formData.is_occasion && (
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                                            Occasion Display Order
-                                        </label>
-                                        <input
-                                            type="number"
-                                            value={formData.occasion_order}
-                                            onChange={(e) => setFormData({ ...formData, occasion_order: parseInt(e.target.value) || 0 })}
-                                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-primary focus:border-transparent"
-                                            placeholder="Lower numbers show first"
-                                        />
-                                    </div>
-                                )}
 
                                 {/* Buttons */}
                                 <div className="flex gap-3 pt-4">

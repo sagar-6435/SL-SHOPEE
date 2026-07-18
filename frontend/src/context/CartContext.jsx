@@ -44,15 +44,15 @@ export const CartProvider = ({ children }) => {
     }
 
     setCart(prevCart => {
-      const existingItem = prevCart.find(item => 
-        item.id === product.id && 
+      const existingItem = prevCart.find(item =>
+        item.id === product.id &&
         JSON.stringify(item.customization) === JSON.stringify(product.customization)
       );
 
       if (existingItem) {
         return prevCart.map(item =>
-          item.id === product.id && 
-          JSON.stringify(item.customization) === JSON.stringify(product.customization)
+          item.id === product.id &&
+            JSON.stringify(item.customization) === JSON.stringify(product.customization)
             ? { ...item, quantity: item.quantity + product.quantity }
             : item
         );
@@ -64,7 +64,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
-    setCart(prevCart => 
+    setCart(prevCart =>
       prevCart.filter(item => item.id !== productId)
     );
   };
@@ -97,7 +97,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartSubtotal = () => {
-    return cart.reduce((total, item) => total + ((item.finalPrice || item.price || 0) * item.quantity), 0);
+    return cart.reduce((total, item) => total + ((Number(item.finalPrice) || Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
   };
 
   const getServiceCharge = () => {
@@ -109,7 +109,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const getCartCount = () => {
-    return cart.reduce((count, item) => count + item.quantity, 0);
+    return cart.reduce((count, item) => count + (Number(item.quantity) || 1), 0);
   };
 
   return (

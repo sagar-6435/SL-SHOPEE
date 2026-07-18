@@ -37,7 +37,7 @@ const CheckoutPage = () => {
     const itemsText = cart.map(item => `- ${item.name} (x${item.quantity}) - ₹${item.price}`).join('\n');
     const message = `New Order Inquiry!\n\n*Customer Details:*\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nAddress: ${formData.address}, ${formData.landmark}, ${formData.city} - ${formData.pincode}\n\n*Order Summary:*\n${itemsText}\n\n*Total Amount: ₹${getFinalTotal()}*`;
     
-    const whatsappUrl = `https://wa.me/919492686421?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
 

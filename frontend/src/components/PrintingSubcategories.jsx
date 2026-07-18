@@ -63,7 +63,7 @@ const PrintingSubcategories = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://wa.me/919492686421?text=Hi%2C%20I%20need%20custom%20printing%20services"
+                href="https://wa.me/919876543210?text=Hi%2C%20I%20need%20custom%20printing%20services"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition-colors transform hover:scale-105"
@@ -74,7 +74,7 @@ const PrintingSubcategories = () => {
                 WhatsApp Us
               </a>
               <a
-                href="tel:+919492686421"
+                href="tel:+919876543210"
                 className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-premium-royalBlue text-white font-semibold rounded-lg hover:bg-blue-800 transition-colors transform hover:scale-105"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

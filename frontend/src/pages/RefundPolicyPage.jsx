@@ -239,8 +239,8 @@ const RefundPolicyPage = () => {
               <p className="mt-4">Alternatively, contact us directly:</p>
               <ul className="list-disc list-inside space-y-1 ml-4">
                 <li>Email: <a href="mailto:slshopeephotoplanet9@gmail.com" className="text-valentine-red hover:underline">slshopeephotoplanet9@gmail.com</a></li>
-                <li>Phone: <a href="tel:+919492686421" className="text-valentine-red hover:underline">+91 94926 86421</a></li>
-                <li>WhatsApp: <a href="https://wa.me/919492686421" className="text-valentine-red hover:underline">+91 94926 86421</a></li>
+                <li>Phone: <a href="tel:+919876543210" className="text-valentine-red hover:underline">+91 98765 43210</a></li>
+                <li>WhatsApp: <a href="https://wa.me/919876543210" className="text-valentine-red hover:underline">+91 98765 43210</a></li>
               </ul>
             </div>
           </section>
@@ -265,7 +265,7 @@ const RefundPolicyPage = () => {
               <div className="space-y-1">
                 <p><strong>Business Name:</strong> SL SHOPEE</p>
                 <p><strong>Email:</strong> <a href="mailto:slshopeephotoplanet9@gmail.com" className="text-valentine-red hover:underline">slshopeephotoplanet9@gmail.com</a></p>
-                <p><strong>Phone:</strong> <a href="tel:+919492686421" className="text-valentine-red hover:underline">+91 94926 86421</a></p>
+                <p><strong>Phone:</strong> <a href="tel:+919876543210" className="text-valentine-red hover:underline">+91 98765 43210</a></p>
                 <p><strong>Address:</strong> 123 Main Street, City Center, Your City, State - 123456, India</p>
               </div>
             </div>

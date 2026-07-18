@@ -23,7 +23,6 @@ const AdminLayout = ({ children }) => {
     { path: '/admin/products', icon: Package, label: 'Products' },
     { path: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
     { path: '/admin/customers', icon: Users, label: 'Customers' },
-    { path: '/admin/gallery', icon: Image, label: 'Gallery' },
     { path: '/admin/sales-report', icon: TrendingUp, label: 'Sales Report' },
     { path: '/view-website', icon: Globe, label: 'View Website' },
     { path: '/admin/whatsapp-templates', icon: MessageSquare, label: 'WhatsApp Templates' },

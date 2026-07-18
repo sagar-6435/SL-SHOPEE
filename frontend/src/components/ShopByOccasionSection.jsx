@@ -8,16 +8,16 @@ const ShopByOccasionSection = () => {
   const [loading, setLoading] = useState(true);
 
   const fallbackCategories = [
-    { id: 1, name: 'Smartphones',   slug: 'smartphones',   image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop' },
-    { id: 2, name: 'Laptops',       slug: 'laptops',       image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=200&h=200&fit=crop' },
-    { id: 3, name: "Smart TV's",    slug: 'smart-tvs',     image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=200&h=200&fit=crop' },
-    { id: 4, name: 'Headphones',    slug: 'headphones',    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop' },
-    { id: 5, name: 'Cameras',       slug: 'cameras',       image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=200&h=200&fit=crop' },
-    { id: 6, name: 'Tablets',       slug: 'tablets',       image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=200&h=200&fit=crop' },
+    { id: 1, name: 'Smartphones', slug: 'smartphones', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop' },
+    { id: 2, name: 'Laptops', slug: 'laptops', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=200&h=200&fit=crop' },
+    { id: 3, name: "Smart TV's", slug: 'smart-tvs', image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=200&h=200&fit=crop' },
+    { id: 4, name: 'Headphones', slug: 'headphones', image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop' },
+    { id: 5, name: 'Cameras', slug: 'cameras', image: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=200&h=200&fit=crop' },
+    { id: 6, name: 'Tablets', slug: 'tablets', image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=200&h=200&fit=crop' },
     { id: 7, name: 'Refrigerators', slug: 'refrigerators', image: 'https://images.unsplash.com/photo-1584568694244-14fbdf83bd30?w=200&h=200&fit=crop' },
-    { id: 8, name: 'Washing Machine',slug: 'washing-machines', image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=200&h=200&fit=crop' },
-    { id: 9, name: 'Air Conditioners',slug:'air-conditioners', image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200&h=200&fit=crop' },
-    { id: 10, name: 'Accessories',   slug: 'accessories',   image: 'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=200&h=200&fit=crop' },
+    { id: 8, name: 'Washing Machine', slug: 'washing-machines', image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=200&h=200&fit=crop' },
+    { id: 9, name: 'Air Conditioners', slug: 'air-conditioners', image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200&h=200&fit=crop' },
+    { id: 10, name: 'Accessories', slug: 'accessories', image: 'https://images.unsplash.com/photo-1625948515291-69613efd103f?w=200&h=200&fit=crop' },
   ];
 
   useEffect(() => {
@@ -31,15 +31,15 @@ const ShopByOccasionSection = () => {
       if (response.ok) {
         const data = await response.json();
         const allCats = data.categories || [];
-        
+
         // Show up to 10 categories sorted by order
         const sorted = allCats
           .sort((a, b) => (a.occasion_order || a.id || 0) - (b.occasion_order || b.id || 0))
           .slice(0, 10);
-        
+
         // If no categories returned, use fallback list
         const finalCats = sorted.length > 0 ? sorted : fallbackCategories;
-        
+
         setCategories(finalCats);
       } else {
         setCategories(fallbackCategories);
@@ -74,8 +74,8 @@ const ShopByOccasionSection = () => {
               className="group flex flex-col items-center gap-4 transition-all duration-500 hover:-translate-y-2 animate-slide-up"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              {/* Circular Image Container */}
-              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-white shadow-lg shadow-gray-200 transition-all duration-500 group-hover:shadow-[var(--color-primary-light)] group-hover:border-[var(--color-primary-light)]">
+              {/* Image Container */}
+              <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-3xl overflow-hidden border-4 border-gray-400 shadow-lg shadow-gray-200 transition-all duration-500 group-hover:shadow-[var(--color-primary-light)] group-hover:border-[var(--color-primary-light)]">
                 <img
                   src={
                     category.image_url

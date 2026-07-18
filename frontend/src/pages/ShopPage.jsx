@@ -79,21 +79,7 @@ const ShopPage = () => {
     }
   };
 
-  const SHOP_CATEGORIES = [
-    { id: 'all', name: 'All Products' },
-    { id: 'cakes', name: 'Cakes' },
-    { id: 'chocolate-bouquets', name: 'Chocolate Bouquets' },
-    { id: 'couple-gifts', name: 'Couple Gifts' },
-    { id: 'event-needs', name: 'Event Needs' },
-    { id: 'flower-bouquets', name: 'Flower Bouquets' },
-    { id: 'interior-gifts-decor', name: 'Interior Gifts & Decor' },
-    { id: 'mugs', name: 'Mugs' },
-    { id: 'personalised-gifts', name: 'Personalised Gifts' },
-    { id: 'photo-frames', name: 'Photo Frames' },
-    { id: 'plants', name: 'Plants' },
-    { id: 'printing-works', name: 'Printing Works' },
-    { id: 't-shirts', name: 'T-Shirts' },
-  ];
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -112,8 +98,9 @@ const ShopPage = () => {
                   onChange={(e) => handleCategoryChange(e.target.value)}
                   className="w-full appearance-none bg-white border-2 border-gray-50 rounded-2xl px-6 py-3.5 pr-12 font-body text-sm font-bold text-gray-900 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-purple-50 outline-none transition-all cursor-pointer shadow-sm hover:border-gray-100"
                 >
-                  {SHOP_CATEGORIES.map(cat => (
-                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  <option value="all">All Products</option>
+                  {categories.map(cat => (
+                    <option key={cat._id || cat.id} value={cat.slug}>{cat.name}</option>
                   ))}
                 </select>
                 <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-[var(--color-primary)] transition-colors" />

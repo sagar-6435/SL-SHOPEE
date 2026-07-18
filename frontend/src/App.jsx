@@ -11,7 +11,6 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ServicesPage from './pages/ServicesPage';
-import GalleryPage from './pages/GalleryPage';
 import CartPage from './pages/CartPage';
 import WishlistPage from './pages/WishlistPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -38,7 +37,6 @@ import WhatsAppTemplates from './pages/admin/WhatsAppTemplates';
 import WhatsAppCampaigns from './pages/admin/WhatsAppCampaigns';
 import SMSCampaigns from './pages/admin/SMSCampaigns';
 import WhatsAppMessaging from './pages/admin/WhatsAppMessaging';
-import GalleryManagement from './pages/admin/GalleryManagement';
 import Analytics from './pages/admin/Analytics';
 import CategoryManagement from './pages/admin/CategoryManagement';
 import SendNotifications from './pages/admin/SendNotifications';
@@ -85,7 +83,6 @@ function App() {
                         <Route path="whatsapp-campaigns" element={<WhatsAppCampaigns />} />
                         <Route path="sms-campaigns" element={<SMSCampaigns />} />
                         <Route path="whatsapp" element={<WhatsAppMessaging />} />
-                        <Route path="gallery" element={<GalleryManagement />} />
                         <Route path="categories" element={<CategoryManagement />} />
                         <Route path="analytics" element={<Analytics />} />
                         <Route path="send-notifications" element={<SendNotifications />} />
@@ -110,7 +107,6 @@ function App() {
                         <Route path="/product/:id" element={<ProductDetailPage />} />
                         <Route path="/view-website" element={<HomePage />} />
                         <Route path="/services" element={<ServicesPage />} />
-                        <Route path="/gallery" element={<GalleryPage />} />
                         <Route path="/cart" element={<ProtectedRoute><CartPage /></ProtectedRoute>} />
                         <Route path="/wishlist" element={<Navigate to="/profile?tab=wishlist" replace />} />
                         <Route path="/checkout" element={<ProtectedRoute><PaymentPage /></ProtectedRoute>} />

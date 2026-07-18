@@ -1,10 +1,12 @@
+import React, { useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Star, Edit3, Heart } from 'lucide-react';
+import { Star, ShoppingCart, Heart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useCart } from '../context/CartContext';
 
 const getImageSrc = (url, apiUrl) => {
-  if (!url) return 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400&h=400&fit=crop';
+  if (!url) return;
   return url.startsWith('http') ? url : `${apiUrl}${url}`;
 };
 
@@ -13,7 +15,9 @@ const ProductCard = ({ product, showWishlist = false }) => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { addToCart, cart } = useCart();
   const apiUrl = import.meta.env.VITE_API_URL;
+  const isInCart = cart.some(item => item.id === product.id);
 
   // Only show the main image (first image) on the card
   const mainImage = (() => {
@@ -33,7 +37,7 @@ const ProductCard = ({ product, showWishlist = false }) => {
     toggleWishlist(product);
   };
 
-  const handleCustomize = (e) => {
+  const handleBuyNow = (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (!isAuthenticated()) {
@@ -43,8 +47,23 @@ const ProductCard = ({ product, showWishlist = false }) => {
     navigate(`/product/${product.id}`);
   };
 
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (isInCart) return;
+    if (!isAuthenticated()) {
+      navigate('/login', { state: { from: { pathname: `/product/${product.id}`, search: location.search } } });
+      return;
+    }
+
+    addToCart({
+      ...product,
+      quantity: 1
+    });
+  };
+
   const rating = product.rating || 5;
-  const reviewCount = product.reviews_count || Math.floor(Math.random() * 50) + 10;
+  const reviewCount = useMemo(() => product.reviews_count || Math.floor(Math.random() * 50) + 10, [product.reviews_count]);
 
   return (
     <div
@@ -90,11 +109,10 @@ const ProductCard = ({ product, showWishlist = false }) => {
             className="absolute top-3 right-3 z-10 bg-white/80 backdrop-blur-md p-2 rounded-full shadow-sm hover:bg-white transition-all duration-300 group/wishlist"
           >
             <Heart
-              className={`w-4 h-4 transition-all duration-300 ${
-                isInWishlist(product.id)
-                  ? 'fill-[var(--color-primary)] text-[var(--color-primary)] scale-110'
-                  : 'text-gray-400 group-hover/wishlist:text-[var(--color-primary)]'
-              }`}
+              className={`w-4 h-4 transition-all duration-300 ${isInWishlist(product.id)
+                ? 'fill-[var(--color-primary)] text-[var(--color-primary)] scale-110'
+                : 'text-gray-400 group-hover/wishlist:text-[var(--color-primary)]'
+                }`}
             />
           </button>
         )}
@@ -124,14 +142,23 @@ const ProductCard = ({ product, showWishlist = false }) => {
           <span className="text-[10px] text-gray-400 font-body font-medium">({reviewCount})</span>
         </div>
 
-        {/* Action Button */}
-        <button
-          onClick={handleCustomize}
-          className="w-full py-3 bg-[#8E447E] hover:bg-[#7A3B6D] text-white rounded-xl font-body font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-md active:scale-95"
-        >
-          <Edit3 className="w-4 h-4" />
-          <span>Customize</span>
-        </button>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleBuyNow}
+            className="flex-1 py-3 bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-white rounded-xl font-body font-bold text-[13px] flex items-center justify-center transition-all shadow-md active:scale-95 px-2"
+          >
+            Buy now
+          </button>
+          <button
+            onClick={handleAddToCart}
+            disabled={isInCart}
+            className={`flex-1 py-3 text-white rounded-xl font-body font-bold text-[13px] flex items-center justify-center gap-1.5 transition-all shadow-md px-2 ${isInCart ? 'bg-green-600 cursor-not-allowed opacity-90' : 'bg-[#36454F] hover:bg-gray-800 active:scale-95'}`}
+          >
+            <ShoppingCart className="w-3.5 h-3.5" />
+            {isInCart ? 'Added' : 'Cart'}
+          </button>
+        </div>
       </div>
     </div>
   );

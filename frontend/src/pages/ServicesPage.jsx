@@ -40,7 +40,7 @@ const ServicesPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const message = `New Service Booking!\n\nService: ${selectedService.name}\nName: ${formData.name}\nPhone: ${formData.phone}\nDate: ${formData.date}\nLocation: ${formData.location}\nRequirements: ${formData.requirements}`;
-    const whatsappUrl = `https://wa.me/919492686421?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
     setShowBookingForm(false);
   };
