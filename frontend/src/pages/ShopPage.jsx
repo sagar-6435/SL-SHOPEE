@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronDown, Search } from 'lucide-react';
+import { ChevronDown, Search, Filter } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 
 const SORT_OPTIONS = [
@@ -20,6 +20,8 @@ const ShopPage = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(0); // 0 translates to 'Any'
   const [categories, setCategories] = useState([]);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
+  const [selectedBrand, setSelectedBrand] = useState('all');
 
   useEffect(() => {
     fetchCategories();
@@ -27,6 +29,7 @@ const ShopPage = () => {
 
   useEffect(() => {
     fetchProducts();
+    setSelectedBrand('all'); // reset brand filter on category change
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedCategory]);
 
@@ -68,11 +71,22 @@ const ShopPage = () => {
     }
   };
 
+  const availableBrands = useMemo(() => {
+    const brandsSet = new Set();
+    products.forEach(p => {
+      if (p.brand) brandsSet.add(p.brand);
+    });
+    return Array.from(brandsSet).sort();
+  }, [products]);
+
   // Derive displayed products using client side filtering/sorting
   const displayedProducts = useMemo(() => {
     let filtered = products.filter(p => p.price >= minPrice);
     if (maxPrice > 0) {
       filtered = filtered.filter(p => p.price <= maxPrice);
+    }
+    if (selectedBrand !== 'all') {
+      filtered = filtered.filter(p => p.brand === selectedBrand);
     }
 
     const sorted = [...filtered];
@@ -80,7 +94,7 @@ const ShopPage = () => {
     if (sortBy === 'price_desc') sorted.sort((a, b) => b.price - a.price);
 
     return sorted;
-  }, [products, minPrice, maxPrice, sortBy]);
+  }, [products, minPrice, maxPrice, sortBy, selectedBrand]);
 
   const handleCategoryChange = (catId) => {
     if (catId === 'all') {
@@ -99,23 +113,53 @@ const ShopPage = () => {
       {/* Filter & Category Bar */}
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-100 py-6">
         <div className="container-custom">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+          {/* Mobile Filter Toggle */}
+          <div className="lg:hidden flex justify-between items-center mb-4">
+            <button
+              onClick={() => setShowMobileFilters(!showMobileFilters)}
+              className="flex items-center gap-2 text-sm font-bold text-gray-700 bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors"
+            >
+              <Filter className="w-4 h-4" />
+              {showMobileFilters ? 'Hide Filters' : 'Show Filters'}
+            </button>
+            <p className="text-gray-400 font-body text-sm italic">
+              {displayedProducts.length} items
+            </p>
+          </div>
+
+          <div className={`flex-col lg:flex-row lg:items-center justify-between gap-6 ${showMobileFilters ? 'flex' : 'hidden lg:flex'}`}>
 
             {/* Category Dropdown */}
             <div className="flex flex-wrap items-center gap-4">
-              <span className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest hidden sm:inline">Collection:</span>
-              <div className="relative group min-w-[200px]">
+              {/* Category Dropdown */}
+              <div className="relative group min-w-[150px] sm:min-w-[180px]">
                 <select
                   value={selectedCategory}
                   onChange={(e) => handleCategoryChange(e.target.value)}
-                  className="w-full appearance-none bg-white border-2 border-gray-50 rounded-2xl px-6 py-3.5 pr-12 font-body text-sm font-bold text-gray-900 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-purple-50 outline-none transition-all cursor-pointer shadow-sm hover:border-gray-100"
+                  className="w-full appearance-none bg-white border-2 border-gray-50 rounded-2xl px-4 sm:px-6 py-3.5 pr-10 font-body text-sm font-bold text-gray-900 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-purple-50 outline-none transition-all cursor-pointer shadow-sm hover:border-gray-100"
                 >
-                  <option value="all">All Products</option>
+                  <option value="all">All Categories</option>
                   {categories.map(cat => (
                     <option key={cat._id || cat.id} value={cat.slug}>{cat.name}</option>
                   ))}
                 </select>
-                <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-[var(--color-primary)] transition-colors" />
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-[var(--color-primary)] transition-colors" />
+              </div>
+
+              {/* Brand Dropdown */}
+              <div className="relative group min-w-[150px] sm:min-w-[180px]">
+                <select
+                  value={selectedBrand}
+                  onChange={(e) => setSelectedBrand(e.target.value)}
+                  className="w-full appearance-none bg-white border-2 border-gray-50 rounded-2xl px-4 sm:px-6 py-3.5 pr-10 font-body text-sm font-bold text-gray-900 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-purple-50 outline-none transition-all cursor-pointer shadow-sm hover:border-gray-100"
+                  disabled={availableBrands.length === 0}
+                >
+                  <option value="all">All Brands</option>
+                  {availableBrands.map(brand => (
+                    <option key={brand} value={brand}>{brand}</option>
+                  ))}
+                </select>
+                <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none group-hover:text-[var(--color-primary)] transition-colors" />
               </div>
 
               {/* Price Filter */}

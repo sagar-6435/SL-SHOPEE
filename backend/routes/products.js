@@ -99,7 +99,7 @@ router.post('/', authenticate, isAdmin, uploadProductImages,
       if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
       const {
-        name, slug, description, category_id, price,
+        name, brand, slug, description, category_id, price,
         discount = 0, customizable = false, customization_options,
         valentine_special = false, special_offer = false, stock_quantity = 0,
         material, sizes, features
@@ -128,6 +128,7 @@ router.post('/', authenticate, isAdmin, uploadProductImages,
 
       const product = await Product.create({
         name,
+        brand,
         slug: slug || name.toLowerCase().replace(/\s+/g, '-'),
         description,
         category_id: category_id || null,
@@ -249,7 +250,7 @@ router.put('/:id', authenticate, isAdmin, uploadProductImages, async (req, res) 
     };
 
     const {
-      name, description, category_id, price, discount,
+      name, brand, description, category_id, price, discount,
       customizable, customization_options, valentine_special,
       special_offer, stock_quantity, is_active, material, sizes, features
     } = req.body;
@@ -279,6 +280,7 @@ router.put('/:id', authenticate, isAdmin, uploadProductImages, async (req, res) 
 
     const updates = {
       ...(name && { name }),
+      ...(brand && { brand }),
       ...(description !== undefined && { description }),
       ...(category_id && { category_id }),
       ...(toNumber(price) !== null && { price: toNumber(price) }),

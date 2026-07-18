@@ -19,6 +19,7 @@ import connectDB from './config/database.js';
 import authRoutes from './routes/auth.js';
 import productRoutes from './routes/products.js';
 import categoryRoutes from './routes/categories.js';
+import brandRoutes from './routes/brands.js';
 import orderRoutes from './routes/orders.js';
 import adminRoutes from './routes/admin.js';
 import superAdminRoutes from './routes/super-admin.js';
@@ -157,6 +158,7 @@ app.use((req, res, next) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/brands', brandRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/super-admin', superAdminRoutes);

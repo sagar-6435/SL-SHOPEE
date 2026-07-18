@@ -33,12 +33,11 @@ import CustomerDatabase from './pages/admin/CustomerDatabase';
 import SalesReport from './pages/admin/SalesReport';
 import AdminManagement from './pages/admin/AdminManagement';
 import AuditLog from './pages/admin/AuditLog';
-import WhatsAppTemplates from './pages/admin/WhatsAppTemplates';
-import WhatsAppCampaigns from './pages/admin/WhatsAppCampaigns';
-import SMSCampaigns from './pages/admin/SMSCampaigns';
+import CampaignManagement from './pages/admin/CampaignManagement';
 import WhatsAppMessaging from './pages/admin/WhatsAppMessaging';
 import Analytics from './pages/admin/Analytics';
 import CategoryManagement from './pages/admin/CategoryManagement';
+import BrandManagement from './pages/admin/BrandManagement';
 import SendNotifications from './pages/admin/SendNotifications';
 import BranchManagement from './pages/admin/BranchManagement';
 import { CartProvider } from './context/CartContext';
@@ -79,11 +78,10 @@ function App() {
                         <Route path="sales-report" element={<SalesReport />} />
                         <Route path="admin-management" element={<AdminManagement />} />
                         <Route path="audit-log" element={<AuditLog />} />
-                        <Route path="whatsapp-templates" element={<WhatsAppTemplates />} />
-                        <Route path="whatsapp-campaigns" element={<WhatsAppCampaigns />} />
-                        <Route path="sms-campaigns" element={<SMSCampaigns />} />
+                        <Route path="campaigns" element={<CampaignManagement />} />
                         <Route path="whatsapp" element={<WhatsAppMessaging />} />
                         <Route path="categories" element={<CategoryManagement />} />
+                        <Route path="brands" element={<BrandManagement />} />
                         <Route path="analytics" element={<Analytics />} />
                         <Route path="send-notifications" element={<SendNotifications />} />
                         <Route path="branches" element={<BranchManagement />} />

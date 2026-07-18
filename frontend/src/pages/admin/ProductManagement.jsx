@@ -5,6 +5,7 @@ import { getAuthHeaders, isAuthenticated, isAdmin } from '../../utils/api';
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,6 +16,7 @@ const ProductManagement = () => {
 
   const [formData, setFormData] = useState({
     name: '',
+    brand: '',
     description: '',
     category_id: '',
     price: '',
@@ -60,6 +62,11 @@ const ProductManagement = () => {
     fetchCategories();
   }, []);
 
+  // Fetch brands whenever the selected category in the form changes
+  useEffect(() => {
+    fetchBrands(formData.category_id);
+  }, [formData.category_id]);
+
   const fetchProducts = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/products`);
@@ -85,6 +92,20 @@ const ProductManagement = () => {
       setCategories(data.categories || []);
     } catch (error) {
       console.error('Failed to fetch categories:', error);
+    }
+  };
+
+  const fetchBrands = async (categoryId) => {
+    try {
+      let url = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/brands`;
+      if (categoryId) {
+        url += `?category_id=${categoryId}`;
+      }
+      const response = await fetch(url);
+      const data = await response.json();
+      setBrands(data.brands || []);
+    } catch (error) {
+      console.error('Failed to fetch brands:', error);
     }
   };
 
@@ -332,6 +353,7 @@ const ProductManagement = () => {
 
     setFormData({
       name: product.name,
+      brand: product.brand || '',
       description: product.description || '',
       category_id: pCatId || '',
       price: product.price,
@@ -384,6 +406,7 @@ const ProductManagement = () => {
     setAdditionalImagePublicIds([]);
     setFormData({
       name: '',
+      brand: '',
       description: '',
       category_id: '',
       price: '',
@@ -775,15 +798,34 @@ const ProductManagement = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
-                    <input
-                      type="text"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
-                    />
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Product Name</label>
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Brand</label>
+                      <input
+                        type="text"
+                        list="brand-options"
+                        required
+                        value={formData.brand}
+                        onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                        placeholder="Type to search or select..."
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
+                      />
+                      <datalist id="brand-options">
+                        {brands.map(brand => (
+                          <option key={brand.id} value={brand.name} />
+                        ))}
+                      </datalist>
+                    </div>
                   </div>
 
                   <div>

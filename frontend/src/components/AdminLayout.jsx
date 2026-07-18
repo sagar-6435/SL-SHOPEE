@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Package, ShoppingCart, Users, Tag,
-  TrendingUp, LogOut, Menu, X, Shield, FileText, MessageSquare, Send, Image, Bell, Globe, ArrowUpRight
+  TrendingUp, LogOut, Menu, X, Shield, FileText, MessageSquare, Send, Image, Bell, Globe, ArrowUpRight, Star
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
@@ -20,14 +20,13 @@ const AdminLayout = ({ children }) => {
   const menuItems = [
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/admin/categories', icon: Tag, label: 'Categories' },
+    { path: '/admin/brands', icon: Star, label: 'Brands' },
     { path: '/admin/products', icon: Package, label: 'Products' },
     { path: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
     { path: '/admin/customers', icon: Users, label: 'Customers' },
     { path: '/admin/sales-report', icon: TrendingUp, label: 'Sales Report' },
     { path: '/view-website', icon: Globe, label: 'View Website' },
-    { path: '/admin/whatsapp-templates', icon: MessageSquare, label: 'WhatsApp Templates' },
-    { path: '/admin/whatsapp-campaigns', icon: Send, label: 'WhatsApp Campaigns' },
-    { path: '/admin/sms-campaigns', icon: Send, label: 'SMS Campaigns' },
+    { path: '/admin/campaigns', icon: MessageSquare, label: 'Campaigns' },
     { path: '/admin/send-notifications', icon: Bell, label: 'Send Notifications' },
     { path: '/admin/branches', icon: Users, label: 'Branches' }
   ];
