@@ -73,12 +73,12 @@ const DealsSection = () => {
                     <div>
                         <div className="flex items-center gap-3 mb-2">
                             {deal.icon_url ? (
-                                <span className="bg-amber-100 p-2 rounded-lg flex items-center justify-center">
-                                    <img src={deal.icon_url} alt="Deals Icon" className="w-5 h-5 md:w-6 md:h-6 object-contain" />
+                                <span className="bg-amber-100 p-3 rounded-xl flex items-center justify-center">
+                                    <img src={deal.icon_url} alt="Deals Icon" className="w-10 h-10 md:w-12 md:h-12 object-contain" />
                                 </span>
                             ) : (
-                                <span className="bg-amber-100 text-amber-700 p-2 rounded-lg">
-                                    <Tag className="w-5 h-5 md:w-6 md:h-6" />
+                                <span className="bg-amber-100 text-amber-700 p-3 rounded-xl flex items-center justify-center">
+                                    <Tag className="w-8 h-8 md:w-10 md:h-10" />
                                 </span>
                             )}
                             <h2 className="font-display font-black text-3xl md:text-4xl text-gray-900 tracking-tight">
@@ -87,7 +87,7 @@ const DealsSection = () => {
                         </div>
                         {deal.offerPercentage > 0 && (
                             <p className="font-body text-gray-600 text-lg md:text-xl mt-2 flex items-center gap-2">
-                                Get up to <span className="font-bold text-amber-600 text-2xl">{deal.offerPercentage}% Off</span> on selected items
+                                Get up to <span className="font-bold text-green-600 text-2xl">{deal.offerPercentage}%</span> Off on selected items
                             </p>
                         )}
                     </div>
