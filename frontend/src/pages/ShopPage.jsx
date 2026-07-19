@@ -233,13 +233,13 @@ const ShopPage = () => {
           ) : (
             <div className="text-center py-40">
               <Search className="w-16 h-16 text-gray-200 mx-auto mb-6" />
-              <h3 className="text-2xl font-display font-bold text-gray-900 mb-2">No Gifts Found</h3>
-              <p className="text-gray-500 font-body mb-8">We couldn't find any treasures matching your selection.</p>
+              <h3 className="text-2xl font-display font-bold text-gray-900 mb-2">No Products Found</h3>
+              <p className="text-gray-500 font-body mb-8">We couldn't find any Items matching your selection.</p>
               <button
                 onClick={() => handleCategoryChange('all')}
                 className="btn-primary"
               >
-                View All Collection
+                Explore All
               </button>
             </div>
           )}

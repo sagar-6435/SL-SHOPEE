@@ -21,6 +21,7 @@ const AdminLayout = ({ children }) => {
     { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { path: '/admin/categories', icon: Tag, label: 'Categories' },
     { path: '/admin/brands', icon: Star, label: 'Brands' },
+    { path: '/admin/deals', icon: Package, label: 'Deals Management' },
     { path: '/admin/products', icon: Package, label: 'Products' },
     { path: '/admin/orders', icon: ShoppingCart, label: 'Orders' },
     { path: '/admin/customers', icon: Users, label: 'Customers' },

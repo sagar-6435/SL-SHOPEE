@@ -1,16 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { 
-  Package, 
-  ShoppingBag, 
-  Camera, 
-  Users, 
+import {
+  Package,
+  ShoppingBag,
+  Camera,
+  Users,
   TrendingUp,
   DollarSign,
   Image as ImageIcon,
   Shield,
   MessageCircle,
-  Globe
+  Globe,
+  Tag
 } from 'lucide-react';
 import api from '../../utils/api';
 
@@ -37,7 +38,7 @@ const AdminDashboard = () => {
         console.error('Token parse error:', error);
       }
     }
-    
+
     // Fetch dashboard stats
     fetchStats();
   }, []);
@@ -54,88 +55,95 @@ const AdminDashboard = () => {
   };
 
   const statsCards = [
-    { 
-      label: 'Total Orders', 
-      value: loading ? '...' : stats.total_orders || 0, 
-      icon: ShoppingBag, 
-      color: 'bg-blue-500' 
+    {
+      label: 'Total Orders',
+      value: loading ? '...' : stats.total_orders || 0,
+      icon: ShoppingBag,
+      color: 'bg-blue-500'
     },
-    { 
-      label: 'Total Products', 
-      value: loading ? '...' : stats.total_products || 0, 
-      icon: Package, 
-      color: 'bg-green-500' 
+    {
+      label: 'Total Products',
+      value: loading ? '...' : stats.total_products || 0,
+      icon: Package,
+      color: 'bg-green-500'
     },
-    { 
-      label: 'Service Bookings', 
-      value: loading ? '...' : '0', 
-      icon: Camera, 
-      color: 'bg-purple-500' 
+    {
+      label: 'Service Bookings',
+      value: loading ? '...' : '0',
+      icon: Camera,
+      color: 'bg-purple-500'
     },
-    { 
-      label: 'Total Revenue', 
-      value: loading ? '...' : `₹${parseFloat(stats.total_revenue || 0).toLocaleString('en-IN')}`, 
-      icon: DollarSign, 
-      color: 'bg-yellow-500' 
+    {
+      label: 'Total Revenue',
+      value: loading ? '...' : `₹${parseFloat(stats.total_revenue || 0).toLocaleString('en-IN')}`,
+      icon: DollarSign,
+      color: 'bg-yellow-500'
     },
   ];
 
   const quickLinks = [
-    { 
-      title: 'Product Management', 
+    {
+      title: 'Product Management',
       description: 'Add, edit, or remove products',
       icon: Package,
       link: '/admin/products',
       color: 'from-blue-500 to-blue-600'
     },
-    { 
-      title: 'Order Management', 
+    {
+      title: 'Order Management',
       description: 'View and manage customer orders',
       icon: ShoppingBag,
       link: '/admin/orders',
       color: 'from-green-500 to-green-600'
     },
-    { 
-      title: 'Service Management', 
+    {
+      title: 'Service Management',
       description: 'Manage services and bookings',
       icon: Camera,
       link: '/admin/services',
       color: 'from-purple-500 to-purple-600'
     },
-    { 
-      title: 'WhatsApp Messaging', 
+    {
+      title: 'WhatsApp Messaging',
       description: 'Send WhatsApp messages to customers',
       icon: MessageCircle,
       link: '/admin/whatsapp',
       color: 'from-green-400 to-green-500'
     },
-    { 
-      title: 'Gallery Management', 
+    {
+      title: 'Gallery Management',
       description: 'Upload and manage gallery images',
       icon: ImageIcon,
       link: '/admin/gallery',
       color: 'from-pink-500 to-pink-600'
     },
-    { 
-      title: 'Homepage Management', 
+    {
+      title: 'Homepage Management',
       description: 'Manage homepage images and content',
       icon: ImageIcon,
       link: '/admin/homepage',
       color: 'from-rose-500 to-rose-600'
     },
-    { 
-      title: 'Customer Management', 
+    {
+      title: 'Customer Management',
       description: 'View customer information',
       icon: Users,
       link: '/admin/customers',
       color: 'from-indigo-500 to-indigo-600'
     },
-    { 
-      title: 'Analytics', 
+    {
+      title: 'Analytics',
       description: 'View sales reports and analytics',
       icon: TrendingUp,
       link: '/admin/analytics',
       color: 'from-orange-500 to-orange-600'
+    },
+    {
+      title: 'Deals Management',
+      description: 'Manage featured deals and special offers',
+      icon: Tag,
+      link: '/admin/deals',
+      color: 'from-amber-400 to-amber-600'
     },
     {
       title: 'View Website',
@@ -148,8 +156,8 @@ const AdminDashboard = () => {
 
   // Add Admin Management for super admins
   const superAdminLinks = isSuperAdmin ? [
-    { 
-      title: 'Admin Management', 
+    {
+      title: 'Admin Management',
       description: 'Manage admin users and permissions',
       icon: Shield,
       link: '/admin/admin-management',

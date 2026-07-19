@@ -164,7 +164,7 @@ const FlashRibbon = () => {
       <div className="absolute top-0 right-0 bottom-0 w-16 bg-gradient-to-l from-purple-50/90 to-transparent z-10 pointer-events-none" />
 
       <div className="text-center mb-5 relative z-20">
-        <span className="text-sm md:text-base font-bold uppercase tracking-[0.25em] text-[#9D4E8D] bg-white px-6 py-2 rounded-full border border-purple-100 shadow-[0_3px_8px_rgba(157,78,141,0.06)] font-sans">
+        <span className="text-sm md:text-base font-bold uppercase tracking-[0.25em] text-[var(--color-primary)] bg-white px-6 py-2 rounded-full border border-gray-100 shadow-[0_3px_8px_rgba(157,78,141,0.06)] font-sans">
           Brands We Deal In
         </span>
       </div>

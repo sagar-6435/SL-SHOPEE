@@ -11,7 +11,7 @@ export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:50
  */
 export const getAuthHeaders = () => {
   const token = localStorage.getItem('token');
-  
+
   if (!token) {
     console.warn('No authentication token found');
     return {};
@@ -27,7 +27,7 @@ export const getAuthHeaders = () => {
  */
 export const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint}`;
-  
+
   const config = {
     ...options,
     headers: {
@@ -70,7 +70,7 @@ export const isAdmin = () => {
   try {
     const userStr = localStorage.getItem('user');
     if (!userStr) return false;
-    
+
     const user = JSON.parse(userStr);
     return user.role === 'admin' || user.role === 'super_admin';
   } catch (error) {
@@ -103,23 +103,21 @@ const get = async (endpoint) => {
 };
 
 const post = async (endpoint, data) => {
+  const isFormData = data instanceof FormData;
   const response = await apiRequest(endpoint, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
+    headers: isFormData ? {} : { 'Content-Type': 'application/json' },
+    body: isFormData ? data : JSON.stringify(data)
   });
   return response.json();
 };
 
 const put = async (endpoint, data) => {
+  const isFormData = data instanceof FormData;
   const response = await apiRequest(endpoint, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
+    headers: isFormData ? {} : { 'Content-Type': 'application/json' },
+    body: isFormData ? data : JSON.stringify(data)
   });
   return response.json();
 };

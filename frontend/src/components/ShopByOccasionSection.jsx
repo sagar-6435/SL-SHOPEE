@@ -62,7 +62,7 @@ const ShopByOccasionSection = () => {
         {/* Section Title */}
         <div className="text-center mb-8">
           <p className="text-xs tracking-[0.3em] text-gray-400 font-bold mb-2">Find the perfect Electronics</p>
-          <h2 className="section-title">Shop by Category</h2>
+          <h2 className="section-title text-gray-900">Shop by Category</h2>
         </div>
 
         {/* Circular Category Cards */}

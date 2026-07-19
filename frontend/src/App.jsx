@@ -40,6 +40,7 @@ import CategoryManagement from './pages/admin/CategoryManagement';
 import BrandManagement from './pages/admin/BrandManagement';
 import SendNotifications from './pages/admin/SendNotifications';
 import BranchManagement from './pages/admin/BranchManagement';
+import DealsManagement from './pages/admin/DealsManagement';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
@@ -85,6 +86,7 @@ function App() {
                         <Route path="analytics" element={<Analytics />} />
                         <Route path="send-notifications" element={<SendNotifications />} />
                         <Route path="branches" element={<BranchManagement />} />
+                        <Route path="deals" element={<DealsManagement />} />
                         <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
                       </Routes>
                     </PageTransition>
