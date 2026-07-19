@@ -87,7 +87,7 @@ const DealsSection = () => {
                         </div>
                         {deal.offerPercentage > 0 && (
                             <p className="font-body text-gray-600 text-lg md:text-xl mt-2 flex items-center gap-2">
-                                Get up to <span className="font-bold text-green-600 text-2xl">{deal.offerPercentage}%</span> Off on selected items
+                                Get up to <span className="font-bold text-green-600 text-2xl">{deal.offerPercentage}% Off</span> on selected items
                             </p>
                         )}
                     </div>
