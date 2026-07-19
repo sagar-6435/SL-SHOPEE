@@ -53,7 +53,7 @@ export const CartProvider = ({ children }) => {
         return prevCart.map(item =>
           item.id === product.id &&
             JSON.stringify(item.customization) === JSON.stringify(product.customization)
-            ? { ...item, quantity: item.quantity + product.quantity }
+            ? { ...item, quantity: item.quantity + product.quantity, price: product.price || item.price }
             : item
         );
       }

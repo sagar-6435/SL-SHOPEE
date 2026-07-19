@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, ChevronRight, MapPin, User, Mail, MessageCircle, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -7,7 +7,14 @@ import PhoneInput from '../components/PhoneInput';
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { cart, getCartSubtotal, getServiceCharge, getFinalTotal, clearCart } = useCart();
+  const { cart, clearCart } = useCart();
+  const location = useLocation();
+
+  const displayCart = location.state?.buyNowItem ? [location.state.buyNowItem] : cart;
+
+  const subtotal = displayCart.reduce((total, item) => total + ((Number(item.finalPrice) || Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
+  const serviceCharge = displayCart.length > 0 ? 2 : 0;
+  const finalTotal = subtotal + serviceCharge;
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +29,7 @@ const CheckoutPage = () => {
   });
 
   useEffect(() => {
-    if (cart.length === 0) {
+    if (displayCart.length === 0) {
       navigate('/cart');
     }
   }, [cart, navigate]);
@@ -34,9 +41,9 @@ const CheckoutPage = () => {
       return;
     }
 
-    const itemsText = cart.map(item => `- ${item.name} (x${item.quantity}) - ₹${item.price}`).join('\n');
-    const message = `New Order Inquiry!\n\n*Customer Details:*\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nAddress: ${formData.address}, ${formData.landmark}, ${formData.city} - ${formData.pincode}\n\n*Order Summary:*\n${itemsText}\n\n*Total Amount: ₹${getFinalTotal()}*`;
-    
+    const itemsText = displayCart.map(item => `- ${item.name} (x${item.quantity}) - ₹${item.price}`).join('\n');
+    const message = `New Order Inquiry!\n\n*Customer Details:*\nName: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nAddress: ${formData.address}, ${formData.landmark}, ${formData.city} - ${formData.pincode}\n\n*Order Summary:*\n${itemsText}\n\n*Total Amount: ₹${finalTotal}*`;
+
     const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
@@ -80,7 +87,7 @@ const CheckoutPage = () => {
                     <input
                       type="text"
                       value={formData.name}
-                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className="w-full bg-gray-50 border-none rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-2 focus:ring-purple-100 transition-all"
                       placeholder="John Doe"
                     />
@@ -89,7 +96,7 @@ const CheckoutPage = () => {
                     <label className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest ml-4">Phone Number</label>
                     <PhoneInput
                       value={formData.phone}
-                      onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     />
                   </div>
                 </div>
@@ -98,7 +105,7 @@ const CheckoutPage = () => {
                   <input
                     type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full bg-gray-50 border-none rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-2 focus:ring-purple-100 transition-all"
                     placeholder="john@example.com"
                   />
@@ -118,7 +125,7 @@ const CheckoutPage = () => {
                   <input
                     type="text"
                     value={formData.address}
-                    onChange={(e) => setFormData({...formData, address: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                     className="w-full bg-gray-50 border-none rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-2 focus:ring-purple-100 transition-all"
                     placeholder="Flat / House No. / Building Name"
                   />
@@ -129,7 +136,7 @@ const CheckoutPage = () => {
                     <input
                       type="text"
                       value={formData.city}
-                      onChange={(e) => setFormData({...formData, city: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       className="w-full bg-gray-50 border-none rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-2 focus:ring-purple-100 transition-all"
                     />
                   </div>
@@ -138,7 +145,7 @@ const CheckoutPage = () => {
                     <input
                       type="text"
                       value={formData.pincode}
-                      onChange={(e) => setFormData({...formData, pincode: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
                       className="w-full bg-gray-50 border-none rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-2 focus:ring-purple-100 transition-all"
                     />
                   </div>
@@ -156,16 +163,16 @@ const CheckoutPage = () => {
               </div>
 
               <div className="space-y-6 mb-10 max-h-60 overflow-y-auto pr-4 scrollbar-thin">
-                {cart.map((item) => (
-                  <div key={item.id} className="flex gap-4">
+                {displayCart.map((item, idx) => (
+                  <div key={item.id || idx} className="flex gap-4">
                     <div className="w-16 h-16 rounded-xl overflow-hidden bg-white shrink-0">
                       <img src={item.image} className="w-full h-full object-cover" alt={item.name} />
                     </div>
                     <div className="flex-1">
-                      <h4 className="text-sm font-body font-bold text-gray-900 leading-tight mb-1">{item.name}</h4>
+                      <h4 className="text-sm font-body font-bold text-gray-900 leading-tight mb-1">{typeof item.name === 'object' ? JSON.stringify(item.name) : (item.name || '')}</h4>
                       <div className="flex justify-between items-center">
                         <span className="text-[10px] text-gray-400 font-body uppercase tracking-widest">Qty: {item.quantity}</span>
-                        <span className="text-sm font-sans font-bold text-gray-900">₹{item.price * item.quantity}</span>
+                        <span className="text-sm font-sans font-bold text-gray-900">₹{typeof item.price === 'object' ? (item.price.price || 0) * item.quantity : (item.price * item.quantity)}</span>
                       </div>
                     </div>
                   </div>
@@ -175,11 +182,11 @@ const CheckoutPage = () => {
               <div className="space-y-4 pt-10 border-t border-gray-200">
                 <div className="flex justify-between text-gray-400 font-body text-sm">
                   <span>Subtotal</span>
-                  <span>₹{getCartSubtotal()}</span>
+                  <span>₹{subtotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-gray-400 font-body text-sm">
                   <span>Service Charge</span>
-                  <span>₹{getServiceCharge()}</span>
+                  <span>₹{serviceCharge}</span>
                 </div>
                 <div className="flex justify-between text-gray-400 font-body text-sm">
                   <span>Shipping</span>
@@ -187,7 +194,7 @@ const CheckoutPage = () => {
                 </div>
                 <div className="flex justify-between text-gray-900 font-sans font-bold text-2xl pt-4">
                   <span>Total</span>
-                  <span>₹{getFinalTotal()}</span>
+                  <span>₹{finalTotal.toLocaleString()}</span>
                 </div>
               </div>
 

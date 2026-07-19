@@ -268,8 +268,8 @@ const MyOrdersPage = () => {
             <button
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${filter === 'all'
-                  ? 'bg-valentine-red text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-valentine-red text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
             >
               All Orders ({orders.length})
@@ -277,8 +277,8 @@ const MyOrdersPage = () => {
             <button
               onClick={() => setFilter('pending')}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${filter === 'pending'
-                  ? 'bg-valentine-red text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-valentine-red text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
             >
               Pending ({orders.filter(o => o.status?.toLowerCase() === 'pending').length})
@@ -286,8 +286,8 @@ const MyOrdersPage = () => {
             <button
               onClick={() => setFilter('completed')}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${filter === 'completed'
-                  ? 'bg-valentine-red text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-valentine-red text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
             >
               Completed ({orders.filter(o => o.status?.toLowerCase() === 'completed').length})
@@ -295,8 +295,8 @@ const MyOrdersPage = () => {
             <button
               onClick={() => setFilter('cancelled')}
               className={`px-4 py-2 rounded-lg font-semibold transition-colors ${filter === 'cancelled'
-                  ? 'bg-valentine-red text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-valentine-red text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
             >
               Cancelled ({orders.filter(o => o.status?.toLowerCase() === 'cancelled').length})
@@ -365,8 +365,9 @@ const MyOrdersPage = () => {
                         ? (typeof item.product_id === 'object' ? item.product_id.$oid || item.product_id.toString() : item.product_id)
                         : null;
                       return (
-                        <div key={index} className="pb-4 border-b last:border-b-0">
-                          <div className="flex gap-4">
+                        <div key={index} className="pb-6 border-b last:border-b-0 last:pb-0">
+                          <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                            {/* Product Image on the Left */}
                             <img
                               src={
                                 item.product_image?.startsWith('http')
@@ -376,25 +377,33 @@ const MyOrdersPage = () => {
                                     : '/images/image.png')
                               }
                               alt={item.product_name}
-                              className="w-[140px] h-[140px] object-contain bg-white p-2 rounded-md border border-gray-200 shadow-sm flex-shrink-0"
+                              className="w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] object-contain bg-white p-2 rounded-xl border border-gray-200 shadow-sm flex-shrink-0"
                             />
-                            <div className="flex-1">
-                              <h4 className="font-semibold">{item.product_name}</h4>
-                              <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
-                              {item.customization && (
-                                <p className="text-xs text-gray-500 mt-1">✨ Customized</p>
-                              )}
-                              {/* Review form — only for delivered orders with a known product_id */}
-                              {isDelivered && productId && (
-                                <ProductReviewForm
-                                  productId={productId}
-                                  productName={item.product_name}
-                                />
-                              )}
-                            </div>
-                            <div className="text-right flex-shrink-0">
-                              <p className="font-bold text-valentine-red">₹{item.price}</p>
-                              <p className="text-sm text-gray-600">× {item.quantity}</p>
+
+                            {/* Product Info right side of the image */}
+                            <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                              <div className="flex-1">
+                                <h4 className="font-bold text-lg md:text-xl text-gray-900 mb-1">{item.product_name}</h4>
+                                <p className="text-sm font-medium text-gray-600">Quantity: {item.quantity}</p>
+                                {item.customization && (
+                                  <span className="inline-block px-2 py-1 bg-amber-50 text-amber-700 text-xs font-semibold rounded-md mt-2">✨ Customized</span>
+                                )}
+                                {/* Review form — only for delivered orders with a known product_id */}
+                                {isDelivered && productId && (
+                                  <div className="mt-3">
+                                    <ProductReviewForm
+                                      productId={productId}
+                                      productName={item.product_name}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="text-left sm:text-right flex-shrink-0 bg-gray-50 sm:bg-transparent p-3 sm:p-0 rounded-lg">
+                                <p className="text-sm text-gray-500 mb-1">Price</p>
+                                <p className="font-bold text-xl text-valentine-red">₹{item.price}</p>
+                                <p className="text-sm font-medium text-gray-600 mt-1">Total: ₹{item.price * item.quantity}</p>
+                              </div>
                             </div>
                           </div>
                         </div>

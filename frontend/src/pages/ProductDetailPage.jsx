@@ -213,9 +213,9 @@ const ProductDetailPage = () => {
       id: product.id,
       name: product.name,
       image: product.image_url || product.image,
-      price: selectedSize ? selectedSize.price : product.price,
+      price: (selectedSize && Number(selectedSize.price)) ? Number(selectedSize.price) : Number(product.price),
       quantity,
-      size: selectedSize ? (selectedSize.name || selectedSize) : null,
+      size: selectedSize ? (typeof selectedSize === 'object' ? selectedSize.name : selectedSize) : null,
       customization: product.customizable
         ? {
           image: customization.image,
@@ -234,7 +234,7 @@ const ProductDetailPage = () => {
     }
 
     addToCart(buildCartItem());
-    navigate('/cart');
+    alert('Item successfully added to your cart!');
   };
 
   const handleBuyNow = () => {
@@ -253,8 +253,7 @@ const ProductDetailPage = () => {
       return;
     }
 
-    addToCart(cartItem);
-    navigate('/checkout');
+    navigate('/checkout', { state: { buyNowItem: cartItem } });
   };
 
   if (loading) return (

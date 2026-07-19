@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingBag, ShieldCheck, CheckCircle2, ArrowRight, CreditCard } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -8,7 +8,13 @@ import PhoneInput from '../components/PhoneInput';
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const { cart, getCartSubtotal, getServiceCharge, getFinalTotal, clearCart } = useCart();
+  const location = useLocation();
+  const { cart, clearCart } = useCart();
+
+  const displayCart = location.state?.buyNowItem ? [location.state.buyNowItem] : cart;
+  const subtotal = displayCart.reduce((total, item) => total + ((Number(item.finalPrice) || Number(item.price) || 0) * (Number(item.quantity) || 1)), 0);
+  const serviceCharge = displayCart.length > 0 ? 2 : 0;
+  const finalTotal = subtotal + serviceCharge;
   const { user } = useAuth();
 
   const [step, setStep] = useState(1); // 1: Details, 2: Payment
@@ -58,8 +64,8 @@ const PaymentPage = () => {
   }, []);
 
   useEffect(() => {
-    if (cart.length === 0) navigate('/profile?tab=cart');
-  }, [cart, navigate]);
+    if (displayCart.length === 0) navigate('/profile?tab=cart');
+  }, [displayCart, navigate]);
 
   const handleNextStep = (e) => {
     e.preventDefault();
@@ -104,7 +110,7 @@ const PaymentPage = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          amount: getFinalTotal(),
+          amount: finalTotal,
           orderId: createdOrder.id,
         }),
       });
@@ -202,10 +208,10 @@ const PaymentPage = () => {
           customer_email: formData.email,
           customer_phone: formData.phone,
           shipping_address: `${formData.address}, ${formData.landmark ? formData.landmark + ', ' : ''}${formData.city}${formData.state ? `, ${formData.state}` : ''} - ${formData.pincode}`,
-          items: cart,
-          subtotal: getCartSubtotal(),
-          service_charge: getServiceCharge(),
-          total: getFinalTotal(),
+          items: displayCart,
+          subtotal: subtotal,
+          service_charge: serviceCharge,
+          total: finalTotal,
           payment_method: 'razorpay',
           shipping_info: {
             address: formData.address,
@@ -385,7 +391,7 @@ const PaymentPage = () => {
                   ) : (
                     <>
                       <CheckCircle2 className="w-6 h-6" />
-                      <span>Pay ₹{getFinalTotal()} Securely</span>
+                      <span>Pay ₹{finalTotal} Securely</span>
                     </>
                   )}
                 </button>
@@ -414,16 +420,16 @@ const PaymentPage = () => {
               </h3>
 
               <div className="space-y-6 mb-10 max-h-72 overflow-y-auto pr-2">
-                {cart.map((item) => (
-                  <div key={item.id} className="flex gap-4 group">
+                {displayCart.map((item, idx) => (
+                  <div key={item.id || idx} className="flex gap-4 group">
                     <div className="w-16 h-16 rounded-2xl overflow-hidden bg-gray-50 flex-shrink-0">
                       <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={item.name} />
                     </div>
                     <div className="flex-1 flex flex-col justify-center">
-                      <h4 className="text-sm font-body font-bold text-gray-900 truncate max-w-[150px]">{item.name}</h4>
-                      <p className="text-[10px] font-body text-gray-400 uppercase tracking-widest">Qty: {item.quantity}{item.size ? ` • Size: ${item.size}` : ''}</p>
+                      <h4 className="text-sm font-body font-bold text-gray-900 truncate max-w-[150px]">{typeof item.name === 'object' ? JSON.stringify(item.name) : (item.name || '')}</h4>
+                      <p className="text-[10px] font-body text-gray-400 uppercase tracking-widest">Qty: {item.quantity}{item.size ? ` • Size: ${typeof item.size === 'object' ? item.size.name : item.size}` : ''}</p>
                     </div>
-                    <div className="flex items-center font-sans font-bold text-gray-900">₹{item.price * item.quantity}</div>
+                    <div className="flex items-center font-sans font-bold text-gray-900">₹{typeof item.price === 'object' ? (item.price.price || 0) * item.quantity : (item.price * item.quantity)}</div>
                   </div>
                 ))}
               </div>
@@ -431,11 +437,11 @@ const PaymentPage = () => {
               <div className="space-y-4 pt-10 border-t border-gray-50">
                 <div className="flex justify-between text-xs font-body text-gray-400 uppercase tracking-widest">
                   <span>Subtotal</span>
-                  <span className="text-gray-900 font-bold">₹{getCartSubtotal()}</span>
+                  <span className="text-gray-900 font-bold">₹{subtotal}</span>
                 </div>
                 <div className="flex justify-between text-xs font-body text-gray-400 uppercase tracking-widest">
                   <span>Service Fee</span>
-                  <span className="text-gray-900 font-bold">₹{getServiceCharge()}</span>
+                  <span className="text-gray-900 font-bold">₹{serviceCharge}</span>
                 </div>
                 <div className="flex justify-between text-xs font-body text-gray-400 uppercase tracking-widest">
                   <span>Shipping</span>
@@ -443,7 +449,7 @@ const PaymentPage = () => {
                 </div>
                 <div className="pt-8 flex flex-col">
                   <span className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-[0.3em] mb-2 text-center">GRAND TOTAL</span>
-                  <span className="text-5xl font-sans font-bold text-[var(--color-primary)] text-center tracking-tight">₹{getFinalTotal()}</span>
+                  <span className="text-5xl font-sans font-bold text-[var(--color-primary)] text-center tracking-tight">₹{finalTotal}</span>
                 </div>
               </div>
             </div>

@@ -12,7 +12,7 @@ const CartPage = () => {
 
   const subtotal = getCartSubtotal();
   const shipping = 99;
-  const tax = Math.round(subtotal * 0.18);
+  const tax = Math.round(subtotal * 0.015);
   const grandTotal = subtotal + shipping + tax;
 
   const getCustomizationText = (item) => {
@@ -101,7 +101,7 @@ const CartPage = () => {
                       <div className="flex flex-wrap gap-2 mb-4">
                         {item.size && (
                           <span className="px-3 py-1 bg-pink-50 text-[10px] font-body font-bold text-pink-600 uppercase tracking-widest rounded-full">
-                            SIZE: {item.size}
+                            SIZE: {typeof item.size === 'object' ? item.size.name : item.size}
                           </span>
                         )}
                         {item.customization?.image && (
@@ -188,7 +188,7 @@ const CartPage = () => {
                   <span className="text-gray-900 font-bold">₹{shipping}</span>
                 </div>
                 <div className="flex justify-between font-body text-gray-500">
-                  <span>Tax (GST 18%)</span>
+                  <span>Estimated Tax (1.5%)</span>
                   <span className="text-gray-900 font-bold">₹{tax.toLocaleString()}</span>
                 </div>
               </div>

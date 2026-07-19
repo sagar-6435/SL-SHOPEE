@@ -356,99 +356,103 @@ const OrderDetailPage = () => {
                     : null;
 
                   return (
-                    <div key={index} className="flex gap-4 pb-4 border-b last:border-b-0">
-                      <img
-                        src={
-                          item.product_image?.startsWith('http')
-                            ? item.product_image
-                            : (item.product_image || item.product_image_url || item.image_url
-                              ? fullUrl(item.product_image || item.product_image_url || item.image_url)
-                              : '/images/image.png')
-                        }
-                        alt={item.product_name}
-                        className="w-[140px] h-[140px] object-contain bg-white p-2 rounded-md border border-gray-200 shadow-sm flex-shrink-0"
-                      />
-                      <div className="flex-1">
-                        <h3 className="font-bold text-lg">{item.product_name}</h3>
-                        <p className="text-gray-600">Quantity: {item.quantity}</p>
-                        {item.customization && (
-                          <div className="mt-2 text-sm text-gray-600">
-                            <p className="font-semibold text-valentine-red">✨ Customized</p>
-                            {item.customization.size && (
-                              <p>Size: {item.customization.size}</p>
+                    <div key={index} className="pb-6 border-b last:border-b-0 last:pb-0">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                        <img
+                          src={
+                            item.product_image?.startsWith('http')
+                              ? item.product_image
+                              : (item.product_image || item.product_image_url || item.image_url
+                                ? fullUrl(item.product_image || item.product_image_url || item.image_url)
+                                : '/images/image.png')
+                          }
+                          alt={item.product_name}
+                          className="w-[120px] h-[120px] sm:w-[140px] sm:h-[140px] object-contain bg-white p-2 rounded-xl border border-gray-200 shadow-sm flex-shrink-0"
+                        />
+                        <div className="flex-1 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                          <div className="flex-1">
+                            <h3 className="font-bold text-lg md:text-xl text-gray-900 mb-1">{item.product_name}</h3>
+                            <p className="text-sm font-medium text-gray-600">Quantity: {item.quantity}</p>
+                            {item.customization && (
+                              <div className="mt-3 text-sm text-gray-700 bg-amber-50 p-3 rounded-lg border border-amber-100">
+                                <p className="font-semibold text-amber-800 mb-1 flex items-center gap-1">✨ Customization Needed</p>
+                                {item.customization.size && (
+                                  <p><span className="font-medium text-gray-500">Size:</span> {item.customization.size}</p>
+                                )}
+                                {getCustomizationText(item) && (
+                                  <p><span className="font-medium text-gray-500">Text:</span> {getCustomizationText(item)}</p>
+                                )}
+                                {Object.entries(item.customization.textInputs || {}).map(([key, value]) => (
+                                  <p key={key}><span className="font-medium text-gray-500">{key}:</span> {value}</p>
+                                ))}
+                              </div>
                             )}
-                            {getCustomizationText(item) && (
-                              <p>Text: {getCustomizationText(item)}</p>
+
+                            {/* Admin Designed Image Display */}
+                            {designs[item._id || item.id]?.admin_designed_image && (
+                              <div className="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                                <p className="font-semibold text-purple-800 mb-2">🎨 Designed Image from Admin</p>
+                                <img
+                                  src={
+                                    designs[item._id || item.id].admin_designed_image.startsWith('http')
+                                      ? designs[item._id || item.id].admin_designed_image
+                                      : fullUrl(designs[item._id || item.id].admin_designed_image)
+                                  }
+                                  alt="Admin Design"
+                                  className="w-full max-w-sm rounded-lg shadow-sm border border-gray-200"
+                                />
+                                <p className="text-sm mt-2 font-medium capitalize text-purple-700">
+                                  Status: {designs[item._id || item.id].status.replace('_', ' ')}
+                                </p>
+
+                                {designs[item._id || item.id].status === 'pending_approval' && (
+                                  <div className="mt-4 space-y-3 bg-white p-4 rounded-lg shadow-sm border border-purple-100">
+                                    <h4 className="font-bold text-gray-900 mb-2">Review Design</h4>
+                                    <p className="text-sm text-gray-600 mb-3">Please approve this design to proceed, or let us know if you need any changes.</p>
+
+                                    <button
+                                      onClick={() => handleApproveDesign(item._id || item.id)}
+                                      disabled={submittingAction === (item._id || item.id)}
+                                      className="w-full sm:w-auto px-6 py-2.5 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 disabled:opacity-50 transition-colors shadow-sm"
+                                    >
+                                      {submittingAction === (item._id || item.id) ? 'Processing...' : 'Yes, Approve Design'}
+                                    </button>
+
+                                    <div className="mt-4 border-t border-gray-100 pt-4">
+                                      <p className="text-sm font-semibold text-gray-700 mb-2">Need Changes?</p>
+                                      <textarea
+                                        placeholder="Type your feedback or revision requests here..."
+                                        className="w-full p-3 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-[var(--color-primary)] transition-all bg-gray-50 outline-none"
+                                        rows="3"
+                                        value={feedbackText[item._id || item.id] || ''}
+                                        onChange={(e) => setFeedbackText(prev => ({ ...prev, [item._id || item.id]: e.target.value }))}
+                                      />
+                                      <button
+                                        onClick={() => handleRequestRevision(item._id || item.id)}
+                                        disabled={submittingAction === (item._id || item.id) || !feedbackText[item._id || item.id]}
+                                        className="mt-3 w-full sm:w-auto px-6 py-2 bg-gray-900 text-white font-semibold rounded-lg hover:bg-[var(--color-primary)] disabled:opacity-50 transition-colors text-sm"
+                                      >
+                                        Request Revision
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             )}
-                            {Object.entries(item.customization.textInputs || {}).map(([key, value]) => (
-                              <p key={key}>{key}: {value}</p>
-                            ))}
-                          </div>
-                        )}
 
-                        {/* Admin Designed Image Display */}
-                        {designs[item._id || item.id]?.admin_designed_image && (
-                          <div className="mt-4 p-4 bg-purple-50 rounded-lg border border-purple-200">
-                            <p className="font-semibold text-purple-800 mb-2">🎨 Designed Image from Admin</p>
-                            <img
-                              src={
-                                designs[item._id || item.id].admin_designed_image.startsWith('http')
-                                  ? designs[item._id || item.id].admin_designed_image
-                                  : fullUrl(designs[item._id || item.id].admin_designed_image)
-                              }
-                              alt="Admin Design"
-                              className="w-full max-w-sm rounded-lg shadow-sm border border-gray-200"
-                            />
-                            <p className="text-sm mt-2 font-medium capitalize text-purple-700">
-                              Status: {designs[item._id || item.id].status.replace('_', ' ')}
-                            </p>
-
-                            {designs[item._id || item.id].status === 'pending_approval' && (
-                              <div className="mt-4 space-y-3 bg-white p-4 rounded-lg shadow-sm border border-purple-100">
-                                <h4 className="font-bold text-gray-900 mb-2">Review Design</h4>
-                                <p className="text-sm text-gray-600 mb-3">Please approve this design to proceed, or let us know if you need any changes.</p>
-
-                                <button
-                                  onClick={() => handleApproveDesign(item._id || item.id)}
-                                  disabled={submittingAction === (item._id || item.id)}
-                                  className="w-full sm:w-auto px-6 py-2.5 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 disabled:opacity-50 transition-colors shadow-sm"
-                                >
-                                  {submittingAction === (item._id || item.id) ? 'Processing...' : 'Yes, Approve Design'}
-                                </button>
-
-                                <div className="mt-4 border-t border-gray-100 pt-4">
-                                  <p className="text-sm font-semibold text-gray-700 mb-2">Need Changes?</p>
-                                  <textarea
-                                    placeholder="Type your feedback or revision requests here..."
-                                    className="w-full p-3 text-sm border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-200 focus:border-[var(--color-primary)] transition-all bg-gray-50 outline-none"
-                                    rows="3"
-                                    value={feedbackText[item._id || item.id] || ''}
-                                    onChange={(e) => setFeedbackText(prev => ({ ...prev, [item._id || item.id]: e.target.value }))}
-                                  />
-                                  <button
-                                    onClick={() => handleRequestRevision(item._id || item.id)}
-                                    disabled={submittingAction === (item._id || item.id) || !feedbackText[item._id || item.id]}
-                                    className="mt-3 w-full sm:w-auto px-6 py-2 bg-gray-900 text-white font-semibold rounded-lg hover:bg-[var(--color-primary)] disabled:opacity-50 transition-colors text-sm"
-                                  >
-                                    Request Revision
-                                  </button>
-                                </div>
+                            {/* Review form — only for delivered orders */}
+                            {isDelivered && productId && (
+                              <div className="mt-3">
+                                <ProductReviewForm productId={productId} productName={item.product_name} />
                               </div>
                             )}
                           </div>
-                        )}
-
-                        {/* Review form — only for delivered orders */}
-                        {isDelivered && productId && (
-                          <ProductReviewForm productId={productId} productName={item.product_name} />
-                        )}
-                      </div>
-                      <div className="text-right flex-shrink-0">
-                        <p className="font-bold text-xl text-valentine-red">₹{item.price}</p>
-                        <p className="text-sm text-gray-600">× {item.quantity}</p>
-                        <p className="text-sm font-semibold mt-1">
-                          Total: ₹{item.price * item.quantity}
-                        </p>
+                          <div className="text-left sm:text-right flex-shrink-0 bg-gray-50 sm:bg-transparent p-3 sm:p-0 rounded-lg">
+                            <p className="text-sm text-gray-500 mb-1">Price</p>
+                            <p className="font-bold text-xl text-valentine-red">₹{item.price}</p>
+                            <p className="text-sm font-medium text-gray-600 mt-1">Total: ₹{item.price * item.quantity}</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   );

@@ -135,7 +135,7 @@ const ProfilePage = () => {
 
   const subtotal = getCartSubtotal();
   const shipping = 99;
-  const tax = Math.round(subtotal * 0.18);
+  const tax = Math.round(subtotal * 0.015);
   const grandTotal = subtotal + shipping + tax;
 
   return (
@@ -265,11 +265,6 @@ const ProfilePage = () => {
                         <div>
                           <p className="text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">ORDER ID</p>
                           <p className="font-display font-bold text-xl text-gray-900">#{order.id || order._id}</p>
-                          {order.items?.length > 0 && (
-                            <p className="text-sm font-body text-gray-500 mt-1 max-w-[250px] md:max-w-xs truncate" title={order.items.map(item => item.product_name).join(', ')}>
-                              {order.items.map(item => item.product_name).join(', ')}
-                            </p>
-                          )}
                         </div>
                         <div className="flex items-center gap-6 sm:gap-12 flex-wrap">
                           <div>
@@ -285,15 +280,15 @@ const ProfilePage = () => {
                             </p>
                           </div>
                           <div className={`px-4 py-1.5 rounded-full text-[10px] font-body font-bold uppercase tracking-widest ${(order.order_status || order.status) === 'delivered'
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-yellow-100 text-yellow-700'
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-yellow-100 text-yellow-700'
                             }`}>
                             {order.order_status || order.status || 'Pending'}
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-                        <div className="flex gap-4">
+                      <div className="flex flex-col xl:flex-row xl:items-center justify-between pt-6 border-t border-gray-100 gap-6">
+                        <div className="flex flex-wrap gap-4">
                           {order.items?.slice(0, 4).map((item, i) => {
                             const designImg = designs[item._id || item.id]?.admin_designed_image;
                             const imageSrc = designImg
@@ -303,18 +298,27 @@ const ProfilePage = () => {
                                 : (item.product_image ? fullUrl(item.product_image) : '/images/image.png'));
 
                             return (
-                              <img 
-                                key={i} 
-                                src={imageSrc} 
-                                className={`w-[140px] h-[140px] rounded-md border ${designImg ? 'border-[var(--color-primary)]' : 'border-gray-200'} object-contain bg-white p-2 shadow-sm flex-shrink-0`} 
-                                alt={item.product_name || "Product"} 
-                                title={designImg ? "Admin Designed Image" : ""}
-                              />
+                              <div key={i} className="flex items-center gap-4 bg-gray-50/50 rounded-xl pr-6 border border-gray-100 max-w-sm">
+                                <img
+                                  src={imageSrc}
+                                  className={`w-[100px] h-[100px] md:w-[140px] md:h-[140px] rounded-lg border ${designImg ? 'border-[var(--color-primary)]' : 'border-gray-200'} object-contain bg-white p-2 shadow-sm flex-shrink-0`}
+                                  alt={item.product_name || "Product"}
+                                  title={designImg ? "Admin Designed Image" : ""}
+                                />
+                                <div className="flex flex-col">
+                                  <p className="font-bold text-sm md:text-base text-gray-900 line-clamp-2">{item.product_name}</p>
+                                  <p className="font-sans font-bold text-sm md:text-base text-[var(--color-primary)] mt-1">
+                                    ₹{item.price ? parseFloat(item.price).toLocaleString() : 0}
+                                  </p>
+                                  <p className="text-xs text-gray-500 mt-0.5">Qty: {item.quantity}</p>
+                                  {designImg && <p className="text-[10px] uppercase font-bold text-[var(--color-primary)] mt-2">Design Ready</p>}
+                                </div>
+                              </div>
                             );
                           })}
                           {order.items?.length > 4 && (
-                            <div className="w-[140px] h-[140px] rounded-md border border-gray-200 bg-gray-50 flex items-center justify-center text-xs font-bold text-gray-600 shadow-sm flex-shrink-0">
-                              +{order.items.length - 4}
+                            <div className="w-[100px] h-[100px] md:w-[140px] md:h-[140px] rounded-xl border border-gray-200 bg-gray-50 flex items-center justify-center text-xs md:text-sm font-bold text-gray-600 shadow-sm flex-shrink-0">
+                              +{order.items.length - 4} More
                             </div>
                           )}
                         </div>
