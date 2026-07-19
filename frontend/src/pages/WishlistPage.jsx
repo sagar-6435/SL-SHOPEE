@@ -34,7 +34,7 @@ const WishlistPage = () => {
           </div>
           <h1 className="text-4xl font-display font-bold text-gray-900 mb-4">Your collection is waiting.</h1>
           <p className="text-gray-400 font-body mb-10 max-w-md mx-auto">
-            You haven't saved any treasures yet. Explore our shop to find items that speak to you.
+            You haven't saved any products yet. Explore our shop to find items that speak to you.
           </p>
           <Link to="/shop" className="btn-primary">
             Explore Shop
@@ -54,7 +54,7 @@ const WishlistPage = () => {
               <span className="bg-[#FCE4EC] text-[#9D4E8D] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">
                 Your Selection
               </span>
-              <h1 className="text-6xl font-display font-bold text-gray-900 mb-6">Saved Treasures</h1>
+              <h1 className="text-6xl font-display font-bold text-gray-900 mb-6">Saved Products</h1>
               <p className="text-gray-400 font-body text-lg leading-relaxed">
                 A curated collection of your most cherished digital finds and physical dreams, waiting for their moment.
               </p>

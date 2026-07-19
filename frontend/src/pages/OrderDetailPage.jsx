@@ -366,7 +366,7 @@ const OrderDetailPage = () => {
                               : '/images/image.png')
                         }
                         alt={item.product_name}
-                        className="w-24 h-24 object-contain bg-gray-50 rounded-lg flex-shrink-0"
+                        className="w-[140px] h-[140px] object-contain bg-white p-2 rounded-md border border-gray-200 shadow-sm flex-shrink-0"
                       />
                       <div className="flex-1">
                         <h3 className="font-bold text-lg">{item.product_name}</h3>

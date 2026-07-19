@@ -376,7 +376,7 @@ const MyOrdersPage = () => {
                                     : '/images/image.png')
                               }
                               alt={item.product_name}
-                              className="w-20 h-20 object-contain bg-gray-50 rounded-lg flex-shrink-0"
+                              className="w-[140px] h-[140px] object-contain bg-white p-2 rounded-md border border-gray-200 shadow-sm flex-shrink-0"
                             />
                             <div className="flex-1">
                               <h4 className="font-semibold">{item.product_name}</h4>

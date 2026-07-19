@@ -293,7 +293,7 @@ const ProfilePage = () => {
                         </div>
                       </div>
                       <div className="flex items-center justify-between pt-6 border-t border-gray-100">
-                        <div className="flex -space-x-4">
+                        <div className="flex gap-4">
                           {order.items?.slice(0, 4).map((item, i) => {
                             const designImg = designs[item._id || item.id]?.admin_designed_image;
                             const imageSrc = designImg
@@ -303,17 +303,17 @@ const ProfilePage = () => {
                                 : (item.product_image ? fullUrl(item.product_image) : '/images/image.png'));
 
                             return (
-                              <img
-                                key={i}
-                                src={imageSrc}
-                                className={`w-12 h-12 rounded-full border-2 ${designImg ? 'border-[var(--color-primary)]' : 'border-white'} object-cover shadow-sm relative z-[${10 - i}]`}
-                                alt={item.product_name || "Product"}
+                              <img 
+                                key={i} 
+                                src={imageSrc} 
+                                className={`w-[140px] h-[140px] rounded-md border ${designImg ? 'border-[var(--color-primary)]' : 'border-gray-200'} object-contain bg-white p-2 shadow-sm flex-shrink-0`} 
+                                alt={item.product_name || "Product"} 
                                 title={designImg ? "Admin Designed Image" : ""}
                               />
                             );
                           })}
                           {order.items?.length > 4 && (
-                            <div className="w-12 h-12 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-600 shadow-sm z-10">
+                            <div className="w-[140px] h-[140px] rounded-md border border-gray-200 bg-gray-50 flex items-center justify-center text-xs font-bold text-gray-600 shadow-sm flex-shrink-0">
                               +{order.items.length - 4}
                             </div>
                           )}
