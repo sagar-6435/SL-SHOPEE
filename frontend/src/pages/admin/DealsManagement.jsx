@@ -8,6 +8,8 @@ const DealsManagement = () => {
     const [bgImagePreview, setBgImagePreview] = useState(null);
     const [iconFile, setIconFile] = useState(null);
     const [iconPreview, setIconPreview] = useState(null);
+    const [removeBgImage, setRemoveBgImage] = useState(false);
+    const [removeIcon, setRemoveIcon] = useState(false);
     const [allProducts, setAllProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -37,6 +39,8 @@ const DealsManagement = () => {
             if (dealRes.icon_url) {
                 setIconPreview(dealRes.icon_url);
             }
+            setRemoveBgImage(false);
+            setRemoveIcon(false);
             setAllProducts(productsRes.products || productsRes);
         } catch (error) {
             console.error('Error fetching deals:', error);
@@ -59,6 +63,8 @@ const DealsManagement = () => {
             if (iconFile) {
                 formData.append('icon', iconFile);
             }
+            if (removeBgImage) formData.append('removeBgImage', 'true');
+            if (removeIcon) formData.append('removeIcon', 'true');
 
             // api.put now automatically handles FormData correctly by omitting Content-Type
             await api.put('/api/deals', formData);
@@ -76,6 +82,7 @@ const DealsManagement = () => {
         if (file) {
             setBgImageFile(file);
             setBgImagePreview(URL.createObjectURL(file));
+            setRemoveBgImage(false);
         }
     };
 
@@ -84,6 +91,7 @@ const DealsManagement = () => {
         if (file) {
             setIconFile(file);
             setIconPreview(URL.createObjectURL(file));
+            setRemoveIcon(false);
         }
     };
 
@@ -164,6 +172,7 @@ const DealsManagement = () => {
                             onClick={() => {
                                 setBgImageFile(null);
                                 setBgImagePreview(null);
+                                setRemoveBgImage(true);
                             }}
                             className="text-red-600 text-sm hover:underline"
                         >
@@ -201,6 +210,7 @@ const DealsManagement = () => {
                             onClick={() => {
                                 setIconFile(null);
                                 setIconPreview(null);
+                                setRemoveIcon(true);
                             }}
                             className="text-red-600 text-sm hover:underline"
                         >

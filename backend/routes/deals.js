@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 // Admin only
 router.put('/', protect, admin, upload.fields([{ name: 'bgImage', maxCount: 1 }, { name: 'icon', maxCount: 1 }]), async (req, res) => {
     try {
-        const { name, offerPercentage, products } = req.body;
+        const { name, offerPercentage, products, removeBgImage, removeIcon } = req.body;
         let deal = await Deal.findOne();
         if (!deal) {
             deal = new Deal();
@@ -40,6 +40,26 @@ router.put('/', protect, admin, upload.fields([{ name: 'bgImage', maxCount: 1 },
             } catch (e) {
                 deal.products = products || [];
             }
+        }
+
+        if (removeBgImage === 'true' && deal.bgImage_public_id) {
+            try {
+                await deleteFromCloudinary(deal.bgImage_public_id);
+            } catch (e) {
+                console.error('Failed to delete old deal bg:', e);
+            }
+            deal.bgImage_url = null;
+            deal.bgImage_public_id = null;
+        }
+
+        if (removeIcon === 'true' && deal.icon_public_id) {
+            try {
+                await deleteFromCloudinary(deal.icon_public_id);
+            } catch (e) {
+                console.error('Failed to delete old deal icon:', e);
+            }
+            deal.icon_url = null;
+            deal.icon_public_id = null;
         }
 
         if (req.files) {

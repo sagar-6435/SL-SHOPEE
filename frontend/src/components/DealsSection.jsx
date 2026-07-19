@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Tag } from 'lucide-react';
 import api from '../utils/api';
 import ProductCard from './ProductCard';
@@ -6,6 +6,15 @@ import ProductCard from './ProductCard';
 const DealsSection = () => {
     const [deal, setDeal] = useState(null);
     const [loading, setLoading] = useState(true);
+    const scrollContainerRef = useRef(null);
+
+    const scroll = (direction) => {
+        const container = scrollContainerRef.current;
+        if (container) {
+            const scrollAmount = direction === 'left' ? -280 : 280;
+            container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
 
     useEffect(() => {
         const fetchDeal = async () => {
@@ -84,10 +93,46 @@ const DealsSection = () => {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
-                    {deal.products.map((product) => (
-                        <ProductCard key={product.id} product={product} showWishlist={true} />
-                    ))}
+                <div className="relative group mt-8">
+                    {/* Left Scroll Button */}
+                    <button
+                        onClick={() => scroll('left')}
+                        className="absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-700 hover:text-amber-600 hover:scale-110 transition-all opacity-0 group-hover:opacity-100 hidden sm:flex border border-gray-100"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+
+                    {/* Scrollable Track */}
+                    <div
+                        ref={scrollContainerRef}
+                        className="flex overflow-x-auto gap-4 md:gap-6 snap-x snap-mandatory pb-8 pt-4 custom-scrollbar-hide"
+                        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    >
+                        <style dangerouslySetInnerHTML={{
+                            __html: `
+                            .custom-scrollbar-hide::-webkit-scrollbar { display: none; }
+                        `}} />
+                        {deal.products.map((product, index) => (
+                            <div
+                                key={product.id || index}
+                                className="flex-shrink-0 w-[180px] sm:w-[220px] md:w-[240px] snap-center sm:snap-start"
+                            >
+                                <ProductCard product={product} showWishlist={true} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Right Scroll Button */}
+                    <button
+                        onClick={() => scroll('right')}
+                        className="absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center text-gray-700 hover:text-amber-600 hover:scale-110 transition-all opacity-0 group-hover:opacity-100 hidden sm:flex border border-gray-100"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
