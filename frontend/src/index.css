@@ -101,25 +101,19 @@
 
 @layer base {
   :root {
-    /* Primary brand colors (Ember) */
-    --color-primary: #FF5722;
-    /* Ember */
-    --color-primary-dark: #E25822;
-    /* Darker Ember */
-    --color-primary-light: #FF8A65;
-    /* Lighter Ember */
+    /* Primary brand colors (IKEA Yellow) */
+    --color-primary: #F7C600;
+    --color-primary-dark: #D4A800;
+    --color-primary-light: #FFD633;
 
-    /* Secondary/Accent colors (Charcoal) */
-    --color-accent: #36454F;
-    /* Charcoal */
-    --color-accent-hover: #2E3B44;
-    /* Darker Charcoal */
+    /* Secondary/Accent colors (Dark Gray) */
+    --color-accent: #3A3A3A;
+    --color-accent-hover: #222222;
 
     /* Neutral colors */
     --color-background: #FFFFFF;
     --color-background-alt: #F9FAFB;
-    --color-text-main: #36454F;
-    /* Charcoal text */
+    --color-text-main: #3A3A3A;
     --color-text-muted: #6B7280;
     --color-border: #E5E7EB;
 
@@ -129,13 +123,14 @@
 
     /* Semantic aliases for Tailwind/Shadcn */
     --background: 0 0% 100%;
-    --foreground: 205 19% 26%;
-    /* Charcoal */
-    --primary: 14 100% 57%;
-    /* Ember */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 205 19% 26%;
-    /* Charcoal */
+    --foreground: 0 0% 23%;
+    /* #3A3A3A equivalent */
+    --primary: 48 100% 48%;
+    /* #F7C600 equivalent */
+    --primary-foreground: 0 0% 23%;
+    /* #3A3A3A */
+    --secondary: 0 0% 23%;
+    /* #3A3A3A */
     --secondary-foreground: 0 0% 100%;
   }
 
@@ -210,11 +205,11 @@
      BUTTONS — slshopee Brand
   ──────────────────────────────── */
   .btn-primary {
-    @apply bg-[var(--color-primary)] text-white px-8 py-3 rounded-xl font-body font-bold text-sm transition-all duration-300 inline-flex items-center justify-center gap-2;
+    @apply bg-[var(--color-primary)] text-gray-900 px-8 py-3 rounded-xl font-body font-bold text-sm transition-all duration-300 inline-flex items-center justify-center gap-2;
   }
 
   .btn-primary:hover {
-    @apply bg-[var(--color-primary-dark)] -translate-y-0.5 shadow-lg shadow-orange-200;
+    @apply bg-[var(--color-primary-dark)] -translate-y-0.5 shadow-lg shadow-yellow-200;
   }
 
   .btn-accent {
@@ -230,12 +225,12 @@
   }
 
   .btn-outline:hover {
-    @apply border-[var(--color-primary)] text-[var(--color-primary)] -translate-y-0.5 bg-orange-50/30;
+    @apply border-[var(--color-primary)] text-[var(--color-primary)] -translate-y-0.5 bg-yellow-50/50;
   }
 
   /* ── Cards ── */
   .card-premium {
-    @apply bg-white rounded-[40px] overflow-hidden shadow-sm border border-gray-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-orange-100/30;
+    @apply bg-white rounded-[40px] overflow-hidden shadow-sm border border-gray-100 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:shadow-yellow-100/30;
   }
 
   /* ── Section Titles ── */

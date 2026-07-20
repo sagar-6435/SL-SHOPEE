@@ -18,19 +18,19 @@ const HeroBanner = () => {
         <div className="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-white/10 pointer-events-none" />
       </div>
 
-      {/* === DESKTOP: side-by-side layout === */}
-      <div className="hidden lg:flex absolute inset-0 items-center justify-end">
-        {/* Left spacer for text */}
-        <div className="absolute inset-0 w-[50%] bg-white" />
-
-        {/* Right floating image */}
-        <div className="relative w-[70%] h-[80%] mr-[-5%] translate-x-12 flex items-center justify-center transform transition-all duration-700 hover:scale-[1.1] animate-[fadeIn_1s_ease-out]">
+      {/* === DESKTOP: merged layout === */}
+      <div className="hidden lg:flex absolute inset-0 items-center justify-end z-0">
+        {/* Right floating image merged with background */}
+        <div className="relative w-[65%] h-full flex items-center justify-end transform transition-all duration-700 animate-[fadeIn_1s_ease-out]">
           <img
             src={bgImage}
             alt="Hero Features"
-            className="w-full h-full scale-[1.25] translate-y-6 object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)]"
+            className="w-full h-[90%] -mr-12 translate-x-4 object-contain filter drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)]"
           />
         </div>
+
+        {/* Gradient merging left text area seamlessly */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white from-10% via-white/20 to-transparent w-full pointer-events-none" />
       </div>
 
       {/* Content Container */}
@@ -40,7 +40,7 @@ const HeroBanner = () => {
           <span className="badge-yellow mb-2 inline-block">Premium Electronics</span>
 
           {/* Headline */}
-          <h1 className="text-[24px] leading-[1.1] md:text-7xl font-display font-bold mb-4 text-[#DC143C] uppercase">
+          <h1 className="text-[24px] leading-[1.1] md:text-7xl font-display font-bold mb-4 text-[#000000] uppercase">
             SL SHOPEE
           </h1>
 
