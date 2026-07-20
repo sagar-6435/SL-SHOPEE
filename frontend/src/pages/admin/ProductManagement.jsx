@@ -998,7 +998,10 @@ const ProductManagement = () => {
                         type="number"
                         min="0"
                         value={formData.stock_quantity}
-                        onChange={(e) => setFormData({ ...formData, stock_quantity: e.target.value })}
+                        onChange={(e) => setFormData({ ...formData, stock_quantity: Math.max(0, parseInt(e.target.value) || 0) })}
+                        onKeyDown={(e) => {
+                          if (e.key === '-' || e.key === 'e') e.preventDefault();
+                        }}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
                       />
                     </div>

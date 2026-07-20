@@ -459,8 +459,9 @@ const ProductDetailPage = () => {
                   </button>
                   <span className="w-10 text-center font-body font-bold text-gray-900">{quantity}</span>
                   <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-10 flex items-center justify-center text-gray-500 hover:text-gray-900"
+                    onClick={() => setQuantity(Math.min(product.stock_quantity, quantity + 1))}
+                    disabled={quantity >= product.stock_quantity}
+                    className={`w-10 h-10 flex items-center justify-center ${quantity >= product.stock_quantity ? 'text-gray-300 cursor-not-allowed' : 'text-gray-500 hover:text-gray-900'}`}
                   >
                     <Plus className="w-4 h-4" />
                   </button>
@@ -480,11 +481,25 @@ const ProductDetailPage = () => {
               </div>
             </div>
 
+            {/* Stock Availability */}
+            <div className="mb-6">
+              {product.stock_quantity > 0 ? (
+                <p className="text-sm font-body font-bold text-[#ff0000]">
+                  Only {product.stock_quantity} items left
+                </p>
+              ) : (
+                <p className="text-sm font-body font-bold text-[#ff0000]">
+                  No stock available
+                </p>
+              )}
+            </div>
+
             {/* Buttons */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
               <button
                 onClick={handleAddToCart}
-                className="py-4 bg-[#8E447E] text-white rounded-xl font-body font-bold text-sm flex items-center justify-center gap-2 hover:bg-[#7A3B6D] transition-all shadow-lg active:scale-95"
+                disabled={product.stock_quantity <= 0}
+                className={`py-4 rounded-xl font-body font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg ${product.stock_quantity > 0 ? 'bg-[#8E447E] text-white hover:bg-[#7A3B6D] active:scale-95' : 'bg-gray-300 text-gray-500 cursor-not-allowed'}`}
               >
                 <ShoppingCart className="w-4 h-4" />
                 <span>Add to Cart</span>
@@ -492,7 +507,8 @@ const ProductDetailPage = () => {
               <button
                 type="button"
                 onClick={handleBuyNow}
-                className="py-4 bg-[#F7D060] text-gray-900 rounded-xl font-body font-bold text-sm flex items-center justify-center hover:bg-[#EAB308] transition-all shadow-lg active:scale-95"
+                disabled={product.stock_quantity <= 0}
+                className={`py-4 rounded-xl font-body font-bold text-sm flex items-center justify-center transition-all shadow-lg ${product.stock_quantity > 0 ? 'bg-[#F7D060] text-gray-900 hover:bg-[#EAB308] active:scale-95' : 'bg-gray-200 text-gray-400 cursor-not-allowed'}`}
               >
                 <span>Buy</span>
               </button>
