@@ -212,7 +212,11 @@ const ProductDetailPage = () => {
     return {
       id: product.id,
       name: product.name,
-      image: product.image_url || product.image,
+      image: (() => {
+        const rawImg = (product.images && product.images.length > 0 && product.images[0].url) ? product.images[0].url : (product.image_url || product.image);
+        if (!rawImg) return null;
+        return rawImg.startsWith('http') ? rawImg : `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${rawImg}`;
+      })(),
       price: (selectedSize && Number(selectedSize.price)) ? Number(selectedSize.price) : Number(product.price),
       quantity,
       size: selectedSize ? (typeof selectedSize === 'object' ? selectedSize.name : selectedSize) : null,

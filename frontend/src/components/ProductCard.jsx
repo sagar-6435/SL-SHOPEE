@@ -58,6 +58,7 @@ const ProductCard = ({ product, showWishlist = false }) => {
 
     addToCart({
       ...product,
+      image: getImageSrc(mainImage, apiUrl),
       quantity: 1
     });
   };
