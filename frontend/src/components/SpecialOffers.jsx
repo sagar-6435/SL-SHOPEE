@@ -123,7 +123,7 @@ const SpecialOffers = () => {
                     <img
                       src={offer.image}
                       alt={offer.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-contain bg-white group-hover:scale-105 transition-transform duration-500"
                       onError={(e) => {
                         e.target.style.display = 'none';
                         e.target.nextElementSibling.style.display = 'flex';

@@ -423,7 +423,7 @@ const PaymentPage = () => {
                 {displayCart.map((item, idx) => (
                   <div key={item.id || idx} className="flex gap-4 group">
                     <div className="w-16 h-16 rounded-2xl overflow-hidden bg-gray-50 flex-shrink-0">
-                      <img src={item.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt={item.name} />
+                      <img src={item.image} className="w-full h-full object-contain bg-white group-hover:scale-110 transition-transform duration-500" alt={item.name} />
                     </div>
                     <div className="flex-1 flex flex-col justify-center">
                       <h4 className="text-sm font-body font-bold text-gray-900 truncate max-w-[150px]">{typeof item.name === 'object' ? JSON.stringify(item.name) : (item.name || '')}</h4>

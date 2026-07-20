@@ -89,7 +89,7 @@ const CartPage = () => {
                         return `${baseUrl.replace(/\/$/, '')}/${url.replace(/^\//, '')}`;
                       })()}
                       alt={item.name}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain bg-white"
                       onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400&h=400&fit=crop'; }}
                     />
                   </div>
@@ -254,7 +254,7 @@ const CartPage = () => {
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-12 h-12 rounded-xl object-cover flex-shrink-0"
+                    className="w-12 h-12 rounded-xl object-contain bg-white flex-shrink-0"
                     onError={e => { e.target.src = '/images/image.png'; }}
                   />
                   <div>

@@ -619,7 +619,7 @@ const ProductManagement = () => {
                       <img
                         src={product.image_url || '/placeholder.png'}
                         alt={product.name}
-                        className="w-10 h-10 rounded object-cover"
+                        className="w-10 h-10 rounded object-contain bg-white"
                       />
                       <div className="ml-4">
                         <div className="text-sm font-medium text-gray-900">{product.name}</div>
@@ -690,7 +690,7 @@ const ProductManagement = () => {
                           <img
                             src={mainImagePreview}
                             alt="Main product image"
-                            className="w-32 h-32 object-cover rounded-lg border-2 border-valentine-red"
+                            className="w-32 h-32 object-contain bg-white rounded-lg border-2 border-valentine-red"
                           />
                           <span className="absolute bottom-0 left-0 right-0 text-center text-[9px] bg-valentine-red text-white py-0.5 rounded-b-lg font-bold">Main</span>
                           <button
@@ -751,7 +751,7 @@ const ProductManagement = () => {
                               <img
                                 src={src}
                                 alt={`Additional image ${idx + 1}`}
-                                className="w-full h-full object-cover rounded-lg border-2 border-gray-200"
+                                className="w-full h-full object-contain bg-white rounded-lg border-2 border-gray-200"
                               />
                               <button
                                 type="button"

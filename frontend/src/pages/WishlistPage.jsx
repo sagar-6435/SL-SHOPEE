@@ -78,7 +78,7 @@ const WishlistPage = () => {
                   <img
                     src={product.image_url || product.image}
                     alt={product.name}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-contain bg-white transition-transform duration-700 group-hover:scale-110"
                   />
                   {product.is_bestseller && (
                     <div className="absolute bottom-4 left-4">
@@ -141,7 +141,7 @@ const WishlistPage = () => {
             <div className="relative flex-1 w-full max-w-xl aspect-video md:aspect-[4/3] rounded-2xl overflow-hidden group">
               <img 
                 src="https://images.unsplash.com/photo-1493121590231-20e4fbc07b27?w=1000&h=800&fit=crop" 
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" 
+                className="w-full h-full object-contain bg-white transition-transform duration-1000 group-hover:scale-105" 
                 alt="Inspirational" 
               />
               {/* Quote overlay */}

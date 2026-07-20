@@ -349,7 +349,7 @@ const ProfilePage = () => {
                     <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 p-8 md:p-12">
                       {cart.map((item, idx) => (
                         <div key={item.id} className={`flex gap-8 pb-10 mb-10 ${idx !== cart.length - 1 ? 'border-b border-gray-50' : ''}`}>
-                          <img src={item.image} className="w-32 h-32 rounded-3xl object-cover bg-gray-50" alt={item.name} />
+                          <img src={item.image} className="w-32 h-32 rounded-3xl object-contain bg-white bg-gray-50" alt={item.name} />
                           <div className="flex-1 flex flex-col justify-between">
                             <div className="flex justify-between">
                               <div>
@@ -401,7 +401,7 @@ const ProfilePage = () => {
                 wishlist.map(item => (
                   <div key={item.id} className="bg-white rounded-[35px] border border-gray-100 p-6 hover:shadow-xl transition-all group">
                     <div className="relative aspect-square rounded-[25px] overflow-hidden mb-6 bg-gray-50">
-                      <img src={item.image_url || item.image} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={item.name} />
+                      <img src={item.image_url || item.image} className="w-full h-full object-contain bg-white group-hover:scale-110 transition-transform duration-700" alt={item.name} />
                       <button onClick={() => removeFromWishlist(item.id)} className="absolute top-4 right-4 w-10 h-10 bg-white rounded-full flex items-center justify-center text-red-500 shadow-md">
                         <Trash2 className="w-4 h-4" />
                       </button>

@@ -166,7 +166,7 @@ const CheckoutPage = () => {
                 {displayCart.map((item, idx) => (
                   <div key={item.id || idx} className="flex gap-4">
                     <div className="w-16 h-16 rounded-xl overflow-hidden bg-white shrink-0">
-                      <img src={item.image} className="w-full h-full object-cover" alt={item.name} />
+                      <img src={item.image} className="w-full h-full object-contain bg-white" alt={item.name} />
                     </div>
                     <div className="flex-1">
                       <h4 className="text-sm font-body font-bold text-gray-900 leading-tight mb-1">{typeof item.name === 'object' ? JSON.stringify(item.name) : (item.name || '')}</h4>

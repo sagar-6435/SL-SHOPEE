@@ -18,7 +18,7 @@ const SimpleProductCard = ({ product, onClick }) => {
         <img
           src={imageUrl || 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400&h=400&fit=crop'}
           alt={product.name || "Gift product"}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          className="w-full h-full object-contain bg-white transition-transform duration-700 group-hover:scale-110"
         />
         
         {/* Badge (Optional) */}
