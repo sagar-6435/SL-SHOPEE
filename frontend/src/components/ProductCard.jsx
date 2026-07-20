@@ -17,7 +17,8 @@ const ProductCard = ({ product, showWishlist = false }) => {
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { addToCart, cart } = useCart();
   const apiUrl = import.meta.env.VITE_API_URL;
-  const isInCart = cart.some(item => item.id === product.id);
+  const productId = product.id || product._id;
+  const isInCart = cart.some(item => (item.id || item._id) === productId);
 
   // Only show the main image (first image) on the card
   const mainImage = (() => {
@@ -25,13 +26,13 @@ const ProductCard = ({ product, showWishlist = false }) => {
     return product.image_url || product.image || null;
   })();
 
-  const handleCardClick = () => navigate(`/product/${product.id}`);
+  const handleCardClick = () => navigate(`/product/${productId}`);
 
   const handleWishlist = (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (!isAuthenticated()) {
-      navigate('/login', { state: { from: { pathname: `/product/${product.id}`, search: location.search } } });
+      navigate('/login', { state: { from: { pathname: `/product/${productId}`, search: location.search } } });
       return;
     }
     toggleWishlist(product);
@@ -41,10 +42,10 @@ const ProductCard = ({ product, showWishlist = false }) => {
     e.preventDefault();
     e.stopPropagation();
     if (!isAuthenticated()) {
-      navigate('/login', { state: { from: { pathname: `/product/${product.id}`, search: location.search } } });
+      navigate('/login', { state: { from: { pathname: `/product/${productId}`, search: location.search } } });
       return;
     }
-    navigate(`/product/${product.id}`);
+    navigate(`/product/${productId}`);
   };
 
   const handleAddToCart = (e) => {
@@ -52,7 +53,7 @@ const ProductCard = ({ product, showWishlist = false }) => {
     e.stopPropagation();
     if (isInCart) return;
     if (!isAuthenticated()) {
-      navigate('/login', { state: { from: { pathname: `/product/${product.id}`, search: location.search } } });
+      navigate('/login', { state: { from: { pathname: `/product/${productId}`, search: location.search } } });
       return;
     }
 

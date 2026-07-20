@@ -508,15 +508,15 @@ const ProductDetailPage = () => {
 
             {/* Stock Availability */}
             <div className="mb-6">
-              {product.stock_quantity > 0 ? (
-                <p className="text-xm font-body font-bold text-[#ff0000]">
-                  Only {product.stock_quantity} items left
-                </p>
-              ) : (
+              {product.stock_quantity === 0 ? (
                 <p className="text-xm font-body font-bold text-[#ff0000]">
                   No Stock Available
                 </p>
-              )}
+              ) : product.stock_quantity > 0 && product.stock_quantity < 10 ? (
+                <p className="text-xm font-body font-bold text-[#ff0000]">
+                  Only {product.stock_quantity} items left
+                </p>
+              ) : null}
             </div>
 
             {/* Buttons */}
@@ -591,9 +591,12 @@ const ProductDetailPage = () => {
                       <div>
                         <h5 className="text-[10px] font-body font-bold tracking-widest text-gray-400 uppercase mb-2">Available Sizes</h5>
                         <div className="flex flex-wrap gap-2">
-                          {product.sizes.map((s, i) => (
-                            <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-body rounded-full">{s.name || s}</span>
-                          ))}
+                          {product.sizes.map((s, i) => {
+                            const label = s?.name || (typeof s === 'string' ? s : '');
+                            return label ? (
+                              <span key={i} className="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-body rounded-full">{label}</span>
+                            ) : null;
+                          })}
                         </div>
                       </div>
                     )}
