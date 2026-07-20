@@ -79,18 +79,15 @@ const CartPage = () => {
               {cart.map((item, idx) => (
                 <div key={item.id} className={`flex flex-col md:flex-row gap-8 pb-12 ${idx !== cart.length - 1 ? 'border-b border-gray-50' : ''}`}>
                   {/* Image */}
-                  <div className="w-full md:w-48 h-48 rounded-[30px] overflow-hidden bg-gray-100 flex-shrink-0">
+                  <div className="w-[120px] h-[120px] md:w-[150px] md:h-[150px] rounded-[30px] overflow-hidden bg-gray-100 flex-shrink-0 flex items-center justify-center p-2">
                     <img
                       src={(() => {
-                        let url = item.image_url || item.image || (item.images && item.images.length > 0 ? (item.images[0].url || item.images[0]) : null);
-                        if (!url) return 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400&h=400&fit=crop';
-                        if (url.startsWith('http')) return url;
-                        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-                        return `${baseUrl.replace(/\/$/, '')}/${url.replace(/^\//, '')}`;
+                        if (item.images && item.images.length > 0) return item.images[0].url || item.images[0];
+                        if (item.image_url) return item.image_url;
+                        return item.image;
                       })()}
                       alt={item.name}
                       className="w-full h-full object-contain bg-white"
-                      onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400&h=400&fit=crop'; }}
                     />
                   </div>
 

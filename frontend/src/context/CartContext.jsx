@@ -20,14 +20,38 @@ export const CartProvider = ({ children }) => {
 
   // Load cart from localStorage when user changes
   useEffect(() => {
-    if (isAuthenticated() && user) {
-      const userCartKey = `cart_${user.id || user.email}`;
-      const savedCart = localStorage.getItem(userCartKey);
-      setCart(savedCart ? JSON.parse(savedCart) : []);
-    } else {
-      // Clear cart if not authenticated
-      setCart([]);
-    }
+    const loadCart = async () => {
+      if (isAuthenticated() && user) {
+        const userCartKey = `cart_${user.id || user.email}`;
+        const savedCart = localStorage.getItem(userCartKey);
+        let parsedCart = savedCart ? JSON.parse(savedCart) : [];
+        setCart(parsedCart);
+
+        // Fetch corresponding Product document if the cart item is missing Cloudinary images
+        const needsFetch = parsedCart.some(item => !item.image_url && !(item.images && item.images.length > 0) && !item.image);
+        if (needsFetch) {
+          try {
+            const updatedCart = await Promise.all(parsedCart.map(async item => {
+              if (!item.image_url && !(item.images && item.images.length > 0) && !item.image) {
+                const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/products/${item.id}`);
+                if (res.ok) {
+                  const data = await res.json();
+                  return { ...item, image_url: data.image_url, images: data.images };
+                }
+              }
+              return item;
+            }));
+            setCart(updatedCart);
+          } catch (err) {
+            console.error('Error fetching missing cart images:', err);
+          }
+        }
+      } else {
+        // Clear cart if not authenticated
+        setCart([]);
+      }
+    };
+    loadCart();
   }, [user, isAuthenticated]);
 
   // Save cart to localStorage whenever it changes
