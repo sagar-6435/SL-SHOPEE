@@ -102,7 +102,7 @@ router.post('/', authenticate, isAdmin, uploadProductImages,
         name, brand, slug, description, category_id, price,
         discount = 0, customizable = false, customization_options,
         valentine_special = false, special_offer = false, stock_quantity = 0,
-        material, sizes, features
+        material, sizes, colors, features
       } = req.body;
 
       // Upload all images to Cloudinary
@@ -143,6 +143,7 @@ router.post('/', authenticate, isAdmin, uploadProductImages,
           : null,
         material: material || null,
         sizes: sizes ? (typeof sizes === 'string' ? JSON.parse(sizes) : sizes) : [],
+        colors: colors ? (typeof colors === 'string' ? JSON.parse(colors) : colors) : [],
         features: features ? (typeof features === 'string' ? JSON.parse(features) : features) : [],
         valentine_special: toBoolean(valentine_special),
         special_offer: toBoolean(special_offer),
@@ -252,7 +253,7 @@ router.put('/:id', authenticate, isAdmin, uploadProductImages, async (req, res) 
     const {
       name, brand, description, category_id, price, discount,
       customizable, customization_options, valentine_special,
-      special_offer, stock_quantity, is_active, material, sizes, features
+      special_offer, stock_quantity, is_active, material, sizes, colors, features
     } = req.body;
 
     let parsedCustomizationOptions = existing.customization_options;
@@ -269,6 +270,13 @@ router.put('/:id', authenticate, isAdmin, uploadProductImages, async (req, res) 
       try {
         parsedSizes = typeof sizes === 'string' ? JSON.parse(sizes) : sizes;
       } catch { parsedSizes = []; }
+    }
+
+    let parsedColors = existing.colors;
+    if (colors !== undefined && colors !== null && colors !== '') {
+      try {
+        parsedColors = typeof colors === 'string' ? JSON.parse(colors) : colors;
+      } catch { parsedColors = []; }
     }
 
     let parsedFeatures = existing.features;
@@ -292,6 +300,7 @@ router.put('/:id', authenticate, isAdmin, uploadProductImages, async (req, res) 
       customization_options: parsedCustomizationOptions,
       ...(material !== undefined && { material: material || null }),
       sizes: parsedSizes,
+      colors: parsedColors,
       features: parsedFeatures,
       ...(valentine_special !== undefined && valentine_special !== '' && { valentine_special: toBoolean(valentine_special, existing.valentine_special) }),
       ...(special_offer !== undefined && special_offer !== '' && { special_offer: toBoolean(special_offer, existing.special_offer) }),

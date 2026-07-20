@@ -427,7 +427,7 @@ const PaymentPage = () => {
                     </div>
                     <div className="flex-1 flex flex-col justify-center">
                       <h4 className="text-sm font-body font-bold text-gray-900 truncate max-w-[150px]">{typeof item.name === 'object' ? JSON.stringify(item.name) : (item.name || '')}</h4>
-                      <p className="text-[10px] font-body text-gray-400 uppercase tracking-widest">Qty: {item.quantity}{item.size ? ` • Size: ${typeof item.size === 'object' ? item.size.name : item.size}` : ''}</p>
+                      <p className="text-[10px] font-body text-gray-400 uppercase tracking-widest">Qty: {item.quantity}{item.size ? ` • Size: ${typeof item.size === 'object' ? item.size.name : item.size}` : ''}{item.color ? ` • Color: ${typeof item.color === 'object' ? item.color.name : item.color}` : ''}</p>
                     </div>
                     <div className="flex items-center font-sans font-bold text-gray-900">₹{typeof item.price === 'object' ? (item.price.price || 0) * item.quantity : (item.price * item.quantity)}</div>
                   </div>

@@ -17,6 +17,7 @@ const ProductDetailPage = () => {
   const [activeTab, setActiveTab] = useState('description');
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSizeIndex, setSelectedSizeIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState('');
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [customization, setCustomization] = useState({
     image: null,
@@ -51,6 +52,9 @@ const ProductDetailPage = () => {
       if (!response.ok) throw new Error('Product not found');
       const data = await response.json();
       setProduct(data);
+      if (data.colors && data.colors.length > 0) {
+        setSelectedColor(data.colors[0]);
+      }
     } catch (error) {
       console.error('Failed to fetch product:', error);
       setProduct(null);
@@ -216,6 +220,7 @@ const ProductDetailPage = () => {
       price: (selectedSize && Number(selectedSize.price)) ? Number(selectedSize.price) : Number(product.price),
       quantity,
       size: selectedSize ? (typeof selectedSize === 'object' ? selectedSize.name : selectedSize) : null,
+      color: selectedColor || null,
       customization: product.customizable
         ? {
           image: customization.image,
@@ -428,18 +433,39 @@ const ProductDetailPage = () => {
             {/* Size Options */}
             {(product.sizes?.length > 0 || product.customization_options?.sizes?.length > 0) && (
               <div className="mb-10 animate-fade-in">
-                <h4 className="text-xs font-body font-bold tracking-[0.2em] text-gray-400 uppercase mb-4">Select Size</h4>
+                <h4 className="text-xs font-body font-bold tracking-[0.2em] text-black-400 uppercase mb-4">Select Size</h4>
                 <div className="flex flex-wrap gap-4">
                   {(product.sizes?.length > 0 ? product.sizes : product.customization_options.sizes).map((size, index) => (
                     <button
                       key={index}
                       onClick={() => setSelectedSizeIndex(index)}
-                      className={`px-6 py-3 rounded-xl border-2 font-body font-bold transition-all ${selectedSizeIndex === index
-                        ? 'border-[var(--color-primary)] bg-purple-50 text-[var(--color-primary)] shadow-md'
-                        : 'border-gray-100 text-gray-500 hover:border-gray-200 hover:bg-gray-50'
+                      className={`px-6 py-3 rounded-lg border-2 font-body font-bold transition-all ${selectedSizeIndex === index
+                        ? 'border-[#0a0a0a] bg-purple-50 text-gray-400 shadow-md'
+                        : 'border-gray-100 text-gray-400 hover:border-gray-900 hover:bg-gray-50'
                         }`}
                     >
                       {size.name || (typeof size === 'string' ? size : '')}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Color Options */}
+            {product.colors && product.colors.length > 0 && (
+              <div className="mb-10 animate-fade-in">
+                <h4 className="text-xs font-body font-bold tracking-[0.2em] text-black-400 uppercase mb-4">Select Color</h4>
+                <div className="flex flex-wrap gap-4">
+                  {product.colors.map((color, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedColor(color)}
+                      className={`px-6 py-3 rounded-xl border-2 font-body font-bold transition-all ${selectedColor === color
+                        ? 'border-gray-900 bg-blue-50 text-gray-900 shadow-md'
+                        : 'border-gray-400 text-gray-900 hover:border-gray-200 hover:bg-gray-50'
+                        }`}
+                    >
+                      {color}
                     </button>
                   ))}
                 </div>
@@ -468,8 +494,7 @@ const ProductDetailPage = () => {
                 </div>
               </div>
               <div className="text-right">
-                <h4 className="text-xs font-body font-bold tracking-[0.2em] text-gray-400 uppercase mb-4">Price</h4>
-                <div className="text-3xl font-sans font-bold text-[var(--color-primary)]">
+                <div className="text-3xl font-sans font-bold text-[#333333]">
                   ₹{
                     product.sizes?.length > 0
                       ? (product.sizes[selectedSizeIndex]?.price || product.price)
@@ -484,12 +509,12 @@ const ProductDetailPage = () => {
             {/* Stock Availability */}
             <div className="mb-6">
               {product.stock_quantity > 0 ? (
-                <p className="text-sm font-body font-bold text-[#ff0000]">
+                <p className="text-xm font-body font-bold text-[#ff0000]">
                   Only {product.stock_quantity} items left
                 </p>
               ) : (
-                <p className="text-sm font-body font-bold text-[#ff0000]">
-                  No stock available
+                <p className="text-xm font-body font-bold text-[#ff0000]">
+                  No Stock Available
                 </p>
               )}
             </div>

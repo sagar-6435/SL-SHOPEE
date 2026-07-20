@@ -101,6 +101,11 @@ const CartPage = () => {
                             SIZE: {typeof item.size === 'object' ? item.size.name : item.size}
                           </span>
                         )}
+                        {item.color && (
+                          <span className="px-3 py-1 bg-teal-50 text-[10px] font-body font-bold text-teal-600 uppercase tracking-widest rounded-full">
+                            COLOR: {typeof item.color === 'object' ? item.color.name : item.color}
+                          </span>
+                        )}
                         {item.customization?.image && (
                           <span className="px-3 py-1 bg-purple-50 text-[10px] font-body font-bold text-purple-600 uppercase tracking-widest rounded-full">
                             PHOTO: UPLOADED

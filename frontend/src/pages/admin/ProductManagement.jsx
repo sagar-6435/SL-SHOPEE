@@ -28,6 +28,7 @@ const ProductManagement = () => {
     is_active: true,
     material: '',
     sizes: [],
+    colors: [],
     features: [],
     customization_options: {
       imageUpload: false,
@@ -234,7 +235,7 @@ const ProductManagement = () => {
       Object.keys(formData).forEach(key => {
         if (key === 'customization_options') {
           formDataToSend.append(key, JSON.stringify(formData[key]));
-        } else if (key === 'sizes' || key === 'features') {
+        } else if (key === 'sizes' || key === 'colors' || key === 'features') {
           formDataToSend.append(key, JSON.stringify(formData[key]));
         } else {
           formDataToSend.append(key, formData[key]);
@@ -365,6 +366,7 @@ const ProductManagement = () => {
       is_active: product.is_active ?? true,
       material: product.material || '',
       sizes: product.sizes || [],
+      colors: product.colors || [],
       features: product.features || [],
       customization_options: product.customization_options || {
         imageUpload: false,
@@ -418,6 +420,7 @@ const ProductManagement = () => {
       is_active: true,
       material: '',
       sizes: [],
+      colors: [],
       features: [],
       customization_options: {
         imageUpload: false,
@@ -909,8 +912,48 @@ const ProductManagement = () => {
                         </button>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="col-span-2">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Available Colors
+                        <span className="ml-1 text-xs text-gray-400 font-normal">(press Enter to add)</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Red, Blue, Black"
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                            const val = e.target.value.trim();
+                            if (val && !formData.colors.includes(val)) {
+                              setFormData({ ...formData, colors: [...formData.colors, val] });
+                            }
+                            e.target.value = '';
+                          }
+                        }}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-valentine-red focus:border-transparent"
+                      />
+                      {formData.colors && formData.colors.length > 0 && (
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {formData.colors.map((c, i) => (
+                            <span key={i} className="inline-flex items-center gap-1 bg-purple-50 text-purple-700 font-medium text-xs px-2 py-1 rounded-full border border-purple-200">
+                              {c}
+                              <button
+                                type="button"
+                                onClick={() => setFormData({ ...formData, colors: formData.colors.filter((_, idx) => idx !== i) })}
+                                className="text-purple-400 hover:text-red-500 ml-1/2"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="col-span-1">
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Features
                         <span className="ml-1 text-xs text-gray-400 font-normal">(press Enter to add)</span>
