@@ -159,10 +159,11 @@ const ProfilePage = () => {
           const mapResponse = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
           if (!mapResponse.ok) throw new Error('Failed to fetch address from location.');
           const data = await mapResponse.json();
-          const p = data.address;
+          const p = data.address || {};
+          const streetParts = [p.house_number, p.road || p.street || p.pedestrian, p.neighbourhood, p.suburb, p.residential].filter(Boolean);
           setAddressData(prev => ({
             ...prev,
-            line1: p.road || p.suburb || p.neighbourhood || '',
+            line1: streetParts.join(', ') || data.display_name?.split(',').slice(0, 2).join(', ') || '',
             city: p.city || p.town || p.village || p.county || '',
             state: p.state || '',
             pincode: p.postcode || ''
