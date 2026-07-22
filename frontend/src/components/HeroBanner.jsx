@@ -9,13 +9,13 @@ const HeroBanner = () => {
   return (
     <section className="relative w-full h-[60vh] overflow-hidden">
       {/* === MOBILE / TABLET: image centered  === */}
-      <div className="absolute inset-0 lg:hidden z-0 flex items-start justify-center pt-0">
+      <div className="absolute inset-0 lg:hidden z-0 flex items-start justify-center pt-0 -translate-y-36">
         <img
           src={bgImage}
           alt="Hero Background"
-          className="w-[100%] h-[95%] scale-[1.0] translate-y-0 origin-top object-contain filter drop-shadow-xl"
+          className="w-[100%] h-[95%] scale-[1.0] lg:translate-y-0 origin-top object-contain filter drop-shadow-xl"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/70 to-white/10 pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 top-1/3 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
       </div>
 
       {/* === DESKTOP: merged layout === */}
@@ -40,7 +40,7 @@ const HeroBanner = () => {
           <span className="badge-yellow mb-2 inline-block">Premium Electronics</span>
 
           {/* Headline */}
-          <h1 className="text-[24px] leading-[1.1] md:text-7xl font-display font-bold mb-4 text-[#000000] uppercase">
+          <h1 className="text-[52px] sm:text-[64px] leading-[1.05] md:text-[90px] lg:text-[110px] font-display font-bold mb-4 text-[#000000] uppercase tracking-wider">
             SL SHOPEE
           </h1>
 
