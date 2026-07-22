@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { fullUrl } from '../lib/utils';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { User, Mail, Lock, Save, ArrowLeft, Camera, ShieldCheck, ShoppingBag, Heart, Package, Trash2, Plus, Minus, MessageCircle, ChevronRight, Clock, CheckCircle, XCircle, Eye, LogOut } from 'lucide-react';
+import { User, Mail, Lock, Save, ArrowLeft, Camera, ShieldCheck, ShoppingBag, Heart, Package, Trash2, Plus, Minus, MessageCircle, ChevronRight, Clock, CheckCircle, XCircle, Eye, LogOut, MapPin, LocateFixed } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -31,6 +31,14 @@ const ProfilePage = () => {
     confirmPassword: ''
   });
 
+  const [addressData, setAddressData] = useState({
+    line1: '',
+    landmark: '',
+    city: '',
+    state: '',
+    pincode: ''
+  });
+
   useEffect(() => {
     if (!isAuthenticated()) {
       navigate('/login', { state: { from: { pathname: '/profile' } } });
@@ -40,7 +48,7 @@ const ProfilePage = () => {
     // Set initial tab from URL if present
     const params = new URLSearchParams(location.search);
     const tabParam = params.get('tab');
-    if (tabParam && ['profile', 'orders', 'cart', 'wishlist'].includes(tabParam)) {
+    if (tabParam && ['profile', 'addresses', 'orders', 'cart', 'wishlist'].includes(tabParam)) {
       setActiveTab(tabParam);
     }
 
@@ -51,6 +59,13 @@ const ProfilePage = () => {
         email: user.email || '',
         phone: user.phone || ''
       }));
+      setAddressData({
+        line1: user.address?.line1 || '',
+        landmark: user.address?.landmark || '',
+        city: user.address?.city || '',
+        state: user.address?.state || '',
+        pincode: user.address?.pincode || ''
+      });
     }
 
     if (activeTab === 'orders') {
@@ -105,6 +120,11 @@ const ProfilePage = () => {
     if (message.text) setMessage({ type: '', text: '' });
   };
 
+  const handleAddressChange = (e) => {
+    setAddressData({ ...addressData, [e.target.name]: e.target.value });
+    if (message.text) setMessage({ type: '', text: '' });
+  };
+
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -126,8 +146,65 @@ const ProfilePage = () => {
     }
   };
 
+  const handleAutoDetectLocation = () => {
+    if (!navigator.geolocation) {
+      setMessage({ type: 'error', text: 'Geolocation is not supported by your browser.' });
+      return;
+    }
+    setLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords;
+          const mapResponse = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+          if (!mapResponse.ok) throw new Error('Failed to fetch address from location.');
+          const data = await mapResponse.json();
+          const p = data.address;
+          setAddressData(prev => ({
+            ...prev,
+            line1: p.road || p.suburb || p.neighbourhood || '',
+            city: p.city || p.town || p.village || p.county || '',
+            state: p.state || '',
+            pincode: p.postcode || ''
+          }));
+          setMessage({ type: 'success', text: 'Location captured! Please review the details.' });
+        } catch (error) {
+          setMessage({ type: 'error', text: 'Unable to auto-detect location.' });
+        } finally {
+          setLoading(false);
+        }
+      },
+      (error) => {
+        setLoading(false);
+        setMessage({ type: 'error', text: 'Location access denied or unavailable.' });
+      }
+    );
+  };
+
+  const handleUpdateAddress = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_BASE_URL}/api/auth/profile`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ name: formData.name, phone: formData.phone, address: addressData })
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Failed to update address');
+      login({ ...user, address: addressData });
+      setMessage({ type: 'success', text: 'Address updated successfully!' });
+    } catch (error) {
+      setMessage({ type: 'error', text: error.message });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const tabs = [
     { id: 'profile', label: 'Edit Profile', icon: User },
+    { id: 'addresses', label: 'Delivery Address', icon: MapPin },
     { id: 'orders', label: 'My Orders', icon: Package },
     { id: 'cart', label: 'Cart', icon: ShoppingBag, count: cart.length },
     { id: 'wishlist', label: 'Favorites', icon: Heart, count: wishlist.length },
@@ -243,6 +320,61 @@ const ProfilePage = () => {
                   Change Access Password
                 </button>
               </div>
+            </div>
+          )}
+
+          {activeTab === 'addresses' && (
+            <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 p-8 md:p-12 max-w-3xl mx-auto">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-900">
+                  <MapPin className="w-6 h-6" />
+                </div>
+                <h2 className="text-3xl font-display font-bold text-gray-900">Delivery Address</h2>
+              </div>
+
+              {message.text && (
+                <div className={`mb-6 p-4 rounded-2xl text-xs font-body border ${message.type === 'error' ? 'bg-red-50 text-red-600 border-red-100' : 'bg-green-50 text-green-600 border-green-100'}`}>
+                  {message.text}
+                </div>
+              )}
+
+              <form onSubmit={handleUpdateAddress} className="space-y-6">
+                <button
+                  type="button"
+                  onClick={handleAutoDetectLocation}
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 py-4 bg-purple-50 text-[var(--color-primary)] border border-purple-100 rounded-2xl font-body font-bold text-sm uppercase tracking-widest hover:bg-purple-100 transition-all active:scale-95 mb-4"
+                >
+                  <LocateFixed className="w-4 h-4" />
+                  {loading ? 'Detecting Location...' : 'Auto-Detect My Location'}
+                </button>
+
+                <div className="space-y-2">
+                  <label className="block text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">Address Line *</label>
+                  <input name="line1" type="text" required value={addressData.line1} onChange={handleAddressChange} className="w-full bg-white border border-gray-100 rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-4 focus:ring-purple-100 focus:border-[var(--color-primary)] transition-all outline-none" placeholder="House no., Street, Area" />
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">Landmark</label>
+                  <input name="landmark" type="text" value={addressData.landmark} onChange={handleAddressChange} className="w-full bg-white border border-gray-100 rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-4 focus:ring-purple-100 focus:border-[var(--color-primary)] transition-all outline-none" placeholder="Near school, temple, etc." />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <label className="block text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">City *</label>
+                    <input name="city" type="text" required value={addressData.city} onChange={handleAddressChange} className="w-full bg-white border border-gray-100 rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-4 focus:ring-purple-100 focus:border-[var(--color-primary)] transition-all outline-none" placeholder="City" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="block text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">State *</label>
+                    <input name="state" type="text" required value={addressData.state} onChange={handleAddressChange} className="w-full bg-white border border-gray-100 rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-4 focus:ring-purple-100 focus:border-[var(--color-primary)] transition-all outline-none" placeholder="State" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label className="block text-[10px] font-body font-bold text-gray-400 uppercase tracking-widest mb-1">Pincode *</label>
+                  <input name="pincode" type="text" required value={addressData.pincode} onChange={handleAddressChange} className="w-full bg-white border border-gray-100 rounded-2xl p-4 font-body text-sm text-gray-700 focus:ring-4 focus:ring-purple-100 focus:border-[var(--color-primary)] transition-all outline-none" placeholder="6-digit pincode" maxLength={6} />
+                </div>
+                <button type="submit" disabled={loading} className="w-full py-5 bg-gray-900 text-white rounded-2xl font-body font-bold text-sm uppercase tracking-widest hover:bg-[var(--color-primary)] transition-all active:scale-95 shadow-xl mt-4">
+                  {loading ? 'Saving Address...' : 'Save Address'}
+                </button>
+              </form>
             </div>
           )}
 

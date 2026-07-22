@@ -78,22 +78,11 @@ const LoginPage = () => {
         <div className="relative z-10 p-20 flex flex-col justify-between w-full">
           <div className="flex items-center gap-3">
             <Link to="/" className="w-full">
-              <img src="/logo.png" className="h-12 w-auto invert brightness-0" alt="Logo" />
+              
             </Link>
           </div>
-
-          <div>
-            <h2 className="text-6xl font-display font-bold text-white mb-8 leading-tight">
-              Capture <span className="italic font-serif font-medium text-purple-300">Moments</span>,<br />
-              Preserve Memories.
-            </h2>
-            <p className="text-gray-300 font-body text-lg max-w-md">
-              Access your personalized gallery and curated selections from your recent studio sessions.
-            </p>
-          </div>
-
           <div className="flex items-center gap-4 text-white/50 text-[10px] font-body font-bold uppercase tracking-widest">
-            <span>© 2024 Studio</span>
+            <span>© SL SHOPEE</span>
             <div className="w-1 h-1 bg-white/20 rounded-full" />
             <span>Premium Curator</span>
           </div>

@@ -37,10 +37,10 @@ const HeroBanner = () => {
       <div className="relative z-10 w-full h-full flex items-end sm:items-center container-custom pb-4 sm:pb-4 sm:pt-4">
         <div className="lg:max-w-xl md:max-w-2xl max-w-full animate-slide-up text-left">
           {/* Badge */}
-          <span className="badge-yellow mb-2 inline-block">Premium Electronics</span>
+          <span className="badge-yellow mb-2 inline-block">Premium Electronics & Furniture</span>
 
           {/* Headline */}
-          <h1 className="text-[52px] sm:text-[64px] leading-[1.05] md:text-[90px] lg:text-[110px] font-display font-bold mb-4 text-[#000000] uppercase tracking-wider">
+          <h1 className="text-[42px] min-[400px]:text-[52px] sm:text-[64px] leading-[1.05] md:text-[90px] lg:text-[110px] font-display font-bold mb-4 text-[#000000] uppercase tracking-wider whitespace-nowrap">
             SL SHOPEE
           </h1>
 
