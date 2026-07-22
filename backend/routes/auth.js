@@ -253,7 +253,7 @@ router.get('/profile', async (req, res) => {
 // Update Profile
 router.put('/profile',
   [
-    body('name').trim().notEmpty(),
+    body('name').optional().trim().notEmpty(),
     body('phone').optional()
   ],
   async (req, res) => {
@@ -267,7 +267,9 @@ router.put('/profile',
       const decoded = jwt.verify(token, SECRET);
       const { name, phone, address } = req.body;
 
-      const updates = { name, phone };
+      const updates = {};
+      if (name) updates.name = name;
+      if (phone !== undefined) updates.phone = phone;
       if (address) updates.address = address;
 
       const user = await User.findByIdAndUpdate(
